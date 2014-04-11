@@ -1,0 +1,33 @@
+{
+  "name": "Loveefy",
+  "version": "0.2.27",
+  "private": true,
+  "engines": {
+      "node": "0.10.x"
+    , "npm":  "1.2.x"
+  }
+, "scripts": {
+    "start": "NODE_ENV=development nodemon server.js"
+  }
+, "dependencies": {
+      "express": "3.2.6"
+    , "less-middleware": "0.1.14"
+    , "mongoose": "3.8.2"
+    , "connect-mongo": "0.3.2"
+    , "connect-flash": "0.1.1"
+    , "passport": "0.1.17"
+    , "passport-local": "0.1.6"
+
+    , "nunjucks": "1.0.0"
+    , "underscore": "1.5.2"
+    
+    , "rimraf": "2.2.2"
+    , "mkdirp": "0.3.5"
+
+    , "config": "0.4.33"
+    , "imager": "0.2.4"
+  }, 
+  "devDependencies": {
+    "nodemon": "latest"
+  }
+}

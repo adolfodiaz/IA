@@ -1,0 +1,47 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{title}}</h3>
+    </div>
+    <div class="panel-body">
+        
+        {% if errors %}
+            {% if errors.name%}
+                {% set help_name='has-error' %}{% else %}{% set help_name='has-success' %}
+            {% endif %}
+        {% endif %}
+
+        {% if element.isNew %}
+        <form class="form-horizontal" action="/elements" method="post">
+        {% else %}
+        <form class="form-horizontal" action="/elements/{{element._id}}" method="post">
+            <input type="hidden" name="_method" value="put">
+        {% endif %}
+
+            <input type="hidden" name="_csrf" value="{{csrf_token}}">
+
+            <div class="form-group {{help_name}}">
+                <label class="col-sm-2 control-label" for="name">Name:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="name" placeholder="Name" name="name" value="{{element.name}}">
+                    {% if help_name %}
+                        <span class="help-block">{{errors.name.message}}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""></label>
+                <div class="col-sm-10">
+                    {% if element.isNew %}
+                        <input class="btn btn-success" type="submit" name="submit" value="Create">
+                        <a class="btn btn-default" href="/elements">Back</a>
+                    {% else %}
+                        <input class="btn btn-success" type="submit" name="submit" value="Update">
+                        <a class="btn btn-default" href="/elements/{{element.id}}">Back</a>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

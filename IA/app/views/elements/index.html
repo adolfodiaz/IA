@@ -1,0 +1,37 @@
+{% extends "layouts/crud.html" %}
+
+{% block TOP %}
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Elements</li>
+</ol>
+{% endblock %}
+
+{% block MAIN %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{title}}</h3>
+    </div>
+
+    <table class="table table-striped table-condensed table-bordered">
+        <tr>
+            <th>Name</th>
+        </tr>
+    {% for element in elements %}
+        <tr>
+            <td><a href="/elements/{{element._id}}">{{element.name}}</a></td> 
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+
+{% if pagination %}
+    <div>
+        <ul class="pagination">{{pagination}}</ul>
+    </div>
+{% endif %}
+
+<a class="btn btn-primary" href="/elements/new">Create element</a>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+/*
+ * Widget utilizado en el header del sitio
+ */
+
+.profile-info {
+    padding: 30px 10px 20px 10px;
+    line-height: @font-size-base;
+    text-align: center;
+}
+.profile-info-main {
+    font-size: 1.4em;
+    font-weight: bolder;
+}
+
+/*
+ * Small screen+
+ */
+@media (min-width: @screen-sm-min) {
+    .profile-info {
+        padding: 10px;
+    }
+    .profile-info-right {
+        float: right;
+        padding-right: 0;
+        text-align: right;
+    }
+}

@@ -1,0 +1,31 @@
+{% extends "layouts/crud.html" %}
+
+{% block TOP %}
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/elements">Elements</a></li>
+    <li class="active">{{element.name}}</li>
+</ol>
+{% endblock %}
+
+{% block MAIN %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Element</h3>
+    </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Nombre:</dt>
+            <dd>{{element.name}}</dd>
+        </dl>
+
+        <div class="text-center">
+            <a class="btn btn-default"href="/elements">Back</a> 
+            <a class="btn btn-warning"href="/elements/{{element._id}}/edit">Update</a> 
+            <a class="btn btn-danger"href="/elements/{{element._id}}/delete">Delete</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

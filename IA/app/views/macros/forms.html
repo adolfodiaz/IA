@@ -1,0 +1,16 @@
+{% macro input(label, name, value) %} 
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="{{name}}">{{label}}</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" id="{{name}}" placeholder="{{label}}" name="{{name}}" value="{{value}}">
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro hidden(name, value) %} 
+	<input type="hidden" id="{{name}}" name="{{name}}" value="{{value}}">
+{% endmacro %}
+
+{% macro submit(name, value) %} 
+	<input class="btn btn-success" type="submit" name="{{name}}" value="{{value}}">
+{% endmacro %}
