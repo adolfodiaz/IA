@@ -61,11 +61,12 @@ exports.signup = function(req, res){
     })
 };
 
-
 /*
   api
 */
-var api = require('./../api/api.js')
+var Api = require('./../api/api.js');
+var api = new Api.api();
+
 
 /*
   net
@@ -74,15 +75,17 @@ const net = require("net");
 
 var server = net.createServer(function (client) {    
     client.on('data', function(data) {      
-        api.mensajeDesdeNet(client, data)
+        api.mensajeDesdeNet(client, data);
     });    
 
-    server.on('error', function(err){
-        api.mensajeDesdeNet(client, err)
+    client.on('error', function(err){
+        console.log("error");
+        //api.mensajeDesdeNet(client, err);
     });
 
-    server.on('end', function(err){
-        api.mensajeDesdeNet(client, err);
+    client.on('end', function(err){
+        console.log("end");
+        //api.mensajeDesdeNet(client, err);
     });
 
 });
@@ -95,9 +98,8 @@ server._maxListeners =0;
 
 /*socket.io*/
 var io = require('socket.io').listen(8000);
-io.sockets.on('connection', function (socket) {    
-  api.mensajeDesdeSocket(socket, "entro un cliente");
-  socket.on("mensaje",function(mensaje){
-    api.mensajeDesdeSocket(socket, mensaje);
+io.sockets.on('connection', function (socket) {
+  socket.on("data",function(data){    
+    api.mensajeDesdeSocket(socket, data);
   });
 });
