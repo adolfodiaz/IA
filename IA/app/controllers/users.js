@@ -44,7 +44,7 @@ exports.session = function (req, res) {
  */
 
 exports.signup = function (req, res) {
-    var user = new User(req.body)
+    var user = new User(req.body)    
     user.provider = 'local'
 
     user.isSuperAdmin = true

@@ -11,21 +11,22 @@ exports.index = function(req, res) {
         )
     }
     else {
+        api.signUp(req.user.fullname);        
         res.redirect('/juegos')
     }
 }
 
 
-exports.login = function(req, res){
-    if (!req.isAuthenticated()){
+exports.login = function(req, res){    
+    if (!req.isAuthenticated()){        
         res.render('layouts/index.html', 
             {
                 title: 'App :: Login'
             }
         )
     }
-    else {
-        res.render('layouts/home.html', { title: 'Home'})
+    else {        
+        res.render('layouts/home.html', { title: 'Home'})        
     }
 }
 
