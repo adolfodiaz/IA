@@ -68,6 +68,7 @@ var Api = require('./../api/api.js');
 var api = new Api.api();
 
 
+
 /*
   net
 */
@@ -75,31 +76,31 @@ const net = require("net");
 
 var server = net.createServer(function (client) {    
     client.on('data', function(data) {      
-        api.mensajeDesdeNet(client, data);
+        api.messageFromNet(client, data);
     });    
 
     client.on('error', function(err){
         console.log("error");
-        //api.mensajeDesdeNet(client, err);
+        //api.messageFromNet(client, err);
     });
 
     client.on('end', function(err){
         console.log("end");
-        //api.mensajeDesdeNet(client, err);
+        //api.messageFromNet(client, err);
     });
 
 });
 
 // Listen for connections
-server.listen(8001, "localhost", function () {
+server.listen(7075, "localhost", function () {
     console.log("server creado");
 });
 server._maxListeners =0;
 
 /*socket.io*/
-var io = require('socket.io').listen(8000);
+var io = require('socket.io').listen(7076);
 io.sockets.on('connection', function (socket) {
   socket.on("data",function(data){    
-    api.mensajeDesdeSocket(socket, data);
+    api.messageFromSocket(socket, data);
   });
 });

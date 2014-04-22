@@ -1,43 +1,75 @@
-var Partida = require('./Partida.js');
-var Reglas = require('./Reglas.js');
-var Tablero = require('./Tablero.js');
-var Jugador = require('./Jugador.js');
-var Match = require('./Match.js');
+var Round = require('./Round.js').Round;
+var Rules = require('./Rules.js').Rules;
+var Board = require('./Board.js').Board;
+var Player = require('./Player.js').Player;
+var Match = require('./Match.js').Match;
 
 function api(){
-	this.listaPartidas = new Object();
-	this.listaUsuariosConectados = new Object();
-	this.listaMatch = new Object();
+	this.onlineUsersList = new Object();
+	this.roundsList = new Object();	
+	this.matchesList = new Object();
 
+	this.messageFromSocket = function(connection, data){
+		try{
+			var data = JSON.parse(data);
+			this.protocolManager(connection, data, "HUMAN");
+		}catch(error){
+			this.protocolManager(connection, error, "HUMAN");
+		}		
+	}
 
-
-	this.mensajeDesdeSocket = function(socket, data){
-		while(data[0]!=123&&data.length>0){
+	this.messageFromNet = function(connection, data){	
+		while(data[0]!=123&&data.length>0&&data[1]!=34){
 			data = data.slice(1,data.length);
 		}
 		try{
 			var data = JSON.parse(data);
-			this.protocolo(socket, data);
+			this.protocolManager(connection, data, "AI");
 		}catch(error){
-			this.protocolo(socket, error);
-		}		
-		socket.emit("respuesta", "respuesta desde api\n");
-	}
-
-	this.mensajeDesdeNet = function(client, data){	
-		console.log("data: "+data);
-		while(data[0]!=123){
-			console.log("asdf");
-			data = data.slice(1,data.length);
+			this.protocolManager(connection, error, "AI");
 		}
-		var data = JSON.parse(data);
-		this.protocolo(client, data);
-		client.write("respuesta desde api\n");
 	}	
 
-	this.protocolo = function(client, data){
-		console.log(data);
-		switch(data["command"]){
+	this.register = function(connection, data, clientType){
+		if(!(typeof this.onlineUsersList[data.arguments.clientName]=="undefined")){//faltan validaciones
+			var response = new Object();
+			response.command = "REG_FAIL";
+			response.arguments = new Object();
+			response.arguments.GM_FULL = "false";//no aplica
+			response.arguments.NICK_IN_USE = "true";
+			response.arguments.TYPE = "true";//no aplica
+			response.arguments.NICK = "false";//no aplica
+			response.arguments.OTHER = "false";//no aplica
+
+			this.sendMessage(connection, clientType, response);			
+		}else{
+			
+			var player = new Player();
+			player.constructor(connection, data);
+			this.onlineUsersList[player.clientName] = player;
+
+			var response = new Object();
+			response.command = "REG_SUCESS";
+			response.arguments = new Object();
+			response.arguments.clientName = data[player.clientName];
+			response.arguments.id = "#########";
+			response.arguments.policies = new Object();
+			response.arguments.policies.MAX_ABS_IDLE_TIME = "0";
+
+			this.sendMessage(connection, clientType, response);
+		}			
+	}
+
+	this.sendMessage = function(connection, clientType, message){
+		if(clientType=="AI"){			
+			connection.write(JSON.stringify(message)+"\n");
+		}else{
+			connection.emit(JSON.stringify(message)+"\n");
+		}
+	}
+
+	this.protocolManager = function(connection, data, clientType){
+		switch(data.command){
 			case "PROBE": console.log("PROBE");
 			break;
 			case "PROTOCOL": console.log("PROTOCOL");
@@ -45,6 +77,7 @@ function api(){
 			case "PROTO_USE_OK": console.log("PROTO_USE_OK");
 			break;
 			case "REGISTER": console.log("REGISTER");
+				this.register(connection, data, clientType);								
 			break;
 			case "REG_SUCESS": console.log("REG_SUCESS");
 			break;
