@@ -1,0 +1,28 @@
+{% extends "layouts/crud.html" %}
+
+{% block TOP %}
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Juegos</li>
+</ol>
+{% endblock %}
+
+{% block MAIN %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{title}}</h3>
+    </div>
+
+    tablero op 
+</div>
+
+{% if pagination %}
+    <div>
+        <ul class="pagination">{{pagination}}</ul>
+    </div>
+{% endif %}
+
+<a class="btn btn-primary" href="/juegos/new">Nuevo juego</a>
+
+{% endblock %}

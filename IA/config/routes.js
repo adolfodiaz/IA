@@ -63,4 +63,9 @@ module.exports = function (app, passport, auth) {
     app.del('/elements/:element_id', auth.requiresLogin, auth.requiresSuperAdmin, elements.destroy)    
     app.param('element_id', elements.element)
 
+    // Juegos controller
+    var juegos = require('../app/controllers/juegos')
+    app.get('/juegos', auth.requiresLogin, auth.requiresSuperAdmin, juegos.index)
+
+
 }
