@@ -10,12 +10,14 @@
               <h3 class="panel-title">Partidas en juego</h3>
             </div>
             <div class="panel-body">
-            
+                
                 <ul>
-                    <li>compaire 1 </li>
-                    <li>compaire 2 </li>
-                    <li>compaire 3 </li>
-                </ul>
+                    {% for element in elements %}
+                        <li>{{element.name}}</li>
+                    {% endfor %}
+                </ul>                                            
+                
+                
             </div>
         </div>
     </div>
