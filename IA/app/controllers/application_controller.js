@@ -11,7 +11,7 @@ exports.index = function(req, res) {
         )
     }
     else {
-        res.redirect('/elements')
+        res.redirect('/juegos')
     }
 }
 
