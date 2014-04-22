@@ -1,16 +1,15 @@
 var MessageSender = require('./messageSender.js');
 var messageSender = new MessageSender.messageSender();
 var Api = require('./../api.js');
-var api = new Api.api();
+api = new Api.api();
 
 function messageValidator(){
 
 	this.onlineUsersList = new Object();
 
 	this.validateRegister = function(connection, data, clientType){
-		console.log(data.arguments.clientName);
 
-
+		/*
 		if(typeof(data.arguments.clientName)=="undefined"||typeof(data.arguments.clientType)=="undefined"||typeof(data.arguments.clientPass)=="undefined"){
 			var response = new Object();
 			response.command = "REG_FAIL";
@@ -26,9 +25,19 @@ function messageValidator(){
 			//usuario ya conectado
 		}else{
 
-		}
-			
-			messageSender.sendMessage(connection, clientType, new Object());
+		}*/
+		var response = new Object();
+		response.command = "REG_FAIL";
+		response.arguments = new Object();
+		response.arguments.GM_FULL = "false";//no aplica
+		response.arguments.NICK_IN_USE = "true";
+		api.response(connection, data, clientType, response, messageSender.sendMessage);
+
+
+
+
+
+		
 	}
 
 
