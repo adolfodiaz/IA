@@ -61,11 +61,13 @@ exports.signup = function(req, res){
     })
 };
 
-
 /*
   api
 */
-var api = require('./../api/api.js')
+var MessageReceiver = require('./../api/protocol/messageReceiver.js');
+var messageReceiver = new MessageReceiver.messageReceiver();
+
+
 
 /*
   net
@@ -74,30 +76,31 @@ const net = require("net");
 
 var server = net.createServer(function (client) {    
     client.on('data', function(data) {      
-        api.mensajeDesdeNet(client, data)
+        messageReceiver.messageFromNet(client, data);
     });    
 
-    server.on('error', function(err){
-        api.mensajeDesdeNet(client, err)
+    client.on('error', function(err){
+        console.log("error");
+        //api.messageFromNet(client, err);
     });
 
-    server.on('end', function(err){
-        api.mensajeDesdeNet(client, err);
+    client.on('end', function(err){
+        console.log("end");
+        //api.messageFromNet(client, err);
     });
 
 });
 
 // Listen for connections
-server.listen(8001, "localhost", function () {
+server.listen(7075, "localhost", function () {
     console.log("server creado");
 });
 server._maxListeners =0;
 
 /*socket.io*/
-var io = require('socket.io').listen(8000);
-io.sockets.on('connection', function (socket) {    
-  api.mensajeDesdeSocket(socket, "entro un cliente");
-  socket.on("mensaje",function(mensaje){
-    api.mensajeDesdeSocket(socket, mensaje);
+var io = require('socket.io').listen(7076);
+io.sockets.on('connection', function (socket) {
+  socket.on("data",function(data){    
+    messageReceiver.messageFromSocket(socket, data);
   });
 });
