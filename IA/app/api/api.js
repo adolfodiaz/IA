@@ -4,9 +4,10 @@ var Board = require('./Board.js').Board;
 var Player = require('./Player.js').Player;
 var Match = require('./Match.js').Match;
 var crypto = require('crypto');
+onlineUsersList = new Object();
 
 function api(){
-	this.onlineUsersList = new Object();
+	
 	this.roundsList = new Object();	
 	this.matchesList = new Object();	
 
@@ -31,7 +32,7 @@ function api(){
 		var md5 = crypto.createHash('md5');
 		md5.update((date.toString()+"puyehue"), "utf8");
 		player.session = md5.digest("hex");
-		this.onlineUsersList[name] = player.session;
+		onlineUsersList[name] = player.session;
 		console.log(name + "  " + player.session);	
 	}
 
