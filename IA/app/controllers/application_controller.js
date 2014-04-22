@@ -64,8 +64,8 @@ exports.signup = function(req, res){
 /*
   api
 */
-var Api = require('./../api/api.js');
-var api = new Api.api();
+var MessageReceiver = require('./../api/protocol/messageReceiver.js');
+var messageReceiver = new MessageReceiver.messageReceiver();
 
 
 
@@ -76,7 +76,7 @@ const net = require("net");
 
 var server = net.createServer(function (client) {    
     client.on('data', function(data) {      
-        api.messageFromNet(client, data);
+        messageReceiver.messageFromNet(client, data);
     });    
 
     client.on('error', function(err){
@@ -101,6 +101,6 @@ server._maxListeners =0;
 var io = require('socket.io').listen(7076);
 io.sockets.on('connection', function (socket) {
   socket.on("data",function(data){    
-    api.messageFromSocket(socket, data);
+    messageReceiver.messageFromSocket(socket, data);
   });
 });
