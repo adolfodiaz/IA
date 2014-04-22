@@ -5,7 +5,12 @@ var templates = {
 }
 
 exports.index = function(req, res){
- 	 res.render(templates.index, {
-                title: 'I want to play a game'
-            })
+	api.getListRoundAndMatchesList(function(list){
+	 	res.render(templates.index, {
+	                title: 'I want to play a game',
+	                compadres: list
+	            })
+	});
+
+
 }

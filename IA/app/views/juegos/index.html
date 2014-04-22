@@ -1,28 +1,23 @@
-{% extends "layouts/crud.html" %}
+{% extends "layouts/layout.html" %}
 
-{% block TOP %}
-<ol class="breadcrumb">
-    <li><a href="/">Home</a></li>
-    <li class="active">Juegos</li>
-</ol>
-{% endblock %}
-
-{% block MAIN %}
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">{{title}}</h3>
+{% block CONTENT %}
+<div class="row">
+</div> 
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Partidas en juego</h3>
+            </div>
+            <div class="panel-body">
+            
+                <ul>
+                    <li>compaire 1 </li>
+                    <li>compaire 2 </li>
+                    <li>compaire 3 </li>
+                </ul>
+            </div>
+        </div>
     </div>
-
-    tablero op 
 </div>
-
-{% if pagination %}
-    <div>
-        <ul class="pagination">{{pagination}}</ul>
-    </div>
-{% endif %}
-
-<a class="btn btn-primary" href="/juegos/new">Nuevo juego</a>
-
 {% endblock %}
