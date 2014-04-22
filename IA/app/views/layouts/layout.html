@@ -24,7 +24,6 @@
             <script src="/js/vendor/respond.min-1.4.2.js"></script>
         <![endif]-->
 
-        
 
     </head>
     <body>
@@ -37,6 +36,16 @@
                     <div class="col-sm-4">
                         <!-- <a href="/"><img src="/img/logo.png" alt="Logo"></a> -->
                         <h1>Connect 4</h1>
+                 
+    <button onclick="cronometro.iniciar()">Inicio</button>
+    <button onclick="cronometro.detener()">Detener</button>
+    <button onclick="cronometro.reiniciar()">Reiniciar</button>
+    <br/>
+    <div id="reloj">
+      0:0
+    </div>
+
+
                     </div>
                     <div class="col-sm-8">
                         <div class="profile-info profile-info-right">
@@ -139,11 +148,18 @@
         <script src="/js/main.js"></script>
 
         <script src="http://localhost:7076/socket.io/socket.io.js"></script>
+
+        <!-- cronometro -->
+        <script src="/js/util/crono.js"></script>
+
         <script type="text/javascript">
             var socket = io.connect('http://localhost:7076');
             socket.on("data",function(data){
                 console.log("respuesta= "+data);
             })
+
+
+            var cronometro = new Cronometro(50);
         </script>
         
         {% block SCRIPT %}{% endblock %}
