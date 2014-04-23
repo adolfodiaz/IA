@@ -1,10 +1,32 @@
+/*
+	messageSender.js
+
+	Componente emisor de mensajes de la subAPI de Comunicaciones.
+
+	Función pública: sendMessage(conexión, comando, objeto Arguments)
+	Comando es un Objeto: {"command":"comando"} que falta añadirle el argumentsObject
+
+*/
+var Q = require('q');
 function messageSender(){
-	this.sendMessage = function(connection, clientType, message){
+	this.sendMessage = function(clientObject, messageObject){
+		var fnAplazada = Q.defer();
+		var resultado;
+		var JSONString = JSON.stringify(messageObject);
 		if(clientType=="NET"){			
-			connection.write(JSON.stringify(message)+"\n"); // NET library, comunicación a agentes o aplicaciones externas
+			connection.write(JSONString+"\n"); // NET library, comunicación a agentes o aplicaciones externas
+			resultado = "Mensaje enviado vía socket:"+JSONString;
+			fnAplazada.resolve(resultado);
 		}else{
-			connection.emit("data",JSON.stringify(message)); //Socket.IO, comunicación con navegador
+			connection.emit("data",JSONString); //Socket.IO, comunicación con navegador
+			resultado = "Mensaje enviado vía browser:"+JSONString;
+			fnAplazada.resolve(resultado);
 		}
+		return fnAplazada.promise;
+	}
+
+	this.sendMessageTEMP = function(){
+
 	}
 }
 
