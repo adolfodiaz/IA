@@ -4,39 +4,43 @@ var Board = require('./Board.js').Board;
 var Player = require('./Player.js').Player;
 var Match = require('./Match.js').Match;
 var crypto = require('crypto');
+var DB = require('./db/DB.js').DB;
+db = new DB();
 onlineUsersList = new Object();
+listIdAndUserName = new Object();
 
 function api(){
 	
-	this.roundsList = new Object();	
 	this.matchesList = new Object();	
 
 	var mentira = new Match();
 	mentira.name="partida1";
-	this.roundsList.partida1 = mentira;
+	this.matchesList.partida1 = mentira;
 	var mentira = new Match();
 	mentira.name="partida2";
-	this.roundsList.partida2 = mentira;
+	this.matchesList.partida2 = mentira;
 
 	var mentira2 = new Match();
 	mentira2.name="mach1";
-	this.roundsList.mach1 = mentira2;
+	this.matchesList.mach1 = mentira2;
 	var mentira2 = new Match();
 	mentira2.name="mach2";
-	this.roundsList.mach2 = mentira2;
-
+	this.matchesList.mach2 = mentira2;
 
 	this.signUp = function(name){
 		var date = new Date();
 		var player = new Player();
 		var md5 = crypto.createHash('md5');
 		md5.update((date.toString()+"puyehue"), "utf8");
-		player.session = md5.digest("hex");
-		onlineUsersList[name] = player.session;
-		console.log(name + "  " + player.session);	
+		player.id = name+md5.digest("hex");
+		db.saludar(function(){
+			console.log("hola mundo");
+		});
+		onlineUsersList[name] = player.id;
+		listIdAndUserName[player.id] = name;
 	}
 
-	this.getListRoundsAndMatchesList = function(showTemplate){
+	this.getListRoundsAndMatchesList = function(req, showTemplate){		
 		var list = new Array();
 		for(var round in this.roundsList){
 			list.push(this.roundsList[round]);
@@ -44,7 +48,7 @@ function api(){
 		for(var match in this.matchesList){
 			list.push(this.matchesList[match]);
 		}
-		showTemplate(Array.prototype.slice.call(list));
+		showTemplate(onlineUsersList[req.user.fullname], Array.prototype.slice.call(list));
 	}
 
 	this.response = function(connection, data, clientType, response, sendMessage){
@@ -70,24 +74,45 @@ function api(){
 	this.reg_sucess = function(connection, data, clientType, sendMessage){
 		sendMessage(connection, clientType, response);
 	}
+
 	this.session_start = function(connection, data, clientType, sendMessage){
 		sendMessage(connection, clientType, response);
 	}
+
 	this.accept = function(connection, data, clientType, sendMessage){
 		sendMessage(connection, clientType, response);
 	}
+
 	this.session_quit = function(connection, data, clientType, sendMessage){
 		sendMessage(connection, clientType, response);
 	}
+
 	this.stats_query = function(connection, data, clientType, sendMessage){
 		sendMessage(connection, clientType, response);
 	}
+
 	this.match_req_info = function(connection, data, clientType, sendMessage){
 		sendMessage(connection, clientType, response);
 	}
+
 	this.match_lookup = function(connection, data, clientType, sendMessage){
-		sendMessage(connection, clientType, response);
+		if(typeof this.matchesList[data.arguments.matchName] === "undefined"){
+			//crea la partida y no envia nada al jugador
+			var player1 = new Player();
+			console.log("1");
+			player1.newPlayer(data.arguments.matchName, clientType, connection);
+			console.log("2");
+			this.matchesList[data.arguments.matchName] = new Match();
+			console.log("3");
+			this.matchesList[data.arguments.matchName].newMatch(data.arguments.matchName, listIdAndUserName[data.arguments.id]);
+			console.log("partida creada");
+		}else{
+
+		}
+		console.log(this.matchesList[data.arguments.matchName]);
+		sendMessage(connection, clientType, "");
 	}
+
 	this.match_lookup_cancel = function(connection, data, clientType, sendMessage){
 		sendMessage(connection, clientType, response);
 	}
@@ -151,9 +176,6 @@ function api(){
 	this.pong = function(connection, data, clientType, sendMessage){
 		sendMessage(connection, clientType, response);
 	}
-
-
-
 
 
 
