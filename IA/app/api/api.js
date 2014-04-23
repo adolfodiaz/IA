@@ -6,8 +6,10 @@ var Match = require('./Match.js').Match;
 var crypto = require('crypto');
 var DB = require('./db/DB.js').DB;
 db = new DB();
+onlineUsersList = new Object();
+
 function api(){
-	this.onlineUsersList = new Object();
+	
 	this.roundsList = new Object();	
 	this.matchesList = new Object();	
 
@@ -31,10 +33,10 @@ function api(){
 		var md5 = crypto.createHash('md5');
 		md5.update((date.toString()+"puyehue"), "utf8");
 		player.session = md5.digest("hex");
-		this.onlineUsersList[name] = player.session;
 		db.saludar(function(){
 			console.log("hola mundo");
 		});
+		onlineUsersList[name] = player.session;
 	}
 
 	this.getListRoundsAndMatchesList = function(showTemplate){

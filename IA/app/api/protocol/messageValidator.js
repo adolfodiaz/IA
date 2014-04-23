@@ -7,38 +7,17 @@ api = new Api.api();
 
 function messageValidator(){
 
-	this.onlineUsersList = new Object();
+
 
 	this.validateRegister = function(connection, data, clientType){
 
-		/*
-		if(typeof(data.arguments.clientName)=="undefined"||typeof(data.arguments.clientType)=="undefined"||typeof(data.arguments.clientPass)=="undefined"){
-			var response = new Object();
-			response.command = "REG_FAIL";
-			response.arguments = new Object();
-			response.arguments.GM_FULL = "false";//no aplica
-			response.arguments.NICK_IN_USE = "true";
-			typeof(data.arguments.clientName=="undefined") ? response.arguments.TYPE = true : response.arguments.TYPE = false;
-			typeof(data.arguments.clientType=="undefined") ? response.arguments.NICK = true : response.arguments.NICK = false;
-			typeof(data.arguments.clientPass=="undefined") ? response.arguments.PASS = true : response.arguments.PASS = false;
-			response.arguments.OTHER = "false";//no aplica
-			messageSender.sendMessage(connection, clientType, response);
-		}else if(api.isPlayerConnected(data.arguments.clientName)){
-			//usuario ya conectado
-		}else{
 
-		}*/
 		var response = new Object();
 		response.command = "REG_FAIL";
 		response.arguments = new Object();
 		response.arguments.GM_FULL = "false";//no aplica
 		response.arguments.NICK_IN_USE = "true";
 		api.response(connection, data, clientType, messageSender.sendMessage);
-
-
-
-
-
 		
 	}
 

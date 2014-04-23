@@ -66,6 +66,6 @@ module.exports = function (app, passport, auth) {
     // Juegos controller
     var juegos = require('../app/controllers/juegos')
     app.get('/juegos', auth.requiresLogin, auth.requiresSuperAdmin, juegos.index)
-
+    app.get('/juegos/:partida_nombre', auth.requiresLogin, auth.requiresSuperAdmin, juegos.partida)
 
 }

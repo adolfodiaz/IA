@@ -1,3 +1,4 @@
+
 function Cronometro(lugarCarga, inicio){
   var cronometro = this;
   cronometro.interval = 0;
