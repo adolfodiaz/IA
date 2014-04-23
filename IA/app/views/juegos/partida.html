@@ -1,0 +1,20 @@
+
+{% extends "layouts/layout.html" %}
+
+{% block CONTENT %}
+
+<div class="wrapper text-center">
+    <div class="container">
+        <div id="tablero" class="text-center"></div>
+        {{nombre}}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block SCRIPT %}
+<script type="text/javascript">
+	var tablero = new Tablero();
+    tablero.crear_tablero_html('tablero',10);
+</script>
+{% endblock %}

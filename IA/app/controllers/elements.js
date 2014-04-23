@@ -50,7 +50,7 @@ exports.index = function(req, res){
         Element.count().exec(function (err, count) {
                 res.render(templates.index, {
                 title: 'List of elements',
-                elements: elements,
+                elements: m,
                 pagination: utils.pagination(req.url, page, (count / perPage))
             })
         })
