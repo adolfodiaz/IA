@@ -18,7 +18,6 @@ function messageValidator(){
 		clientObject.connection = connection;
 		clientObject.data = data;
 		clientObject.clientType = clientType;
-
 		switch(data.command){
 			//eliminar TEST en la producción final
 			case "TEST":

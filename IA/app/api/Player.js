@@ -1,10 +1,12 @@
 function Player(){
 	this.clientName;
-	this.clientType;
-	this.session;
-	this.constructor = function(object){
-		this.clientName = object.arguments.clientName;
-		this.clientType = object.arguments.clientType;
+	this.connectionMethod;
+	this.id;
+	this.connection;
+	this.newPlayer = function(clientName, connectionMethod, connection){
+		this.clientName 		= clientName;
+		this.connectionMethod 	= connectionMethod;
+		this.connection 		= connection;
 	}
 }
 

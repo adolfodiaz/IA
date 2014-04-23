@@ -11,6 +11,10 @@ function Match(){
 	this.board = new Board();
 	this.startTime;
 	this.whoStarted;
+	this.newMatch = function(name, player1){
+		this.name = name;
+		this.player1 = player1;
+	}
 }
 
 module.exports.Match = Match;

@@ -14,8 +14,11 @@ function Tablero(){
                       // texto sea el contenido de <td>, ubica el elemento <td> al final
                       // de la hilera de la tabla
                       var celda = document.createElement("td");
-                 //     var textoCelda = document.createTextNode(i+","+j);
-                   //   var textoCelda = document.createTextNode("")
+                      celda.setAttribute('onclick',"jugarFicha("+i+","+j+");");
+                      celda.id = "tablero_id_"+i+j;
+
+                    //     var textoCelda = document.createTextNode(i+","+j);
+                    //   var textoCelda = document.createTextNode("")
                      // celda.appendChild(textoCelda);
                       hilera.appendChild(celda);
                     }
