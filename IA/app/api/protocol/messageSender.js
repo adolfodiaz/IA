@@ -8,6 +8,7 @@
 
 */
 var Q = require('q');
+
 function messageSender(){
 	this.sendMessage = function(clientObject, messageObject){
 		var fnAplazada = Q.defer();

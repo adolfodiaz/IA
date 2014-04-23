@@ -10,12 +10,12 @@ var Q = require('q');
 
 
 db = new DB();
-onlineUsersList = new OC();
-listIdAndUserName = new OC();
+onlineUsersList = new Object();
+listIdAndUserName = new Object();
 
 function api(){
 	
-	this.matchesList = new OC();	
+	this.matchesList = new Object();	
 
 	var mentira = new Match();
 	mentira.name="partida1";

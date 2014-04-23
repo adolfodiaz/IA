@@ -18,6 +18,7 @@ function messageValidator(){
 		clientObject.connection = connection;
 		clientObject.data = data;
 		clientObject.clientType = clientType;
+		console.log(data);
 		switch(data.command){
 			//eliminar TEST en la producción final
 			case "TEST":
@@ -29,6 +30,7 @@ function messageValidator(){
 				Si
 					1. El comando está bien escrito
 				*/
+				console.log("entro");
 				api.probe(clientObject).then(outputProcessor.buildResponse).then(messageSender.sendMessage).done(console.log);
 			break;
 			case "PROTOCOL": console.log("PROTOCOL");
