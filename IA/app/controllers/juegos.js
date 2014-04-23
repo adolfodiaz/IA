@@ -6,9 +6,10 @@ var templates = {
 }
 
 exports.index = function(req, res){
-	api.getListRoundsAndMatchesList(function(list){
+	api.getListRoundsAndMatchesList(req, function(id, list){
 	 	res.render(templates.index, {
 	                title: 'I want to play a game',
+	                id: id,
 	                elements: list
 	            })
 	});

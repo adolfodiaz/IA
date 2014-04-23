@@ -23,7 +23,7 @@ function messageValidator(){
 
 
 
-	this.protocolManager = function(connection, data, clientType){
+	this.protocolManager = function(connection, data, clientType){		
 		switch(data.command){
 			case "PROBE": console.log("PROBE");
 				/*
