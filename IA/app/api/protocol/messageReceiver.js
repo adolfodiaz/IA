@@ -5,9 +5,9 @@ function messageReceiver(){
 	this.messageFromSocket = function(connection, data){
 		try{
 			var data = JSON.parse(data);
-			messageValidator.protocolManager(connection, data, "HUMAN");
+			messageValidator.protocolManager(connection, data, "BROWSER");
 		}catch(error){
-			messageValidator.protocolManager(connection, error, "HUMAN");
+			messageValidator.protocolManager(connection, error, "BROWSER");
 		}		
 	}
 
@@ -18,9 +18,9 @@ function messageReceiver(){
 		}
 		try{
 			var data = JSON.parse(data);
-			messageValidator.protocolManager(connection, data, "AI");
+			messageValidator.protocolManager(connection, data, "NET");
 		}catch(error){
-			messageValidator.protocolManager(connection, error, "AI");
+			messageValidator.protocolManager(connection, error, "NET");
 		}
 	}
 }
