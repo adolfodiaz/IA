@@ -4,7 +4,8 @@ var Board = require('./Board.js').Board;
 var Player = require('./Player.js').Player;
 var Match = require('./Match.js').Match;
 var crypto = require('crypto');
-
+var DB = require('./db/DB.js').DB;
+db = new DB();
 function api(){
 	this.onlineUsersList = new Object();
 	this.roundsList = new Object();	
@@ -24,7 +25,6 @@ function api(){
 	mentira2.name="mach2";
 	this.roundsList.mach2 = mentira2;
 
-
 	this.signUp = function(name){
 		var date = new Date();
 		var player = new Player();
@@ -32,7 +32,9 @@ function api(){
 		md5.update((date.toString()+"puyehue"), "utf8");
 		player.session = md5.digest("hex");
 		this.onlineUsersList[name] = player.session;
-		console.log(name + "  " + player.session);	
+		db.saludar(function(){
+			console.log("hola mundo");
+		});
 	}
 
 	this.getListRoundsAndMatchesList = function(showTemplate){
