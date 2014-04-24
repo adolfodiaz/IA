@@ -77,9 +77,49 @@ function stateMachine() {
 			fnAplazada.resolve(clientObject);
 		}
 		return fnAplazada.promise;
+
+/*function stateMachine(command , state) {
+
+	var pair = state + ", " + command;
+
+	// WAIT Cliente -> GM
+	if ((command == "OUTER_WAIT") && (state != "init")) {
+		state = "outerPause";
+		return state;
+	}
+
+	if ((command == "PANIC_QUIT") && (state != "init")) {
+		state = "outState";
+		return state;
+	}
+
+	if ((command == "STOP_DISCONNECT") && (state != "init")) {
+		state = "outState";
+		return state;
+	}	
+
+	if ((command == "STOP") && (state != "init")) {
+		state = "innerPause";
+		return state;
+	}	
+
+	// WAIT GM -> CLiente
+	if ((command == "INNER_WAIT") && (state != "init")) {
+		state = "innerPause";
+		return state;
+	}	
+
+	if (!(pair in tTable)){
+		return null;
+	}
+
+	else {
+		state = tTable[pair];
+		return state;
+
 	}
 }
-
+*/
 module.exports.stateMachine = stateMachine;
 
 
