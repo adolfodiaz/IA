@@ -6,7 +6,6 @@ var testComponent = new TestComponent.testComponent();
 function messageReceiver(){	
 	this.messageFromSocket = function(connection, data){ //mensaje desde el navegador
 		try{
-			console.log("Connection details:\n"+connection);
 			var data = JSON.parse(data);
 			messageValidator.protocolManager(connection, data, "BROWSER");
 		}catch(error){

@@ -13,13 +13,13 @@ var msgSender = new MessageSender.messageSender();
 var Q = require('q');
 
 function outputProcessor(){
-	this.buildResponse = function(clientObject){
+	this.buildResponse = function(APIresponse){
 		//Pendiente construir respuestas, temporalmente sale con el mensaje "crudo" de la API
 		//Lo que se debe hacer es procesar la APIresponse
 		var funcionAplazada = Q.defer();
 		//trabajo del outputProcessor construyendo
 
-		funcionAplazada.resolve(clientObject);
+		funcionAplazada.resolve(APIresponse);
 		return funcionAplazada.promise;
 		
 	}

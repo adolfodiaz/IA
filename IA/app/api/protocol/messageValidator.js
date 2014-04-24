@@ -25,6 +25,7 @@ function messageValidator(){
 				console.log("TEST");
 				testComponent.testFunction("adolfo");
 				break;
+				
 			case "PROBE": console.log("PROBE");
 				/*
 				Si
