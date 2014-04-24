@@ -62,14 +62,16 @@ function api(){
 		this.onlineUsersList[data.arguments.clientName] = data.arguments.clientName;
 		sendMessage(connection, clientType, response);
 	}
+
 	this.prueba = function(){
 		return "prueba";
 	}
 
 	this.probe = function(OC){
 		var funcionAplazada = Q.defer();
-
 		funcionAplazada.resolve(OC, "PROBE");
+		console.log("probe");
+		funcionAplazada.resolve(OC, "");
 		return funcionAplazada.promise;
 	}
 	this.protocol = function(OC){
@@ -134,7 +136,6 @@ function api(){
 
 	this.match_lookup = function(OC){
 		var funcionAplazada = Q.defer();
-
 		if(typeof this.matchesList[data.arguments.matchName] === "undefined"){
 			//crea la partida y no envia nada al jugador
 			var player1 = new Player();
@@ -144,7 +145,6 @@ function api(){
 		}else{
 
 		}
-
 		funcionAplazada.resolve(OC, "");
 		return funcionAplazada.promise;
 	}
