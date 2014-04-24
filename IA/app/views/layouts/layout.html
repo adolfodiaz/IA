@@ -46,7 +46,24 @@
               -moz-box-shadow:inset 0 0 10px rgba(0,0,0,.4);
               -webkit-box-shadow:inset 0 0 10px rgba(0,0,0,.4);
           }
-
+.circulo_blanco { 
+   width: 46px;
+   height: 46px;
+   margin: 0 auto; 
+   background:#0826BE; 
+   -moz-border-radius: 70px; 
+   -webkit-border-radius: 70px; 
+   border-radius: 70px;
+}
+.circulo_negro { 
+   width: 46px;
+   height: 46px;
+   margin: 0 auto; 
+   background:#000; 
+   -moz-border-radius: 70px; 
+   -webkit-border-radius: 70px; 
+   border-radius: 70px;
+}
     </style>
 
     </head>
@@ -179,9 +196,9 @@
 
         <script type="text/javascript">
             var socket = io.connect('http://localhost:7076');
-            socket.on("data",function(data){
-                console.log("respuesta= "+data);
-            })            
+            socket.on("data", function(data){
+                console.log( "respuesta= "+data);
+            })
             var cronometro = new Cronometro(50);
         </script>
         

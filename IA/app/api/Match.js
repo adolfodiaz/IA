@@ -4,11 +4,11 @@ var Board = require('./Board.js').Board;
 
 function Match(){
 	this.name;
-	this.Player1 = new Player();
-	this.Player2 = new Player();
-	this.rules = new Rules();
+	this.Player1;
+	this.Player2;
+	this.rules;
 	this.spectators = new Array();
-	this.board = new Board();
+	this.board;
 	this.startTime;
 	this.whoStarted;
 	this.newMatch = function(name, player1){

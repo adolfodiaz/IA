@@ -5,12 +5,11 @@
 function Board(){
 	this.squares = new Array();
 	this.boardSize; //Ancho y Alto (Width y Height)
-	var crear = function(tam){
+	this.crear = function(tam){
 		this.boardSize = tam; //Ancho y Alto (Width y Height)
 		for (var i = 0; i < tam; i++) {
 			this.squares[i] = new Array(tam);
-			for(var j=0; j<tam;j++);
-				this.squares[i][j] = 0;
+			for(var j=0; j<tam;j++) this.squares[i][j] = Math.floor((Math.random()*3));
 		};
 	}
 }

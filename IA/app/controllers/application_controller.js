@@ -100,6 +100,7 @@ server._maxListeners =0;
 
 /*socket.io*/
 var io = require('socket.io').listen(7076);
+io.set('log level',1);
 io.sockets.on('connection', function (socket) {
   socket.on("data",function(data){    
     messageReceiver.messageFromSocket(socket, data);

@@ -5,16 +5,59 @@
 
 <div class="wrapper text-center">
     <div class="container">
+    	<h1>{{nombre}}</h1>
+    	<h4 id= "msnje"> </h4>
         <div id="tablero" class="text-center"></div>
-        {{nombre}}
     </div>
 </div>
+
+
+<h1>prueba</h1>
+
+ 
+<script type="text/javascript"> 
+	
+	function jugarFicha(fil,col){ 
+		content = document.getElementById('col'+fil+col); 
+		alert ("Valor: "+content.innerHTML); 
+	}
+</script>
 
 {% endblock %}
 
 {% block SCRIPT %}
 <script type="text/javascript">
+	this.jugadaAceptada = 1;
+	this.turno = true;
 	var tablero = new Tablero();
-    tablero.crear_tablero_html('tablero',10);
+    tablero.crear_tablero_html( 'tablero' ,  {{tamTablero}} , new Array({{squares}}) );
+    this.inicio = true;
+
+    function jugarFicha(fil,col){
+
+    	if(turno){
+    		//turno = false;
+			content = document.getElementById("tablero_id_"+fil+col); 
+			switch(jugadaAceptada){
+	        	case 1:
+					var div = document.createElement("div");
+					if(inicio) div.className = "circulo_blanco";
+					else div.className = "circulo_negro";
+			        content.appendChild(div);
+			        content.setAttribute('onclick',null);
+					break;
+				case 2:
+					var mensaje = document.getElementById("msnje"); 
+					mensaje.innerHTML = "win";
+					break;
+	        }
+	        //this.jugadaAceptada++;
+    	}
+    	else{
+    		var mensaje = document.getElementById("msnje"); 
+			mensaje.innerHTML = "Debes esperar tu turno";
+    	}
+	}
+    
 </script>
 {% endblock %}

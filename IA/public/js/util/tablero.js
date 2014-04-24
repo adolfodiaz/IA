@@ -1,11 +1,13 @@
 function Tablero(){
- // this.numero = 5;
-              this.crear_tablero_html = function(divPosicion,numero) {
+  this.numero;
+              this.crear_tablero_html = function(divPosicion ,numero , squares ) {
+                this.numero = numero;
                // Crea un elemento <table> y un elemento <tbody>
                   var tabla   = document.createElement("table");
                   tabla.id = "chess_board";
                   var tblBody = document.createElement("tbody");
                  //Creamos las filas
+                  k = 0;
                   for (var i = 0; i < numero; i++) {
                     var hilera = document.createElement("tr");
                     //Creamos las columnas
@@ -14,9 +16,22 @@ function Tablero(){
                       // texto sea el contenido de <td>, ubica el elemento <td> al final
                       // de la hilera de la tabla
                       var celda = document.createElement("td");
-                 //     var textoCelda = document.createTextNode(i+","+j);
-                   //   var textoCelda = document.createTextNode("")
-                     // celda.appendChild(textoCelda);
+                      celda.id = "tablero_id_"+i+j;
+
+                      if(squares[k]==1){
+                        var div = document.createElement("div");
+                        div.className = "circulo_blanco";
+                        celda.appendChild(div);
+                      }
+                      else if(squares[k]==2){
+                        var div = document.createElement("div");
+                        div.className = "circulo_negro";
+                        celda.appendChild(div);
+                      }
+                      else{
+                        celda.setAttribute('onclick',"jugarFicha("+i+","+j+");");
+                      }
+                      k++;
                       hilera.appendChild(celda);
                     }
                  
