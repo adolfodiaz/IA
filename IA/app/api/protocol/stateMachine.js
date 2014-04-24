@@ -77,6 +77,8 @@ function stateMachine() {
 			fnAplazada.resolve(clientObject);
 		}
 		return fnAplazada.promise;
+	}
+}
 		
 /*function stateMachine(command , state) {
 
@@ -116,12 +118,7 @@ function stateMachine() {
 	else {
 		state = tTable[pair];
 		return state;
-*/
 
 	}
-}
+	*/
 module.exports.stateMachine = stateMachine;
-
-
-
-

@@ -31,13 +31,37 @@ function outputProcessor(){
 			return;
 		}
 
-		if(clientObject.api.result == "FAIL"){
-
-		} else if (clientObject.api.result == "SUCESS") {
-
-		}
-	}
+		//escribir acá la reacción de la respuesta de la API
 	
+	}
+
+	this.sessionStartPostprocessor = function(clientObject){
+
+	}
+
+	this.acceptPostprocessor = function(clientObject){
+
+	}
+
+	this.sessionQuitPostprocessor = function(clientObject){
+
+	}
+
+	this.statsQueryPreprocessor = function(clientObject){
+
+	}
+
+	this.matchReqInfoPreprocessor = function(clientObject){
+
+	}
+
+	this.matchLookupPostprocessor = function(clientObject){
+
+	}
+
+	this.matchLookupCancelPostprocessor = function(clientObject){
+		
+	}
 }
 
 
