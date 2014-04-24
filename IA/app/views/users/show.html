@@ -1,0 +1,60 @@
+{% import "macros/format.html" as format %}
+{% extends "layouts/crud.html" %}
+{% block TOP %}
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/users">Users</a></li>
+    <li class="active">{{_user.fullname}}</li>
+</ol>
+{% endblock %}
+{% block MAIN %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Usuario</h3>
+    </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Nombre completo:</dt>
+            <dd>{{_user.fullname}}</dd>
+            <dt>Email:</dt>
+            <dd>{{_user.email}}</dd>
+            {% if user.isSuperAdmin %}
+                <dt>Administrador:</dt>
+                <dd>{{format.bool(_user.isSuperAdmin)}}</dd>
+
+                <dt>Inspector:</dt>
+                <dd>{{format.bool(_user.isStaff)}}</dd>
+
+                <dt>Invitado:</dt>
+                <dd>{{format.bool(not _user.isStaff)}}</dd>
+
+                <dt>Habilitado:</dt>
+                <dd>{{format.bool(_user.isActive)}}</dd>
+            {% endif %}
+        </dl>
+
+        <form action="/users/{{_user._id}}" method="post" class="text-center">
+            {#
+                Si el usuario soy yo mismo, entonces puedo editar
+                Si soy superadmin se muestra el panel de superadmin
+             #}
+
+            {% if user.id == _user.id %}
+                {% if not user.isSuperAdmin %}
+                    <a class="btn btn-warning"href="/users/{{_user._id}}/edit">Editar</a> 
+                {% endif %}
+            {% endif %}
+
+            {% if user.isSuperAdmin %}
+                <a class="btn btn-default"href="/users">Back</a>
+                <a class="btn btn-warning"href="/users/{{_user._id}}/edit">Edit</a>  
+                <input type="hidden" name="_csrf" value="{{csrf_token}}">
+                <input type="hidden" name="_method" value="delete">
+                {# <input type="submit" class="btn btn-danger" value="Delete"> #}
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

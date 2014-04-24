@@ -1,0 +1,58 @@
+
+{% extends "layouts/layout.html" %}
+
+{% block CONTENT %}
+
+<div class="wrapper text-center">
+    <div class="container">
+    	<h1>{{nombre}}</h1>
+    	<h4 id= "msnje"> </h4>
+        <div id="tablero" class="text-center"></div>
+    </div>
+</div>
+
+
+<h1>prueba</h1>
+
+ 
+<script type="text/javascript"> 
+	
+	function jugarFicha(fil,col){ 
+		content = document.getElementById('col'+fil+col); 
+		alert ("Valor: "+content.innerHTML); 
+	}
+</script>
+
+{% endblock %}
+
+{% block SCRIPT %}
+<script type="text/javascript">
+	this.jugadaAceptada = 1;
+
+	var tablero = new Tablero();
+    tablero.crear_tablero_html('tablero',{{tamTablero}});
+
+    function jugarFicha(fil,col){ 
+		content = document.getElementById("tablero_id_"+fil+col); 
+		
+        switch(jugadaAceptada){
+        	case 1:
+				var div = document.createElement("div");
+				div.className = "circulo";
+		        content.appendChild(div);
+				break;
+			case 2:
+				var div = document.createElement("div");
+				div.className = "circulo";
+		        content.appendChild(div);
+				break;
+			case 3:
+				var mensaje = document.getElementById("msnje"); 
+				mensaje.innerHTML = "win";
+				break;
+        }
+        this.jugadaAceptada++;
+	}
+    
+</script>
+{% endblock %}

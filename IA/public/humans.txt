@@ -1,0 +1,8 @@
+# TEAM
+
+    <Danilo Aburto> -- <Full Stack Programmer> -- <@daniloaburto>
+    <Camilo Farfán> -- <Designer, Front End Programmer> -- <http://goo.gl/Bf4hN>
+
+# DESCRIPTION
+	
+	<Aplicación web desarrollada bajo la dirección de la empresa Govic>

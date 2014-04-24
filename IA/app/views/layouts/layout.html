@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>{{title}}</title>
+        <meta name="description" content="Fourthane Analytics">
+        <meta name="keywords" content="Fourthane">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/vendor/jquery.fineuploader-4.1.0/fineuploader-4.1.0.css">
+        {# <link rel="stylesheet/less" href="style.less"> #}
+        {# <script src="/js/vendor/less-1.4.1.min.js"></script> #}
+        {# <script src="/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script> #}
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="/js/vendor/html5shiv-3.7.0.js"></script>
+            <script src="/js/vendor/respond.min-1.4.2.js"></script>
+        <![endif]-->
+<style>
+          #chess_board { border: 2px solid #D6CFCF; }
+          #chess_board td {
+            background:#fff;
+            background:-moz-linear-gradient(top, #fff, #eee); 
+            background:-webkit-gradient(linear,0 0, 0 100%, from(#fff), to(#eee));
+            box-shadow:inset 0 0 0 1px #fff;
+            -moz-box-shadow:inset 0 0 0 1px #fff;
+            -webkit-box-shadow:inset 0 0 0 1px #fff;
+            height:50px !important;
+            text-align:center;
+            vertical-align:middle;
+            width:50px !important;
+          }
+          #chess_board tr:nth-child(odd) td:nth-child(even),
+          #chess_board tr:nth-child(even) td:nth-child(odd) {
+              background:#ccc;
+              background:-moz-linear-gradient(top, #ccc, #eee);
+              background:-webkit-gradient(linear,0 0, 0 100%, from(#ccc), to(#eee));
+              box-shadow:inset 0 0 10px rgba(0,0,0,.4);
+              -moz-box-shadow:inset 0 0 10px rgba(0,0,0,.4);
+              -webkit-box-shadow:inset 0 0 10px rgba(0,0,0,.4);
+          }
+.circulo { 
+   width: 46px;
+   height: 46px;
+   margin: 0 auto;
+/* webkit-border y moz-border son estilo adicionales para hacerlo compatible con la mayoria de los nevegadores */
+   
+   background:#008040; 
+   -moz-border-radius: 70px; 
+   -webkit-border-radius: 70px; 
+   border-radius: 70px;
+}
+    </style>
+
+    </head>
+    <body>
+        <div id="loading"></div>
+
+        <div class="preheader"></div>
+        <div class="wrapper app-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <!-- <a href="/"><img src="/img/logo.png" alt="Logo"></a> -->
+                        <h1>Connect 4</h1>
+                 
+    <button onclick="cronometro.iniciar()">Inicio</button>
+    <button onclick="cronometro.detener()">Detener</button>
+    <button onclick="cronometro.reiniciar()">Reiniciar</button>
+    <br/>
+    <div id="reloj">
+      0:0
+    </div>
+
+
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="profile-info profile-info-right">
+                            {% if is_authenticated %}
+                                <p class="profile-info-main">
+                                    {% if user.isSuperAdmin %}
+                                        Administrador
+                                    {% else %}
+                                        {% if user.isStaff %}
+                                            Inspector
+                                        {% else %}
+                                            Guest
+                                        {% endif %}
+                                    {% endif %}
+                                </p>
+                                <a class="profile-info-sub" href="/users/{{user._id}}">{{user.fullname}}</a>
+       bootstrap                         <p>
+                                    <small><a class="profile-info-sub text-muted" href="/logout">Cerrar sesión</a></small>
+                                </p>
+                            {% else %}
+                                <p class="profile-info-main">Welcome</p>
+                                <a class="profile-info-sub" href="/login">Login</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="alert-container">
+                {% for type, messages in flash() %}
+                    {% for msg in messages %}
+                        <div class="fade in alert alert-inline alert-{{type}}"><a href="javascript:void(0)" class="close" data-dismiss="alert">×</a>{{msg}}</div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+
+
+        <div class="wrapper">
+            <div class="container">
+                {% block CONTENT %}{% endblock %}
+            </div>
+        </div>
+
+        <div class="wrapper app-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <a href="/">Connect4</a>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p><a href="#" class="nonblock">Create Ad</a></p>
+                                <p><a href="#" class="nonblock">Terms and conditions</a></p>
+                                <p><a href="#" class="nonblock">Help</a></p>
+                            </div>
+
+                            <div class="col-sm-8">
+                                <p>Contact Us</p>
+                                <p><a class="nonblock" href="#">hi@app.com</a></p>
+                                <p>Rafael Cañas #114 Of. 1A, Providencia,</p>
+                                <p>Santiago de Chile</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <script src="/js/vendor/jquery-1.10.1.min.js"></script>
+        <script src="/js/vendor/underscore-min.1.5.2.js"></script>
+        <script src="/js/bootstrap/transition.js"></script>
+        <script src="/js/bootstrap/alert.js"></script>
+        <script src="/js/bootstrap/button.js"></script>
+        
+        <script src="/js/bootstrap/carousel.js"></script>
+        <script src="/js/bootstrap/collapse.js"></script>
+        <script src="/js/bootstrap/dropdown.js"></script>
+        <script src="/js/bootstrap/modal.js"></script>
+        
+        <script src="/js/bootstrap/tooltip.js"></script>
+        
+        <script src="/js/bootstrap/popover.js"></script>
+        <script src="/js/bootstrap/scrollspy.js"></script>
+        <script src="/js/bootstrap/tab.js"></script>
+        <script src="/js/bootstrap/affix.js"></script>
+        <script src="/js/vendor/holder.js"></script>
+        
+        <script src="/js/widow/widow.js"></script>
+        <script src="/js/vendor/chosen.jquery.min.js"></script>
+        <script src="/js/vendor/jquery.pep.js"></script>
+        <script src="/js/vendor/jquery.placeholder-2.0.7.js"></script>
+        <script src="/js/main.js"></script>
+
+        <script src="http://localhost:7076/socket.io/socket.io.js"></script>
+
+        <!-- cronometro -->
+        <script src="/js/util/crono.js"></script>
+        <script src="/js/util/tablero.js"></script>
+
+        <script type="text/javascript">
+            var socket = io.connect('http://localhost:7076');
+            socket.on("data", function(data){
+                console.log( "respuesta= "+data);
+            })
+            var cronometro = new Cronometro(50);
+        </script>
+        
+        {% block SCRIPT %}{% endblock %}
+    </body>
+</html>

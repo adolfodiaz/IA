@@ -1,0 +1,5 @@
+{% macro bool(b) %} {% if b %}Si{% else %}No{% endif %} {% endmacro %}
+
+{% macro date(d) %} {{d.getDate()}}/{{d.getMonth() + 1}}/{{d.getFullYear()}} {% endmacro %}
+
+{% macro datetime(d) %} {{d.getDate()}}/{{d.getMonth() + 1}}/{{d.getFullYear()}} - {{d.getHours()}}:{{d.getMinutes()}}:{{d.getSeconds()}} {% endmacro %}

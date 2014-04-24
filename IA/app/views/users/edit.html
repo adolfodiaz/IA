@@ -1,0 +1,14 @@
+{% extends "layouts/crud.html" %}
+
+{% block TOP %}
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/users">Users</a></li>
+    <li><a href="/users/{{_user.id}}">{{_user.fullname}}</a></li>
+    <li class="active">Edit user</li>
+</ol>
+{% endblock %}
+
+{% block MAIN %}
+    {% include "users/_form.html" %}
+{% endblock %}

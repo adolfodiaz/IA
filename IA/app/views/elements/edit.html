@@ -1,0 +1,14 @@
+{% extends "layouts/crud.html" %}
+
+{% block TOP %}
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/elements">Elements</a></li>
+    <li><a href="/elements/{{element._id}}">{{element.name}}</a></li>
+    <li class="active">Edit element</li>
+</ol>
+{% endblock %}
+
+{% block MAIN %}
+    {% include "elements/_form.html" %}
+{% endblock %}

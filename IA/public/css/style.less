@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+/*
+ * @author: Danilo Aburto Vivians
+ */
+
+/*
+ * Imports
+ */
+
+@import "less/bootstrap/bootstrap.less";
+@import "less/widow/widow.less";
+@import "less/vendor/vendor.less";
+
+html    {background-color: #fff}
+body    {background-color: #fff}
+a       {.transition(color 0.3s)}
+iframe  {max-width: 100%}
+
+#loading {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background: transparent url(/img/loading.gif) 0 0 no-repeat;
+    display: none;
+}

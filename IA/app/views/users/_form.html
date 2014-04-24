@@ -1,0 +1,111 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{title}}</h3>
+    </div>
+    <div class="panel-body">
+        
+        {% if errors %}
+            {% if errors.fullname %}
+                {% set help_fullname='has-error'%}{% else %}{% set help_fullname='has-success' %}
+            {% endif %}
+            {% if errors.email %}
+                {% set help_email='has-error' %}{% else %}{% set help_email='has-success' %}
+            {% endif %}
+            {% if errors.hashed_password %}
+                {% set help_password='has-error'%}{% else %}{% set help_password ='has-success' %}
+            {% endif %}
+        {% endif %}
+
+        {% if _user.isNew %}
+        <form class="form-horizontal" action="/users" method="post">
+        {% else %}
+        <form class="form-horizontal" action="/users/{{_user._id}}" method="post">
+            <input type="hidden" name="_method" value="put">
+        {% endif %}
+            <input type="hidden" name="_csrf" value="{{csrf_token}}">
+
+            <div class="form-group {{help_fullname}}">
+                <label class="col-sm-2 control-label" for="fullname">Nombre:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="fullname" placeholder="Nombre completo" name="fullname" value="{{_user.fullname}}">
+                    {% if help_fullname %}
+                        <span class="help-block">{{errors.fullname.message}}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group {{help_email}}">
+                <label class="col-sm-2 control-label" for="email">Email:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="email" placeholder="Email" name="email" value="{{_user.email}}">
+                    {% if help_email %}
+                        <span class="help-block">{{errors.email.message}}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group {{help_password}}">
+                <label class="col-sm-2 control-label" for="password">Contraseña:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="password" id="password" placeholder="Contraseña" name="password" value="">
+                    {% if help_password %}
+                        <span class="help-block">{{errors.hashed_password.message}}</span>
+                    {% else %}
+                        {% if not _user.isNew %}
+                            <span class="help-block">Para mantener la misma contraseña deje este campo en blanco.</span>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if user.isSuperAdmin %}
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="isActive">Habilitado:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="isActive" name="isActive">
+                            <option value="1" {% if _user.isActive %}selected{% endif %}>Si</option>
+                            <option value="0" {% if not _user.isActive %}selected{% endif %}>No</option>
+                        </select>
+                        <span class="help-block">Sólo usuarios habilitados pueden iniciar sesión.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="userType">Tipo de usuario:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="userType" name="userType">
+                            <option 
+                            {% if _user.isSuperAdmin %}selected{% endif %}
+                            value="superAdmin">Administrador</option>
+
+                            <option 
+                            {% if not _user.isSuperAdmin %}
+                                {% if _user.isStaff %}selected{% endif %}
+                            {% endif %}
+                            value="staff">Inspector</option>
+
+                            <option 
+                            {% if not _user.isSuperAdmin %}
+                                {% if not _user.isStaff %}selected{% endif %}
+                            {% endif %}
+                            value="guest">Invitado</option>
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for=""></label>
+                <div class="col-sm-10">
+                    {% if _user.isNew %}
+                        <input class="btn btn-success" type="submit" name="submit" value="Create">
+                        <a class="btn btn-default" href="/users">Back</a>
+                    {% else %}
+                        <input class="btn btn-success" type="submit" name="submit" value="Update">
+                        <a class="btn btn-default" href="/users/{{_user.id}}">Back</a>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

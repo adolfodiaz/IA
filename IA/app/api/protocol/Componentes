@@ -1,0 +1,8 @@
+Estructura utilizada por la sub API de comunicaciones
+=====================================================
+
+messageReceiver.js: recibe los mensajes, transformando el texto recibido desde un jugador a objetos JSON
+messageValidator.js: valida los mensajes recibidos (comando de protocolo + parámetros)
+stateMachine.js: objeto máquina de estado que permite determinar el estado de una sesión
+messageSender.js: envía mensajes, transformando el objeto/resultado/parámetros a texto enviable por la red
+outputProcessor.js: permite construir el objeto Arguments para enviarlo al messageSender

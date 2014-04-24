@@ -1,0 +1,43 @@
+{% extends "layouts/crud.html" %}
+{% block TOP %}
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/elements">Elements</a></li>
+    <li><a href="/elements/{{element.id}}">{{element.name}}</a></li>
+    <li class="active">Eliminar element</li>
+</ol>
+{% endblock %}
+{% block MAIN %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Element</h3>
+    </div>
+    <div class="panel-body">
+       
+        <div class="jumbotron text-center">
+            <h1>Delete Confirmation</h1>
+            <p>Delete an element <strong>cannot been undone</strong></p>
+            <p><strong>Are you sure you want to contine?</strong></p>
+            
+            <p>To confirm your password must be entered:</p>
+            <form class="row" action="/elements/{{element._id}}" method="post">
+                <input type="hidden" name="_csrf" value="{{csrf_token}}">
+                <div class="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
+                    <p>
+                        <input type="hidden" name="_method" value="delete">
+                        <input class="form-control input-lg text-center" type="password" id="password" placeholder="Password" name="password" value="">
+                    </p>
+                    <input type="submit" class="btn btn-lg btn-danger" value="Delete">
+                </div>
+            </form>
+        </div>
+
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd>{{element.name}}</dd>
+        </dl>
+    </div>
+</div>
+
+{% endblock %}
