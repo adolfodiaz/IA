@@ -29,34 +29,39 @@
 <script type="text/javascript">
 	this.jugadaAceptada = 1;
 	this.turno = true;
+	this.esperarJugador = true;
 	var tablero = new Tablero();
     tablero.crear_tablero_html( 'tablero' ,  {{tamTablero}} , new Array({{squares}}) );
-    this.inicio = true;
+    this.inicio = {{inicio}};
 
     function jugarFicha(fil,col){
-
-    	if(turno){
-    		//turno = false;
-			content = document.getElementById("tablero_id_"+fil+col); 
-			switch(jugadaAceptada){
-	        	case 1:
-					var div = document.createElement("div");
-					if(inicio) div.className = "circulo_blanco";
-					else div.className = "circulo_negro";
-			        content.appendChild(div);
-			        content.setAttribute('onclick',null);
-					break;
-				case 2:
-					var mensaje = document.getElementById("msnje"); 
-					mensaje.innerHTML = "win";
-					break;
-	        }
-	        //this.jugadaAceptada++;
-    	}
-    	else{
+    	if(inicio){
+	    	if(turno){
+	    		//turno = false;
+				content = document.getElementById("tablero_id_"+fil+col); 
+				switch(jugadaAceptada){
+		        	case 1:
+						var div = document.createElement("div");
+						if(inicio) div.className = "circulo_blanco";
+						else div.className = "circulo_negro";
+				        content.appendChild(div);
+				        content.setAttribute('onclick',null);
+						break;
+					case 2:
+						var mensaje = document.getElementById("msnje"); 
+						mensaje.innerHTML = "win";
+						break;
+		        }
+		        //this.jugadaAceptada++;
+	    	}
+	    	else{
+	    		var mensaje = document.getElementById("msnje"); 
+				mensaje.innerHTML = "Debes esperar tu turno";
+	    	}
+    	}{
     		var mensaje = document.getElementById("msnje"); 
-			mensaje.innerHTML = "Debes esperar tu turno";
-    	}
+			mensaje.innerHTML = "Esperando al otro jugador";
+		}
 	}
     
 </script>

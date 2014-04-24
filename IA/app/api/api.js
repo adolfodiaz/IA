@@ -1,5 +1,6 @@
 var Round = require('./Round.js').Round;
 var Rules = require('./Rules.js').Rules;
+
 var Board = require('./Board.js').Board;
 var Player = require('./Player.js').Player;
 var Match = require('./Match.js').Match;
@@ -61,15 +62,12 @@ function api(){
 	}
 
 	this.getListRoundsAndMatchesList = function(req, showTemplate){		
-		var funcionAplazada = Q.defer();
 
 		var list = new Array();
-		for(var round in this.roundsList){
-			list.push(this.roundsList[round]);
+		for(var round in matchesList){
+			list.push(matchesList[round]);
 		}
-		for(var match in this.matchesList){
-			list.push(this.matchesList[match]);
-		}
+
 		showTemplate(onlinePlayersList[req.user.fullname].id, Array.prototype.slice.call(list));
 		
 	}
@@ -183,10 +181,12 @@ function api(){
 			onlinePlayersList[playerName].newPlayer(playerID, playerName, OC.clientType, OC.connection);
 			onlinePlayersList[playerName].match = matchName;
 			matchesList[matchName] = new Match();
+			matchesList[matchName].board.crear( matchesList[matchName].rules.board.height);
 			matchesList[matchName].newMatch(matchName, playerName);
 
 			OC.api = new Object();
-			OC.api.command = "se creo partida y juegas solo";
+			OC.api.command = JSON.parse('{"command": "MATCH_ADV_BUSY","arguments": {"reason": "true","waitingOtherAdv":"false","rejected":"false"}}');	
+			
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
 		}else if(matchesList[matchName].player2Name == null){
@@ -195,12 +195,9 @@ function api(){
 			onlinePlayersList[playerName].match = matchName;
 			matchesList[matchName].player2Name = playerName;
 
-			
 			OC.api = new Object();
-			OC.api.command = '{"command": "MATCH_NOTIFY","arguments": {"id": "'+OC.data.arguments.matchName+'","advId": "'+matchesList[matchName].player1Name+'","advName": "Adversary"}';	
-
+			OC.api.command = JSON.parse(('{"command": "MATCH_NOTIFY","arguments": {"id": "'+OC.data.arguments.matchName+'","advId": "'+matchesList[matchName].player1Name+'","advName": "Adversary"}'));	
 							
-
 			//en caso de querer clonar objeto hacer					
 			var OCCopia = function(){};
 			OCCopia.prototype = OC;
@@ -208,12 +205,11 @@ function api(){
 			//####//
 			var player1Name = matchesList[matchName].player1Name;			
 			OC1.api = new Object();
-			OC1.api.command = '{"command": "MATCH_NOTIFY","arguments": {"id": "'+OC.data.arguments.matchName+'","advId": "'+matchesList[matchName].player2Name+'","advName": "Adversary"}';			
+			OC1.api.command = JSON.parse(('{"command": "MATCH_NOTIFY","arguments": {"id": "'+OC.data.arguments.matchName+'","advId": "'+matchesList[matchName].player2Name+'","advName": "Adversary"}'));			
 			OC1.connection = onlinePlayersList[player1Name].connection;
 			OC1.clientType = onlinePlayersList[player1Name].clientType;
 			messageSender.sendMessage(OC1);
 
-			console.log(matchesList[matchName]);
 
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;

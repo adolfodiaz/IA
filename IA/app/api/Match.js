@@ -6,9 +6,9 @@ function Match(){
 	this.name;
 	this.player1Name = null;
 	this.player2Name = null;
-	this.rules;
+	this.rules = new Rules();
 	this.spectators = new Array();
-	this.board;
+	this.board = new Board();
 	this.startTime;
 	this.whoStarted;
 	this.newMatch = function(name, player1Name){

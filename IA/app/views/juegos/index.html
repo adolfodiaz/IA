@@ -17,7 +17,7 @@
                           {{element.name}}
                         </a>
                       </h4>
-                         <a href="/juegos/{{element.name}}"><button type="button" class="btn btn-primary">Jugar</button></a>
+                         <a href="/juegos/{{element.name}}"><button type="button" class="btn btn-primary" onclick="entrarPartida({{element.name}})">Jugar</button></a>
                     </div>
                     <div id="collapse{{element.name}}" class="panel-collapse collapse">
                       <div class="panel-body">
@@ -40,12 +40,21 @@
               <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                   <h1 class"text-center ">Nueva Partida, error linea</h1>
+                  <input id="nombreNuevaPartida" value=""/>
+                  <input type="button" value ="crear" onclick="crearPartida()"/>
                 </div>
               </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-  var id = "{{id}}";  
+  	var id = "{{id}}";  
+	function crearPartida(){
+		socket.emit("data", '{"command": "MATCH_LOOKUP","arguments": {"id": "'+id+'","matchName": "'+$('#nombreNuevaPartida').val()+'", "advName":" ", "timeout":" "}}')
+	}
+	function entrarPartida(nombre){
+		socket.emit("data", '{"command": "MATCH_LOOKUP","arguments": {"id": "'+id+'","matchName": "'+nombre+'", "advName":" ", "timeout":" "}}')
+	}
+
 </script>
 {% endblock %}

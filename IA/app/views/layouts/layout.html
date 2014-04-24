@@ -195,11 +195,29 @@
         <script src="/js/util/tablero.js"></script>
 
         <script type="text/javascript">
+        	var asdf;
             var socket = io.connect('http://localhost:7076');
             socket.on("data", function(data){
-                console.log( "respuesta= "+data);
+            	asdf = data;
+            	console.log(data);
+                var respuesta = new Object(JSON.parse(data));
+                console.log(respuesta);
+                switch(respuesta.command){
+                	case 'MATCH_ADV_BUSY': alert('espera dato'); break;
+                	case 'MATCH_NOTIFY': confirmacion();
+                	default:
+                	alert('error')	;break;
+                }
             })
             var cronometro = new Cronometro(50);
+
+            function confirmacion(){
+            	var respuesta = confirm("Partida encontrada");
+            	if(respuesta==true) alert('jugar');
+            	else{
+            		alert('seguir esperando');
+            	}
+            }
         </script>
         
         {% block SCRIPT %}{% endblock %}
