@@ -40,11 +40,9 @@ function api(){
 		var md5 = crypto.createHash('md5');
 		md5.update((date.toString()+"puyehue"), "utf8");		
 		player.id = name+md5.digest("hex");
-
 		player.clientName = name;				
 		onlinePlayersList[name] = player;
 		getPlayerNameForID[player.id] = name;
-
 
 		
 		//prueba BD
@@ -60,9 +58,6 @@ function api(){
 		db.ob
 		//db.guardar_partida()
 		//fin prueba BD
-
-		onlineUsersList[name] = player.id;
-		listIdAndUserName[player.id] = name;
 	}
 
 	this.getListRoundsAndMatchesList = function(req, showTemplate){		
