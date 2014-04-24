@@ -1,13 +1,14 @@
 function Player(){
 	this.clientName;
-	this.connectionMethod;
+	this.clientType;
 	this.id;
 	this.connection;
-	this.Match = null;
-	this.newPlayer = function(clientName, connectionMethod, connection){
-		this.clientName 		= clientName;
-		this.connectionMethod 	= connectionMethod;
-		this.connection 		= connection;
+	this.match = null;
+	this.newPlayer = function(id, clientName, clientType, connection){
+		this.id				= id;
+		this.clientName 	= clientName;
+		this.clientType 	= clientType;
+		this.connection 	= connection;
 	}
 }
 

@@ -4,16 +4,16 @@ var Board = require('./Board.js').Board;
 
 function Match(){
 	this.name;
-	this.Player1;
-	this.Player2;
+	this.player1Name = null;
+	this.player2Name = null;
 	this.rules;
 	this.spectators = new Array();
 	this.board;
 	this.startTime;
 	this.whoStarted;
-	this.newMatch = function(name, player1){
+	this.newMatch = function(name, player1Name){
 		this.name = name;
-		this.player1 = player1;
+		this.player1Name = player1Name;
 	}
 }
 

@@ -7,42 +7,47 @@ var crypto = require('crypto');
 var DB = require('./db/DB.js').DB;
 var Q = require('q');
 
-
+var MessageSender = require('./protocol/messageSender.js').messageSender;
+var messageSender = new MessageSender();
 
 db = new DB();
 
-onlineUsersList = new Object();
-listIdAndUserName = new Object();
+onlinePlayersList = new Object();
+matchesList = new Object();
+//para busqueda rapida
+getPlayerNameForID = new Object();
 
-function api(){
-	
-	this.matchesList = new Object();	
-	this.playingUserList = new Object();
+
+
+function api(){	
 	var mentira = new Match();
 	mentira.name="partida1";
-	this.matchesList.partida1 = mentira;
+	matchesList.partida1 = mentira;
 	var mentira = new Match();
 	mentira.name="partida2";
-	this.matchesList.partida2 = mentira;
+	matchesList.partida2 = mentira;
 
 	var mentira2 = new Match();
 	mentira2.name="mach1";
-	this.matchesList.mach1 = mentira2;
+	matchesList.mach1 = mentira2;
 	var mentira2 = new Match();
 	mentira2.name="mach2";
-	this.matchesList.mach2 = mentira2;
+	matchesList.mach2 = mentira2;
 
 	this.signUp = function(name){
 		var date = new Date();
 		var player = new Player();
 		var md5 = crypto.createHash('md5');
-		md5.update((date.toString()+"puyehue"), "utf8");
+		md5.update((date.toString()+"puyehue"), "utf8");		
 		player.id = name+md5.digest("hex");
+		player.clientName = name;				
+		onlinePlayersList[name] = player;
+		getPlayerNameForID[player.id] = name;
+
+		//para bd
 		db.saludar(function(){
 			console.log("hola mundo");
 		});
-		onlineUsersList[name] = player.id;
-		listIdAndUserName[player.id] = name;
 	}
 
 	this.getListRoundsAndMatchesList = function(req, showTemplate){		
@@ -55,12 +60,12 @@ function api(){
 		for(var match in this.matchesList){
 			list.push(this.matchesList[match]);
 		}
-		showTemplate(onlineUsersList[req.user.fullname], Array.prototype.slice.call(list));
+		showTemplate(onlinePlayersList[req.user.fullname].id, Array.prototype.slice.call(list));
 		
 	}
 
 	this.response = function(connection, data, clientType, response, sendMessage){
-		this.onlineUsersList[data.arguments.clientName] = data.arguments.clientName;
+		this.onlinePlayersList[data.arguments.clientName] = data.arguments.clientName;
 		sendMessage(connection, clientType, response);
 	}
 
@@ -70,16 +75,14 @@ function api(){
 
 	this.probe = function(OC){
 		var funcionAplazada = Q.defer();
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
 	this.protocol = function(OC){
 		var funcionAplazada = Q.defer();
-		OC.api = new Object;
-		OC.api.command = "sin definir";
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -87,7 +90,7 @@ function api(){
 	this.proto_use_ok = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -95,7 +98,7 @@ function api(){
 	this.register = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -103,7 +106,7 @@ function api(){
 	this.reg_sucess = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -112,7 +115,7 @@ function api(){
 	this.session_start = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -121,7 +124,7 @@ function api(){
 	this.accept = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -130,7 +133,7 @@ function api(){
 	this.session_quit = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -139,7 +142,7 @@ function api(){
 	this.stats_query = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -148,62 +151,71 @@ function api(){
 	this.match_req_info = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
 
-	this.match_lookup = function(OC){
-		var funcionAplazada = Q.defer();
-
-		if(typeof this.playingUserList[OC.data.arguments.matchName] === "undefined"){
-
-			OC.api = new Object;
+	this.match_lookup = function(OC){		
+		var funcionAplazada 	= Q.defer();		
+		var playerID 			= OC.data.arguments.id;
+		var playerName			= getPlayerNameForID[OC.data.arguments.id];
+		var matchName			= OC.data.arguments.matchName;
+		
+		if(onlinePlayersList[playerName].match != null){
+			OC.api = new Object();
 			OC.api.command = "ya se encuentra en una partida";
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
-		}else if(typeof this.matchesList[OC.data.arguments.matchName] === "undefined"){
-			//crea la partida y no envia nada al jugador
-			var player1 = new Player();
-			player1.newPlayer(OC.data.arguments.matchName, OC.clientType, OC.connection);
-			this.matchesList[OC.data.arguments.matchName] = new Match();
-			this.matchesList[OC.data.arguments.matchName].newMatch(OC.data.arguments.matchName, listIdAndUserName[OC.data.arguments.id]);
-			this.playingUserList[OC.data.arguments.matchName] = OC.data.arguments.matchName;
+		}else if(matchesList[matchName] == null){
+			//crea la partida, registra al player 1 en la partida y se queda esperando
+			onlinePlayersList[playerName].newPlayer(playerID, playerName, OC.clientType, OC.connection);
+			onlinePlayersList[playerName].match = matchName;
+			matchesList[matchName] = new Match();
+			matchesList[matchName].newMatch(matchName, playerName);
 
-			OC.api = new Object;
+			OC.api = new Object();
 			OC.api.command = "se creo partida y juegas solo";
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
+		}else if(matchesList[matchName].player2Name == null){
+			//ingresa como player 2 y debe dar comienzo a la partida
+			onlinePlayersList[playerName].newPlayer(playerID, playerName, OC.clientType, OC.connection);
+			onlinePlayersList[playerName].match = matchName;
+			matchesList[matchName].player2Name = playerName;
 
-		}else if(typeof this.matchesList[OC.data.arguments.matchName].player2 === "undefined"){
-			var player2 = new Player();
-			player2.newPlayer(OC.data.arguments.matchName, OC.clientType, OC.connection);
-			this.matchesList[OC.data.arguments.matchName].player2 = player2;
+			
+			OC.api = new Object();
+			OC.api.command = '{"command": "MATCH_NOTIFY","arguments": {"id": "'+OC.data.arguments.matchName+'","advId": "'+matchesList[matchName].player1Name+'","advName": "Adversary"}';	
 
-			OC.api = new Object;
-			OC.api.command = "partida ya existente y ya existe un jugador";
+							
+
+			//en caso de querer clonar objeto hacer					
+			var OCCopia = function(){};
+			OCCopia.prototype = OC;
+			OC1 = new OCCopia();
+			//####//
+			var player1Name = matchesList[matchName].player1Name;			
+			OC1.api = new Object();
+			OC1.api.command = '{"command": "MATCH_NOTIFY","arguments": {"id": "'+OC.data.arguments.matchName+'","advId": "'+matchesList[matchName].player2Name+'","advName": "Adversary"}';			
+			OC1.connection = onlinePlayersList[player1Name].connection;
+			OC1.clientType = onlinePlayersList[player1Name].clientType;
+			messageSender.sendMessage(OC1);
+
+			console.log(matchesList[matchName]);
+
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
-
 		}else{
-			var spectators = new Player();
-			spectators.newPlayer(OC.data.arguments.matchName, OC.clientType, OC.connection);
-			this.matchesList[OC.data.arguments.matchName].spectators.push(spectators);
-
-			OC.api = new Object;
-			OC.api.command = "partida llena te conectaras como observador";
-			funcionAplazada.resolve(OC);
-			return funcionAplazada.promise;
-
-		}
-
-		
+			//faltan espectadores//
+			
+		}		
 	}
 
 	this.match_lookup_cancel = function(OC){
 		var funcionAplazada = Q.defer();
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -211,7 +223,7 @@ function api(){
 	this.match_ready = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -219,7 +231,7 @@ function api(){
 	this.match_reject = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -227,7 +239,7 @@ function api(){
 	this.round_start_ack = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -235,7 +247,7 @@ function api(){
 	this.turn_end = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -243,7 +255,7 @@ function api(){
 	this.turn_query = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -251,7 +263,7 @@ function api(){
 	this.clock_req = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -259,7 +271,7 @@ function api(){
 	this.board_check = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -267,7 +279,7 @@ function api(){
 	this.board_req = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -275,7 +287,7 @@ function api(){
 	this.pass = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -283,7 +295,7 @@ function api(){
 	this.retire_round = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -291,7 +303,7 @@ function api(){
 	this.retire_match = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -299,7 +311,7 @@ function api(){
 	this.projected_tie = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -307,7 +319,7 @@ function api(){
 	this.projected_tie_deact = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -315,7 +327,7 @@ function api(){
 	this.err_unknown_command = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -323,7 +335,7 @@ function api(){
 	this.err_args = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -331,7 +343,7 @@ function api(){
 	this.panic_quit = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -339,7 +351,7 @@ function api(){
 	this.wait = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -347,7 +359,7 @@ function api(){
 	this.resume = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -355,7 +367,7 @@ function api(){
 	this.ping = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -363,7 +375,7 @@ function api(){
 	this.pong = function(OC){
 		var funcionAplazada = Q.defer();
 
-		OC.api = new Object;
+		OC.api = new Object();
 		OC.api.command = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
