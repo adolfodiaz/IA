@@ -5,8 +5,12 @@
 
 */
 
-tTable = new Object();
+//NOTA: El estado inicial del autómata es register, esto debido a que el comando inicial para comunicarse ahora
+//es REGISTER
+//Esto implica que los mensajes PROBE, PROTOCOL y sus variantes están cancelados
 
+tTable = new Object();
+/*
 tTable["init, PROBE"] = "probing";
 
 tTable["probing, PROBE"] = "probing";
@@ -17,7 +21,9 @@ tTable["pDefining, PROTO_USE"] = "pDefinition";
 tTable["pDefining, PROTO_OK"] = "pDefined";
 tTable["pDefining, PROTO_USER_OK"] = "pDefined";
 
-tTable["pDefined, REGISTER"] = "register";
+tTable["pDefined, REGISTER"] = "register";*/
+
+tTable["init, REGISTER"] = "register";
 
 tTable["register, STATS"] = "register";
 tTable["register, REG_FAIL"] = "outState";

@@ -13,35 +13,52 @@ var outputProcessor = new OutputProcessor.outputProcessor();
 function messageValidator(){
 
 	this.protocolManager = function(connection, data, clientType){
+		
 		//convertiremos los parámetros del cliente en un objeto clientObject
 		var clientObject = new Object();
 		clientObject.connection = connection;
 		clientObject.data = data;
 		clientObject.clientType = clientType;
-		console.log(data);
+		
+		/*Dependiendo del comando utilizado ofreceremos respuesta
+		si el comando no se conoce, responderemos usando ERR_UN
+		
+		Lista de pasos para la verificación:
+		1. El comando que nos mandan es admitido por el Game Manager (se verifica con la sentencia SWITCH, el default
+		indica que el comando no se reconoce)
+		
+		2. El comando era esperado ()
+
+		3. Los argumentos que acompañan al comando son los correctos (no hay argumentos que son vacíos o tienen un patrón
+		distinto al esperado para cada caso)
+		*/
 		switch(data.command){
 			//eliminar TEST en la producción final
 			case "TEST":
 				console.log("TEST");
 				testComponent.testFunction("adolfo");
 				break;
-				
-			case "PROBE": console.log("PROBE");
-				/*
-				Si
-					1. El comando está bien escrito
-				*/
-				console.log("entro");
-				api.probe(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "RESET":
+				//resetea la stateMachine y la devuelve a Init
+				break;
+			
+			//Funciones desactivadas, la comunicación del protocolo partirá en REGISTER	
+			/*case "PROBE": console.log("PROBE");
+				console.log("Comando recibido: PROBE");
+				validateProbe();
+				//api.probe(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 			case "PROTOCOL": console.log("PROTOCOL");
 				api.protocol(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 			case "PROTO_USE_OK": console.log("PROTO_USE_OK");
 				api.proto_use_ok(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
-			break;
+			break;*/
+
 			case "REGISTER": console.log("REGISTER");
-				api.register(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);								
+				validateRegister(clientObject);
+				//api.register(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);								
 			break;
 			case "REG_SUCESS": console.log("REG_SUCESS");
 				api.reg_sucess(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
@@ -130,14 +147,15 @@ function messageValidator(){
 			default:
 				console.log("Error: comando no reconocido: "+ data["command"]);
 				//llamar al messageSender y enviar ERR_UNKNOWN_COMMAND
+				messageSender.sendErrUnknownCommand(clientObject);
 
 		}
 	}
 }	
 /*VERIFICADORES VARIOS*/
 
-function validateTest(clientObject){
-	apiTest(a,b,c).then()
+function validateRegister(clientObject){
+	
 }
 
 

@@ -13,8 +13,8 @@ function messageSender(){
 	this.sendMessage = function(clientObject){
 		var fnAplazada = Q.defer();
 		var resultado;
-		console.log("sendMessage"+clientObject.api.command);
-		var JSONString = JSON.stringify(clientObject.api.command);
+		console.log("sendMessage"+clientObject.response);
+		var JSONString = JSON.stringify(clientObject.response);
 		if(clientObject.clientType=="NET"){			
 			clientObject.connection.write(JSONString+"\n"); // NET library, comunicación a agentes o aplicaciones externas
 			resultado = "Mensaje enviado vía socket:"+JSONString;
@@ -27,8 +27,20 @@ function messageSender(){
 		return fnAplazada.promise;
 	}
 
-	this.sendMessageTEMP = function(){
+	this.sendErrUnknownCommand = function(clientObject){
+		response = new Object();
+		response.command = "ERR_UNKNOWN_COMMAND";
+		response.arguments = null;
+		clientObject.response = response;
+		this.sendMessage(clientObject);
+	}
 
+	this.sendErrOutOfContextCommand = function(clientObject){
+		response = new Object();
+		response.command = "ERR_OUT_OF_CONTEXT";
+		response.arguments = null;
+		clientObject.response = response;
+		this.sendMessage(clientObject);
 	}
 }
 
