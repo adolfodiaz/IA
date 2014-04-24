@@ -106,8 +106,23 @@ function api(){
 	this.register = function(OC){
 		var funcionAplazada = Q.defer();
 
+		var playerName = OC.arguments.clientName;
+		var date = new Date();
+		var player = new Player();
+		var md5 = crypto.createHash('md5');
+		md5.update((date.toString()+"puyehue"), "utf8");
+		player.id = playerName+md5.digest("hex");
+
+		player.playerName = playerName;		
+		onlinePlayersList[name] = player;
+		getPlayerNameForID[player.id] = name;
+
+		onlinePlayersList[playerName].newPlayer(playerID, playerName, OC.clientType, OC.connection);
+		onlinePlayersList[playerName].match = matchName;
+		
+
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.command = JSON.parse('{{"command": "REG_SUCESS","arguments": {"clientName": "'+playerName+'", "id": "'+player.id+'", "policies": {"MAX_ABS_IDLE_TIME": "0"}}}}');
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
