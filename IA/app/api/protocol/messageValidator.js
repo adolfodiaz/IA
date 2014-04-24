@@ -6,8 +6,11 @@ api = new Api.api();
 var TestComponent = require('./TestComponent.js');
 var testComponent = new TestComponent.testComponent();
 
-var OutputProcessor = require('./outputProcessor.js');
-var outputProcessor = new OutputProcessor.outputProcessor();
+var InputProcessor = require('./inputProcessor.js');
+var inputProcessor = new InputProcessor.inputProcessor();
+
+var StateMachine = require('./stateMachine.js');
+var stateMachine = new StateMachine.stateMachine();
 
 
 function messageValidator(){
@@ -59,9 +62,6 @@ function messageValidator(){
 			case "REGISTER": console.log("REGISTER");
 				validateRegister(clientObject);
 				//api.register(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);								
-			break;
-			case "REG_SUCESS": console.log("REG_SUCESS");
-				api.reg_sucess(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 			case "SESSION_START": console.log("SESSION_START");
 				api.session_start(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
@@ -144,7 +144,7 @@ function messageValidator(){
 			case "PONG": console.log("PONG");
 				api.pong(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
-			default:
+			default://Comando no reconocido
 				console.log("Error: comando no reconocido: "+ data["command"]);
 				//llamar al messageSender y enviar ERR_UNKNOWN_COMMAND
 				messageSender.sendErrUnknownCommand(clientObject);
@@ -155,11 +155,47 @@ function messageValidator(){
 /*VERIFICADORES VARIOS*/
 
 function validateRegister(clientObject){
-	
+		//Verificando argumentos
+		var args = clientObject.data.arguments;
+		var preProcResults = new Object();
+		clientObject.name = clientObject.data.arguments.clientName;
+		//por defecto, todos los argumentos son válidos hasta que se demuestre lo contrario
+		preProcResults.okName = true;
+		preProcResults.okPass = true;
+		preProcResults.okType = true;
+		if ((args.clientName == null) || (args.clientName == "") || (args.clientName == {})){
+			preProcResults.okName = false
+		}
+		if ((args.clientPass == null)||(args.clientPass == "")||args.clientPass == {}){
+			preProcResults.okPass = false;
+		}
+		if((args.clientType == null)||(args.clientType == "")||(args.clientType == {})){
+			okType = false;
+		} else if (!((args.clientType == "AI")||(args.clientType == "HUMAN"))){
+			preProcResults.okType = false;
+		}
+		clientObject.preProcResults = preProcResults;
+		//Mandando al inputProcessor
+		//Para REGISTER, nos saltaremos
+		inputProcessor.registerPreprocessor(clientObject);
 }
 
+function checkAutomataState(clientObject){
+		var automataResult = new Object();
+		clientObject.automata = automataResult;
+		clientObject.automata.state = onlinePlayersList[clientObject.name].automataState;
+		stateMachine.transition(clientObject).done(checkAutomataStateReturn);
+}
 
-
+//Envía el resultado a la función del inputProcessor (preprocesador) correcto
+//según el comando enviado por el 
+function checkAutomataStateReturn(clientObject){
+	if (clientObject.automata.result == false){ //no se esperaba este mensaje, enviar ERR_OUT_OF_CONTEXT
+		messageSender.sendErrOutOfContextCommand(clientObject);
+	} else { //derivar al preprocesador, el error por argumentos se chequea allá
+		console.log("Es válido");
+	}
+}
 
 
 

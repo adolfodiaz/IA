@@ -9,6 +9,7 @@
 //es REGISTER
 //Esto implica que los mensajes PROBE, PROTOCOL y sus variantes están cancelados
 
+var Q = require('q');
 tTable = new Object();
 /*
 tTable["init, PROBE"] = "probing";
@@ -63,16 +64,19 @@ tTable["turn, TURN_TIMEOUT"] = "round";
 
 
 
-function stateMachine(command , state) {
-
-	var pair = state + ", " + command;
-
-	if (!(pair in tTable)){
-		return null;
-	}
-	else {
-		state = tTable[pair];
-		return state;
+function stateMachine() {
+	this.transition = function(clientObject){
+		var fnAplazada = Q.defer();
+		var pair = clientObject.automata.state + ", " + clientObject.data.command;
+		if (!(pair in tTable)){
+			clientObject.automata.result = false;
+			fnAplazada.resolve(clientObject);
+		} else {
+			clientObject.automata.result = true;
+			onlinePlayersList[clientObject.name].updateState(tTable[pair]);
+			fnAplazada.resolve(clientObject);
+		}
+		return fnAplazada.promise;
 	}
 }
 

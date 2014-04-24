@@ -3,7 +3,8 @@
 
 	Procesador de salida de la subAPI de Comunicaciones
 
-	Ante un comando, prepara la salida (construye el objeto Argumentos requerido por messageSender)
+	Recibe los datos entregados por la API ante una petición hecha por el inputProcessor,
+	construye el objeto clientObject.response y envía la respuesta a través del messageSender.
 
 */
 
@@ -22,6 +23,19 @@ function outputProcessor(){
 		funcionAplazada.resolve(APIresponse);
 		return funcionAplazada.promise;
 		
+	}
+
+	this.registerPostprocessor = function(clientObject){
+		if((clientObject.preProcResults.okName == false)||(clientObject.preProcResults.okPass == false)||(clientObject.preProcResults.okType == false)){
+			msgSender.sendErrArgsCommand(clientObject);
+			return;
+		}
+
+		if(clientObject.api.result == "FAIL"){
+
+		} else if (clientObject.api.result == "SUCESS") {
+
+		}
 	}
 	
 }

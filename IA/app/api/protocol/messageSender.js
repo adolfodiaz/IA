@@ -42,6 +42,14 @@ function messageSender(){
 		clientObject.response = response;
 		this.sendMessage(clientObject);
 	}
+
+	this.sendErrArgsCommand = function(clientObject){
+		response = new Object();
+		response.command = "ERR_ARGS";
+		response.arguments = null;
+		clientObject.response = response;
+		this.sendMessage(clientObject);
+	}
 }
 
 module.exports.messageSender = messageSender;
