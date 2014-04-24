@@ -28,30 +28,35 @@
 {% block SCRIPT %}
 <script type="text/javascript">
 	this.jugadaAceptada = 1;
-
+	this.turno = true;
 	var tablero = new Tablero();
-    tablero.crear_tablero_html('tablero',{{tamTablero}});
+    tablero.crear_tablero_html( 'tablero' ,  {{tamTablero}} , new Array({{squares}}) );
+    this.inicio = true;
 
-    function jugarFicha(fil,col){ 
-		content = document.getElementById("tablero_id_"+fil+col); 
-		
-        switch(jugadaAceptada){
-        	case 1:
-				var div = document.createElement("div");
-				div.className = "circulo";
-		        content.appendChild(div);
-				break;
-			case 2:
-				var div = document.createElement("div");
-				div.className = "circulo";
-		        content.appendChild(div);
-				break;
-			case 3:
-				var mensaje = document.getElementById("msnje"); 
-				mensaje.innerHTML = "win";
-				break;
-        }
-        this.jugadaAceptada++;
+    function jugarFicha(fil,col){
+
+    	if(turno){
+    		//turno = false;
+			content = document.getElementById("tablero_id_"+fil+col); 
+			switch(jugadaAceptada){
+	        	case 1:
+					var div = document.createElement("div");
+					if(inicio) div.className = "circulo_blanco";
+					else div.className = "circulo_negro";
+			        content.appendChild(div);
+			        content.setAttribute('onclick',null);
+					break;
+				case 2:
+					var mensaje = document.getElementById("msnje"); 
+					mensaje.innerHTML = "win";
+					break;
+	        }
+	        //this.jugadaAceptada++;
+    	}
+    	else{
+    		var mensaje = document.getElementById("msnje"); 
+			mensaje.innerHTML = "Debes esperar tu turno";
+    	}
 	}
     
 </script>
