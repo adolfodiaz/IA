@@ -33,9 +33,21 @@ function api(){
 		var md5 = crypto.createHash('md5');
 		md5.update((date.toString()+"puyehue"), "utf8");
 		player.id = name+md5.digest("hex");
+		
+		//prueba BD
 		db.saludar(function(){
 			console.log("hola mundo");
 		});
+		//obtener id usuario
+		db.obtener_id(function(){
+			console.log("llegue a obtener id");
+		},'marifer')
+		//guardar partida (se necesitan id jugador 1 e id jugador 2)
+
+		db.ob
+		//db.guardar_partida()
+		//fin prueba BD
+
 		onlineUsersList[name] = player.id;
 		listIdAndUserName[player.id] = name;
 	}
