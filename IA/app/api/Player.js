@@ -3,6 +3,7 @@ function Player(){
 	this.connectionMethod;
 	this.id;
 	this.connection;
+	this.Match = null;
 	this.newPlayer = function(clientName, connectionMethod, connection){
 		this.clientName 		= clientName;
 		this.connectionMethod 	= connectionMethod;

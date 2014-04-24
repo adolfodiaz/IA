@@ -10,13 +10,14 @@ var Q = require('q');
 
 
 db = new DB();
+
 onlineUsersList = new Object();
 listIdAndUserName = new Object();
 
 function api(){
 	
 	this.matchesList = new Object();	
-
+	this.playingUserList = new Object();
 	var mentira = new Match();
 	mentira.name="partida1";
 	this.matchesList.partida1 = mentira;
@@ -155,19 +156,49 @@ function api(){
 
 	this.match_lookup = function(OC){
 		var funcionAplazada = Q.defer();
-		if(typeof this.matchesList[data.arguments.matchName] === "undefined"){
+
+		if(typeof this.playingUserList[OC.data.arguments.matchName] === "undefined"){
+
+			OC.api = new Object;
+			OC.api.command = "ya se encuentra en una partida";
+			funcionAplazada.resolve(OC);
+			return funcionAplazada.promise;
+		}else if(typeof this.matchesList[OC.data.arguments.matchName] === "undefined"){
 			//crea la partida y no envia nada al jugador
 			var player1 = new Player();
 			player1.newPlayer(OC.data.arguments.matchName, OC.clientType, OC.connection);
 			this.matchesList[OC.data.arguments.matchName] = new Match();
 			this.matchesList[OC.data.arguments.matchName].newMatch(OC.data.arguments.matchName, listIdAndUserName[OC.data.arguments.id]);
+			this.playingUserList[OC.data.arguments.matchName] = OC.data.arguments.matchName;
+
+			OC.api = new Object;
+			OC.api.command = "se creo partida y juegas solo";
+			funcionAplazada.resolve(OC);
+			return funcionAplazada.promise;
+
+		}else if(typeof this.matchesList[OC.data.arguments.matchName].player2 === "undefined"){
+			var player2 = new Player();
+			player2.newPlayer(OC.data.arguments.matchName, OC.clientType, OC.connection);
+			this.matchesList[OC.data.arguments.matchName].player2 = player2;
+
+			OC.api = new Object;
+			OC.api.command = "partida ya existente y ya existe un jugador";
+			funcionAplazada.resolve(OC);
+			return funcionAplazada.promise;
+
 		}else{
+			var spectators = new Player();
+			spectators.newPlayer(OC.data.arguments.matchName, OC.clientType, OC.connection);
+			this.matchesList[OC.data.arguments.matchName].spectators.push(spectators);
+
+			OC.api = new Object;
+			OC.api.command = "partida llena te conectaras como observador";
+			funcionAplazada.resolve(OC);
+			return funcionAplazada.promise;
 
 		}
-		OC.api = new Object;
-		OC.api.command = "sin definir";
-		funcionAplazada.resolve(OC);
-		return funcionAplazada.promise;
+
+		
 	}
 
 	this.match_lookup_cancel = function(OC){
