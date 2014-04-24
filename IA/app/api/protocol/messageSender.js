@@ -10,11 +10,11 @@
 var Q = require('q');
 
 function messageSender(){
-	this.sendMessage = function(clientObject, messageObject){
+	this.sendMessage = function(clientObject){
 		var fnAplazada = Q.defer();
 		var resultado;
-		console.log("sendMessage"+messageObject);
-		var JSONString = JSON.stringify(messageObject);
+		console.log("sendMessage"+clientObject.api.command);
+		var JSONString = JSON.stringify(clientObject.api.command);
 		if(clientObject.clientType=="NET"){			
 			clientObject.connection.write(JSONString+"\n"); // NET library, comunicación a agentes o aplicaciones externas
 			resultado = "Mensaje enviado vía socket:"+JSONString;
