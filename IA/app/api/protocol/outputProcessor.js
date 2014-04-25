@@ -91,12 +91,7 @@ function outputProcessor(){
 		clientObject.response = clientObject.api;
 		if(!clientObject.api.estado){
 			//enviar mensaje error;
-			var razonMensaje = "";
-			for (var razon in clientObject.api.razon) {
-				console.log(razon);
-				razonMensaje += clientObject.api.razon[razon] + " ";
-			};
-			var message = JSON.parse(('{"command": "ERROR", "arguments":"'+razonMensaje+'"}'));
+			var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));
 			clientObject.response = message;
 		}
 		else{

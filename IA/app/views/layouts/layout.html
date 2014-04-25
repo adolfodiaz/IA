@@ -77,7 +77,7 @@
                     <div class="col-sm-4">
                         <!-- <a href="/"><img src="/img/logo.png" alt="Logo"></a> -->
                         <h1>Connect 4</h1>
-                 
+    <!--             
     <button onclick="cronometro.iniciar()">Inicio</button>
     <button onclick="cronometro.detener()">Detener</button>
     <button onclick="cronometro.reiniciar()">Reiniciar</button>
@@ -85,6 +85,7 @@
     <div id="reloj">
       0:0
     </div>
+    -->
 
 
                     </div>
@@ -134,29 +135,7 @@
         </div>
 
         <div class="wrapper app-footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <a href="/">Connect4</a>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <p><a href="#" class="nonblock">Create Ad</a></p>
-                                <p><a href="#" class="nonblock">Terms and conditions</a></p>
-                                <p><a href="#" class="nonblock">Help</a></p>
-                            </div>
-
-                            <div class="col-sm-8">
-                                <p>Contact Us</p>
-                                <p><a class="nonblock" href="#">hi@app.com</a></p>
-                                <p>Rafael Cañas #114 Of. 1A, Providencia,</p>
-                                <p>Santiago de Chile</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
         </div>
 
         <!--[if lt IE 7]>
@@ -204,7 +183,7 @@
                 console.log(respuesta);
                 switch(respuesta.command){
                 	case 'MATCH_LOOKUP_OK'  : alert('esperando contrincante'); break;
-                	case 'MATCH_NOTIFY'     : confirmacion(); break;
+                	case 'MATCH_NOTIFY'     : confirmacionMatch(); break;
                     case 'ROUND_START'      : redireccionarPartida(respuesta.arguments.matchName); break;
                     case 'ROUND_END'        : alert('no implementado'); break;
                     case 'TURN'             : alert('no implementado'); break;
@@ -220,14 +199,13 @@
             function confirmacionMatch(){
             	var respuesta = confirm("Partida encontrada");
             	if(respuesta==true) {
-                    location.href = url;
+                    socket.emit("data", '{"command": "MATCH_READY","arguments": {"id": "'+id+'"}}');
                 }
             	else{
-            		alert('segue esperando...');
+            		alert("no implementado");
             	}
             }
         </script>
-        
         {% block SCRIPT %}{% endblock %}
     </body>
 </html>

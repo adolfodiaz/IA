@@ -180,8 +180,8 @@ function api(){
 		if(onlinePlayersList[playerName].match != null){
 			console.log('error en agregar player');
 			OC.api = new Object();
-			OC.api.estado = false;
-			OC.api.razon = [(playerName + " pertenece a un juego")];
+			OC.api.resultado = false;
+			OC.api.razones = '"alreadyPlaying":"true","waitingOtherAdv":"false","rejected":"false"';
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
 		}else if(matchesList[matchName] == null){
@@ -193,9 +193,9 @@ function api(){
 			matchesList[matchName].board.crear( matchesList[matchName].rules.board.height);
 			matchesList[matchName].newMatch(matchName, playerName);
 			OC.api = new Object();
-			OC.api.estado = true;
-			OC.api.command = 'OK';
+			OC.api.noEnviar = true;
 			funcionAplazada.resolve(OC);
+
 			return funcionAplazada.promise;
 		}else if(matchesList[matchName].player2Name == null){
 			//ingresa como player 2 y debe dar comienzo a la partida
@@ -204,12 +204,10 @@ function api(){
 			matchesList[matchName].player2Name = playerName;
 			var player1Name = matchesList[matchName].player1Name; 
 			OC.api = new Object();
-			OC.api.estado = true;
-			OC.api.command = 'MATCH_NOTIFY';
-			OC.api.player1 = matchesList[matchName].player1Name;
-			OC.api.player2 = matchesList[matchName].player2Name;
-			OC.api.player1Connection = onlinePlayersList[player1Name].connection ;
-			OC.api.player1Type = onlinePlayersList[player1Name].clientType;
+			OC.api.resultado = true;
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos= true;
+			OC.api.player = matchesList[matchName].player1Name;
 
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
@@ -229,10 +227,15 @@ function api(){
 
 	this.match_ready = function(OC){
 		var funcionAplazada = Q.defer();
+		var playerID = OC.data.arguments.id;
+
 		OC.api = new Object();
-		OC.api.response = "sin definir";
+		console('entro a match_ready');
+
+
 		OC.api.estado = true;
 		OC.api.command = 'OK';
+
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
