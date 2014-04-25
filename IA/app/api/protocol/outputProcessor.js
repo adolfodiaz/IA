@@ -44,23 +44,38 @@ function outputProcessor(){
 	}
 
 	this.sessionStartPostprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.acceptPostprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.sessionQuitPostprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.statsQueryPreprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.matchReqInfoPreprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.matchLookupPostprocessor = function(clientObject){
@@ -102,87 +117,150 @@ function outputProcessor(){
 	}
 
 	this.matchLookupCancelPostprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.matchReadyPostprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.matchRejectPreprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.roundStartAckPreprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.turnEndPreprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.turnQueryPostprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.clockReqPreprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.boardCheckPostprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.boardReqPreprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.passPostprocessor = function(clientObject){
-		
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.retireRoundPostprocessor = function(clientObject){
-		
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.retireMatchPostprocessor = function(clientObject){
-		
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.projectedTiePostprocessor = function(clientObject){
-		
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.projectedTieDeactPostprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.unknownCommandPostprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.errArgsPostprocessor = function(clientObject){
-		
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.panicQuitPostprocessor = function(clientObject){
-		
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.waitPostprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.resumePostprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.pingPostprocessor = function(clientObject){
-
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 
 	this.pongPostprocessor = function(clientObject){
-		
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 	}
 }
 
