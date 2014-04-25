@@ -64,10 +64,10 @@ function outputProcessor(){
 	}
 
 	this.matchLookupPostprocessor = function(clientObject){
+		console.log("Entré al matchLookupPostprocessor");
 		var funcionAplazada = Q.defer()
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
-
 	}
 
 	this.matchLookupCancelPostprocessor = function(clientObject){
