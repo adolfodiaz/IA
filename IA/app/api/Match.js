@@ -11,6 +11,9 @@ function Match(){
 	this.board = new Board();
 	this.startTime;
 	this.whoStarted;
+	this.aceptaGamePlayer1 = false;
+	this.aceptaGamePlayer2 = false;
+	
 	this.newMatch = function(name, player1Name){
 		this.name = name;
 		this.player1Name = player1Name;

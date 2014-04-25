@@ -202,7 +202,7 @@ function api(){
 			matchesList[matchName].newMatch(matchName, playerName);
 			OC.api = new Object();
 			OC.api.estado = true;
-			OC.api.command = JSON.parse('{"command":"mensaje prueba"} ');	
+			OC.api.command = 'OK';
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
 		}else if(matchesList[matchName].player2Name == null){
@@ -210,22 +210,14 @@ function api(){
 			onlinePlayersList[playerName].newPlayer(playerID, playerName, OC.clientType, OC.connection);
 			onlinePlayersList[playerName].match = matchName;
 			matchesList[matchName].player2Name = playerName;
-
+			var player1Name = matchesList[matchName].player1Name; 
 			OC.api = new Object();
-			OC.api.command = JSON.parse(('{"command": "MATCH_NOTIFY","arguments": {"id": "'+OC.data.arguments.matchName+'","advId": "'+matchesList[matchName].player1Name+'","advName": "Adversary"}'));	
-							
-			//en caso de querer clonar objeto hacer					
-			var OCCopia = function(){};
-			OCCopia.prototype = OC;
-			OC1 = new OCCopia();
-			//####//
-			var player1Name = matchesList[matchName].player1Name;			
-			OC1.api = new Object();
-			OC1.api.command = JSON.parse(('{"command": "MATCH_NOTIFY","arguments": {"id": "'+OC.data.arguments.matchName+'","advId": "'+matchesList[matchName].player2Name+'","advName": "Adversary"}'));			
-			OC1.connection = onlinePlayersList[player1Name].connection;
-			OC1.clientType = onlinePlayersList[player1Name].clientType;
-			messageSender.sendMessage(OC1);
-
+			OC.api.estado = true;
+			OC.api.command = 'MATCH_NOTIFY';
+			OC.api.player1 = matchesList[matchName].player1Name;
+			OC.api.player2 = matchesList[matchName].player2Name;
+			OC.api.player1Connection = onlinePlayersList[player1Name].connection ;
+			OC.api.player1Type = onlinePlayersList[player1Name].clientType;
 
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
@@ -246,7 +238,10 @@ function api(){
 		var funcionAplazada = Q.defer();
 
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.estado = true;
+		OC.api.command = 'OK';
+		
+
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}

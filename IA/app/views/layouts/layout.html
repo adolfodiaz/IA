@@ -203,20 +203,27 @@
                 var respuesta = new Object(JSON.parse(data));
                 console.log(respuesta);
                 switch(respuesta.command){
-                	case 'MATCH_ADV_BUSY': alert('esperando contrincante'); break;
-                	case 'MATCH_NOTIFY': confirmacion();break;
-                    case 'ERROR': alert('ERROR: ' + respuesta.arguments);break;
+                	case 'MATCH_LOOKUP_OK'  : alert('esperando contrincante'); break;
+                	case 'MATCH_NOTIFY'     : confirmacion();break;
+                    case 'ROUND_START'      : redireccionarPartida(respuesta.arguments.matchName) break;
+                    case 'ROUND_END'        : alert('no implementado'); break;
+                    case 'TURN'             : alert('no implementado'); break;
+                    case 'ERROR': alert('ERROR: '+respuesta.arguments); break;
                 	default:
-                	alert('mensaje default')	;break;
+                	   alert('mensaje no reconocido');break;
                 }
             })
             var cronometro = new Cronometro(50);
-
-            function confirmacion(){
+            function redireccionarPartida(nombre){
+                location.href = '/juegos/'+nombre;
+            }
+            function confirmacionMatch(){
             	var respuesta = confirm("Partida encontrada");
-            	if(respuesta==true) alert('jugar');
+            	if(respuesta==true) {
+                    location.href = url;
+                }
             	else{
-            		alert('seguir esperando');
+            		alert('segue esperando...');
             	}
             }
         </script>
