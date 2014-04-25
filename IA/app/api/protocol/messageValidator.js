@@ -82,6 +82,15 @@ function messageValidator(){
 				//api.accept(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
+			case "DECLINE": console.log("DECLINE");
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateDecline(clientObject);
+				}
+				//api.accept(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+			break;
+
 			case "SESSION_QUIT": console.log("SESSION_QUIT");
 				if(clientObject.data.arguments == null){
 					messageSender.sendErrArgsCommand(clientObject);
@@ -261,6 +270,15 @@ function messageValidator(){
 				//api.err_args(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
+			case "ERR_OUT_OF_CONTEXT": console.log("ERR_OUT_OF_CONTEXT");
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateOutOfContext(clientObject);
+				}
+				//api.err_args(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+			break;
+
 			case "PANIC_QUIT": console.log("PANIC_QUIT");
 				if(clientObject.data.arguments == null){
 					messageSender.sendErrArgsCommand(clientObject);
@@ -343,6 +361,7 @@ function validateRegister(clientObject){
 }
 
 function validateSessionStart(clientObject){
+	console.log("validateSessionStart");
 	//Verificando argumentos
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
@@ -352,6 +371,15 @@ function validateSessionStart(clientObject){
 }
 
 function validateAccept(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateDecline(clientObject){
 	//Verificando argumentos
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
@@ -542,6 +570,15 @@ function validateErrArgs(clientObject){
 	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
+function validateOutOfContext(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
 function validatePanicQuit(clientObject){
 	//Verificando argumentos
 	var args = clientObject.data.arguments;
@@ -597,11 +634,13 @@ function checkAutomataState(clientObject){
 //Envía el resultado a la función del inputProcessor (preprocesador) correcto
 //según el comando enviado
 function checkAutomataStateReturn(clientObject){
+	console.log("Automata Check...");
 	//if (clientObject.automata.result == false){ //no se esperaba este mensaje, enviar ERR_OUT_OF_CONTEXT
 	if(false){//cambiar por la línea de arriba, BYPASS del autómata
 		messageSender.sendErrOutOfContextCommand(clientObject);
 	} else { //derivar al preprocesador
-		switch(data.command){
+		console.log("Derivating to preprocessor of command "+clientObject.data.command);
+		switch(clientObject.data.command){
 			//eliminar TEST en la producción final
 			case "TEST":
 				console.log("TEST");
@@ -631,6 +670,10 @@ function checkAutomataStateReturn(clientObject){
 
 			case "ACCEPT":
 				inputProcessor.acceptPreprocessor(clientObject);
+			break;
+
+			case "DECLINE":
+				inputProcessor.declinePreprocessor(clientObject);
 			break;
 
 			case "SESSION_QUIT":
@@ -711,6 +754,10 @@ function checkAutomataStateReturn(clientObject){
 
 			case "ERR_ARGS":
 				inputProcessor.errArgsPreprocessor(clientObject);
+			break;
+
+			case "ERR_OUT_OF_CONTEXT":
+				inputProcessor.errOutOfContextPreprocessor(clientObject);
 			break;
 
 			case "PANIC_QUIT":

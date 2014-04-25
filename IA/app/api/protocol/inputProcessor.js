@@ -27,6 +27,10 @@ function inputProcessor(){
 		api.accept(clientObject).then(outputProcessor.acceptPostprocessor).done(msgSender.sendMessage);
 	}
 
+	this.declinePreprocessor = function(clientObject){
+		api.decline(clientObject).then(outputProcessor.declinePostprocessor).done(msgSender.sendMessage);
+	}
+
 	this.sessionQuitPreprocessor = function(clientObject){
 		api.session_quit(clientObject).then(outputProcessor.sessionQuitPostprocessor).done(msgSender.sendMessage);
 	}
@@ -40,7 +44,6 @@ function inputProcessor(){
 	}
 
 	this.matchLookupPreprocessor = function(clientObject){
-		console.log("Entré a matchLookupPreprocessor");
 		api.match_lookup(clientObject).then(outputProcessor.matchLookupPostprocessor).done(msgSender.sendMessage);
 	}
 
@@ -77,11 +80,11 @@ function inputProcessor(){
 	}
 
 	this.boardReqPreprocessor = function(clientObject){
-		api.board_req(clientObject).then(outputProcessor.boardPostPreprocessor).done(msgSender.sendMessage);
+		api.board_req(clientObject).then(outputProcessor.boardReqPostprocessor).done(msgSender.sendMessage);
 	}
 
 	this.passPreprocessor = function(clientObject){
-		api.pass(clientObject).then(outputProcessor.passPreprocessor).done(msgSender.sendMessage);
+		api.pass(clientObject).then(outputProcessor.passPostprocessor).done(msgSender.sendMessage);
 	}
 
 	this.retireRoundPreprocessor = function(clientObject){
@@ -106,6 +109,10 @@ function inputProcessor(){
 
 	this.errArgsPreprocessor = function(clientObject){
 		api.err_args(clientObject).then(outputProcessor.errArgsPostprocessor).done(msgSender.sendMessage);
+	}
+
+	this.errOutOfContextPreprocessor = function(clientObject){
+		api.err_out_of_context(clientObject).then(outputProcessor.errOutOfContextPostprocessor).done(msgSender.sendMessage);
 	}
 
 	this.panicQuitPreprocessor = function(clientObject){

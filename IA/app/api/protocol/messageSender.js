@@ -15,7 +15,7 @@ function messageSender(){
 		var resultado;
 		
 		var JSONString = JSON.stringify(clientObject.response);
-		console.log("sendMessage"+JSONString+"   "+clientObject.clientType);
+		console.log("sendMessage: "+JSONString+"   "+clientObject.clientType);
 		if(clientObject.clientType=="NET"){			
 			clientObject.connection.write(JSONString+"\n"); // NET library, comunicación a agentes o aplicaciones externas
 			resultado = "Mensaje enviado vía socket:"+JSONString;			
@@ -30,7 +30,7 @@ function messageSender(){
 	this.sendErrUnknownCommand = function(clientObject){
 		response = new Object();
 		response.command = "ERR_UNKNOWN_COMMAND";
-		response.arguments = null;
+		response.arguments = new Object();//equivale a "{}"
 		clientObject.response = response;
 		this.sendMessage(clientObject);
 	}
@@ -38,7 +38,7 @@ function messageSender(){
 	this.sendErrOutOfContextCommand = function(clientObject){
 		response = new Object();
 		response.command = "ERR_OUT_OF_CONTEXT";
-		response.arguments = null;
+		response.arguments = new Object();
 		clientObject.response = response;
 		this.sendMessage(clientObject);
 	}
@@ -46,7 +46,7 @@ function messageSender(){
 	this.sendErrArgsCommand = function(clientObject){
 		response = new Object();
 		response.command = "ERR_ARGS";
-		response.arguments = null;
+		response.arguments = new Object();
 		clientObject.response = response;
 		this.sendMessage(clientObject);
 	}
