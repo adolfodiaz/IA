@@ -57,6 +57,13 @@ function outputProcessor(){
 		return funcionAplazada.promise;
 	}
 
+	this.declinePostprocessor = function(clientObject){
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
+	}
+
 	this.sessionQuitPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
@@ -64,14 +71,15 @@ function outputProcessor(){
 		return funcionAplazada.promise;
 	}
 
-	this.statsQueryPreprocessor = function(clientObject){
+	this.statsQueryPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
+		console.log("Stats Query Postprocessor, API Response is"+clientObject.response);
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}
 
-	this.matchReqInfoPreprocessor = function(clientObject){
+	this.matchReqInfoPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
 		funcionAplazada.resolve(clientObject);
@@ -130,21 +138,21 @@ function outputProcessor(){
 		return funcionAplazada.promise;
 	}
 
-	this.matchRejectPreprocessor = function(clientObject){
+	this.matchRejectPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}
 
-	this.roundStartAckPreprocessor = function(clientObject){
+	this.roundStartAckPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}
 
-	this.turnEndPreprocessor = function(clientObject){
+	this.turnEndPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
 		funcionAplazada.resolve(clientObject);
@@ -158,7 +166,7 @@ function outputProcessor(){
 		return funcionAplazada.promise;
 	}
 
-	this.clockReqPreprocessor = function(clientObject){
+	this.clockReqPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
 		funcionAplazada.resolve(clientObject);
@@ -172,7 +180,7 @@ function outputProcessor(){
 		return funcionAplazada.promise;
 	}
 
-	this.boardReqPreprocessor = function(clientObject){
+	this.boardReqPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
 		funcionAplazada.resolve(clientObject);
@@ -214,7 +222,7 @@ function outputProcessor(){
 		return funcionAplazada.promise;
 	}
 
-	this.unknownCommandPostprocessor = function(clientObject){
+	this.errUnknownCommandPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
 		funcionAplazada.resolve(clientObject);
@@ -222,6 +230,13 @@ function outputProcessor(){
 	}
 
 	this.errArgsPostprocessor = function(clientObject){
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
+	}
+
+	this.errOutOfContextPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
 		funcionAplazada.resolve(clientObject);

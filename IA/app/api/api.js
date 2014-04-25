@@ -123,7 +123,7 @@ function api(){
 
 	this.session_start = function(OC){
 		var funcionAplazada = Q.defer();
-
+		console.log("API: SESSION_START");
 		OC.api = new Object();
 		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
@@ -132,7 +132,14 @@ function api(){
 
 	this.accept = function(OC){
 		var funcionAplazada = Q.defer();
+		OC.api = new Object();
+		OC.api.response = "sin definir";
+		funcionAplazada.resolve(OC);
+		return funcionAplazada.promise;
+	}
 
+	this.decline = function(OC){
+		var funcionAplazada = Q.defer();
 		OC.api = new Object();
 		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
@@ -141,7 +148,6 @@ function api(){
 
 	this.session_quit = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
 		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
@@ -150,7 +156,6 @@ function api(){
 
 	this.stats_query = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
 		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
@@ -159,9 +164,8 @@ function api(){
 
 	this.match_req_info = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -218,170 +222,178 @@ function api(){
 	this.match_lookup_cancel = function(OC){
 		var funcionAplazada = Q.defer();
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.match_ready = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
+		OC.api.response = "sin definir";
 		OC.api.estado = true;
 		OC.api.command = 'OK';
-		
-
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.match_reject = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.round_start_ack = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.turn_end = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.turn_query = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.clock_req = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.board_check = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.board_req = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.pass = function(OC){
 		var funcionAplazada = Q.defer();
-
+		console.log("API:PASS");
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.retire_round = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.retire_match = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.projected_tie = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.projected_tie_deact = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.err_unknown_command = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.err_args = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
+	this.err_out_of_context = function(OC){
+		var funcionAplazada = Q.defer();
+		OC.api = new Object();
+		OC.api.response = "sin definir";
+		funcionAplazada.resolve(OC);
+		return funcionAplazada.promise;
+	}
+
 	this.panic_quit = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.wait = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.resume = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.ping = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
 	this.pong = function(OC){
 		var funcionAplazada = Q.defer();
-
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
