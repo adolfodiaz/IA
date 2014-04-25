@@ -104,6 +104,54 @@ function outputProcessor(){
 	}
 
 	this.boardReqPreprocessor = function(clientObject){
+
+	}
+
+	this.passPostprocessor = function(clientObject){
+		
+	}
+
+	this.retireRoundPostprocessor = function(clientObject){
+		
+	}
+
+	this.retireMatchPostprocessor = function(clientObject){
+		
+	}
+
+	this.projectedTiePostprocessor = function(clientObject){
+		
+	}
+
+	this.projectedTieDeactPostprocessor = function(clientObject){
+
+	}
+
+	this.unknownCommandPostprocessor = function(clientObject){
+
+	}
+
+	this.errArgsPostprocessor = function(clientObject){
+		
+	}
+
+	this.panicQuitPostprocessor = function(clientObject){
+		
+	}
+
+	this.waitPostprocessor = function(clientObject){
+
+	}
+
+	this.resumePostprocessor = function(clientObject){
+
+	}
+
+	this.pingPostprocessor = function(clientObject){
+
+	}
+
+	this.pongPostprocessor = function(clientObject){
 		
 	}
 }

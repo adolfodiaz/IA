@@ -78,9 +78,56 @@ function inputProcessor(){
 	}
 
 	this.boardReqPreprocessor = function(clientObject){
+
+	}
+
+	this.passPreprocessor = function(clientObject){
+
+	}
+
+	this.retireRoundPreprocessor = function(clientObject){
 		
 	}
 
+	this.retireMatchPreprocessor = function(clientObject){
+		
+	}
+
+	this.projectedTiePreprocessor = function(clientObject){
+
+	}
+
+	this.projectedTieDeactPreprocessor = function(clientObject){
+		
+	}
+
+	this.errUnknownCommandPreprocessor = function(clientObject){
+
+	}
+
+	this.errArgsPreprocessor = function(clientObject){
+
+	}
+
+	this.panicQuitPreprocessor = function(clientObject){
+
+	}
+
+	this.waitPreprocessor = function(clientObject){
+
+	}
+
+	this.resumePreprocessor = function(clientObject){
+
+	}
+
+	this.pingPreprocessor = function(clientObject){
+
+	}
+
+	this.pongPreprocessor = function(clientObject){
+		
+	}
 
 }
 
