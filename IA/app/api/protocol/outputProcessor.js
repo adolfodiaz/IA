@@ -10,7 +10,7 @@
 
 
 var MessageSender = require('./messageSender.js').messageSender;
-var msgSender = new MessageSender();
+var messageSender = new MessageSender();
 
 var Q = require('q');
 
@@ -100,7 +100,23 @@ function outputProcessor(){
 			clientObject.response = message;
 		}
 		else{
-			var message = JSON.parse(('{"command": "CORRECTO"}'));
+
+			switch(clientObject.api.command){
+				case 'OK': 
+					var message = JSON.parse(('{"command": "MATCH_LOOKUP_OK"}'));
+					break;
+				case 'MATCH_NOTIFY':
+					var message = JSON.parse(('{"command": "MATCH_NOTIFY"}'));
+					var clientObject2 = new Object();
+					clientObject2.response = message;
+					clientObject2.connection = clientObject.api.player1Connection;
+					clientObject2.clientType = clientObject.api.player1Type;
+					console.log(clientObject2);
+					messageSender.sendMessage(clientObject2);
+					break;
+				default:
+					var message = JSON.parse(('{"command": "ERROR", "arguments":"comando no reconocido"}'));
+			}
 			clientObject.response = message;
 		}
 		//mandar mensajes
