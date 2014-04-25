@@ -1,9 +1,10 @@
 function Player(){
-	this.clientName;
-	this.clientType;
-	this.id;
+	this.clientName;//nombre de usuario
+	this.clientType;//Medio de comunicación: NET o BROWSER
+	this.id;//Token de conexión?
 	this.connection;
 	this.match = null;
+	this.PlayerClass;//AI o Humano
 	this.automataState;
 	this.automataPreviousState = null;
 	this.newPlayer = function(id, clientName, clientType, connection){
