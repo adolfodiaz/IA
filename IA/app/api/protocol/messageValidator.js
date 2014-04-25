@@ -81,7 +81,7 @@ function messageValidator(){
 				api.match_req_info(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 			case "MATCH_LOOKUP": console.log("MATCH_LOOKUP");
-				api.match_lookup(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				validateMatchLookup(clientObject)
 			break;
 			case "MATCH_LOOKUP_CANCEL": console.log("MATCH_LOOKUP_CANCEL");
 				api.match_lookup_cancel(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
@@ -181,6 +181,10 @@ function validateRegister(clientObject){
 		//Mandando al inputProcessor
 		//Para REGISTER, nos saltaremos
 		inputProcessor.registerPreprocessor(clientObject);
+}
+
+function validateMatchLookup(clientObject){
+	inputProcessor.matchLookupPreprocessor(clientObject);
 }
 
 function checkAutomataState(clientObject){

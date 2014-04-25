@@ -64,6 +64,9 @@ function outputProcessor(){
 	}
 
 	this.matchLookupPostprocessor = function(clientObject){
+		var funcionAplazada = Q.defer()
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
 
 	}
 
