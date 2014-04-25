@@ -41,6 +41,7 @@ function inputProcessor(){
 	}
 
 	this.matchLookupPreprocessor = function(clientObject){
+		console.log("Entré a matchLookupPreprocessor");
 		api.match_lookup(clientObject).then(outputProcessor.matchLookupPostprocessor).done(msgSender.sendMessage);
 	}
 
