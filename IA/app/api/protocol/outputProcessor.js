@@ -64,9 +64,23 @@ function outputProcessor(){
 	}
 
 	this.matchLookupPostprocessor = function(clientObject){
-		console.log("Entré al matchLookup Postprocessor");
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api;
+		if(!clientObject.api.estado){
+			//enviar mensaje error;
+			var razonMensaje = "";
+			for (var razon in clientObject.api.razon) {
+				console.log(razon);
+				razonMensaje += clientObject.api.razon[razon] + " ";
+			};
+			var message = JSON.parse(('{"command": "ERROR", "arguments":"'+razonMensaje+'"}'));
+			clientObject.response = message;
+		}
+		else{
+			var message = JSON.parse(('{"command": "CORRECTO"}'));
+			clientObject.response = message;
+		}
+		//mandar mensajes
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}

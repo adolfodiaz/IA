@@ -186,8 +186,10 @@ function api(){
 		console.log("entre a match lookup" + playerName);
 
 		if(onlinePlayersList[playerName].match != null){
+			console.log('error en agregar player');
 			OC.api = new Object();
-			OC.api.command = JSON.parse('{"command":"esta en partida"} ');
+			OC.api.estado = false;
+			OC.api.razon = [(playerName + " pertenece a un juego")];
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
 		}else if(matchesList[matchName] == null){
@@ -199,6 +201,7 @@ function api(){
 			matchesList[matchName].board.crear( matchesList[matchName].rules.board.height);
 			matchesList[matchName].newMatch(matchName, playerName);
 			OC.api = new Object();
+			OC.api.estado = true;
 			OC.api.command = JSON.parse('{"command":"mensaje prueba"} ');	
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;

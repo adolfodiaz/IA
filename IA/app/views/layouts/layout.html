@@ -204,7 +204,8 @@
                 console.log(respuesta);
                 switch(respuesta.command){
                 	case 'MATCH_ADV_BUSY': alert('esperando contrincante'); break;
-                	case 'MATCH_NOTIFY': confirmacion();
+                	case 'MATCH_NOTIFY': confirmacion();break;
+                    case 'ERROR': alert('ERROR: ' + respuesta.arguments);break;
                 	default:
                 	alert('mensaje default')	;break;
                 }
