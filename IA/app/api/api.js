@@ -21,19 +21,7 @@ getPlayerNameForID = new Object();
 
 
 function api(){	
-	var mentira = new Match();
-	mentira.name="partida1";
-	matchesList.partida1 = mentira;
-	var mentira = new Match();
-	mentira.name="partida2";
-	matchesList.partida2 = mentira;
-
-	var mentira2 = new Match();
-	mentira2.name="mach1";
-	matchesList.mach1 = mentira2;
-	var mentira2 = new Match();
-	mentira2.name="mach2";
-	matchesList.mach2 = mentira2;
+	
 
 	this.signUp = function(name){
 		var date = new Date();
