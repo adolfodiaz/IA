@@ -17,7 +17,7 @@
                           {{element.name}}
                         </a>
                       </h4>
-                         <button type="button" class="btn btn-primary" onclick="entrarPartida({{element.name}})">Jugar</button>
+                         <button type="button" class="btn btn-primary" onclick="entrarPartida('{{element.name}}')">Jugar</button>
                     </div>
                     <div id="collapse{{element.name}}" class="panel-collapse collapse">
                       <div class="panel-body">
@@ -51,9 +51,10 @@
   	var id = "{{id}}";  
 	function crearPartida(){
     $('#myModal').modal('hide');
-		socket.emit("data", '{"command": "MATCH_LOOKUP","arguments": {"id": "'+id+'","matchName": "'+$('#nombreNuevaPartida').val()+'", "advName":" ", "timeout":" "}}')
+		socket.emit("data", '{"command": "MATCH_LOOKUP","arguments": {"id": "'+id+'","matchName": "'+$('#nombreNuevaPartida').val()+'", "advName":" ", "timeout":" "}}');
 	}
 	function entrarPartida(nombre){
+
 		socket.emit("data", '{"command": "MATCH_LOOKUP","arguments": {"id": "'+id+'","matchName": "'+nombre+'", "advName":" ", "timeout":" "}}')
 	}
 

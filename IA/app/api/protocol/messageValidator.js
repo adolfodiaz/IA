@@ -81,7 +81,7 @@ function messageValidator(){
 				api.match_req_info(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 			case "MATCH_LOOKUP": console.log("MATCH_LOOKUP");
-				validateMatchLookup(clientObject)
+				validateMatchLookup(clientObject);
 			break;
 			case "MATCH_LOOKUP_CANCEL": console.log("MATCH_LOOKUP_CANCEL");
 				api.match_lookup_cancel(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
@@ -150,7 +150,6 @@ function messageValidator(){
 				console.log("Error: comando no reconocido: "+ data["command"]);
 				//llamar al messageSender y enviar ERR_UNKNOWN_COMMAND
 				messageSender.sendErrUnknownCommand(clientObject);
-
 		}
 	}
 }	
