@@ -128,7 +128,7 @@ function api(){
 		var funcionAplazada = Q.defer();
 
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -137,7 +137,7 @@ function api(){
 		var funcionAplazada = Q.defer();
 
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -146,7 +146,7 @@ function api(){
 		var funcionAplazada = Q.defer();
 
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -155,7 +155,7 @@ function api(){
 		var funcionAplazada = Q.defer();
 
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -164,7 +164,7 @@ function api(){
 		var funcionAplazada = Q.defer();
 
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.response = "sin definir";
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}

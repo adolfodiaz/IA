@@ -62,115 +62,248 @@ function messageValidator(){
 			case "REGISTER":
 				console.log("REGISTER");
 				validateRegister(clientObject);
-				//api.register(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);								
 			break;
 			
 			case "SESSION_START": console.log("SESSION_START");
-				api.session_start(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateSessionStart(clientObject);
+				}
+				//api.session_start(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "ACCEPT": console.log("ACCEPT");
-				api.accept(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateAccept(clientObject);
+				}
+				//api.accept(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "SESSION_QUIT": console.log("SESSION_QUIT");
-				api.session_quit(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateSessionQuit(clientObject);
+				}
+				//api.session_quit(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "STATS_QUERY": console.log("STATS_QUERY");
-				api.stats_query(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateStatsQuery(clientObject);
+				}
+				//api.stats_query(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "MATCH_REQ_INFO": console.log("MATCH_REQ_INFO");
-				api.match_req_info(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateMatchReqInfo(clientObject);
+				}
+				//api.match_req_info(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "MATCH_LOOKUP": console.log("MATCH_LOOKUP");
-				validateMatchLookup(clientObject);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateMatchLookup(clientObject);
+				}
 			break;
 
 			case "MATCH_LOOKUP_CANCEL": console.log("MATCH_LOOKUP_CANCEL");
-				api.match_lookup_cancel(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateMatchLookupCancel(clientObject);
+				}
+				//api.match_lookup_cancel(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "MATCH_READY": console.log("MATCH_READY");
-				api.match_ready(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateMatchReady(clientObject);
+				}
+				//api.match_ready(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "MATCH_REJECT": console.log("MATCH_REJECT");
-				api.match_reject(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateMatchReject(clientObject);
+				}
+				//api.match_reject(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "ROUND_START_ACK": console.log("ROUND_START_ACK");
-				api.round_start_ack(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateRoundStartAck(clientObject);
+				}
+				//api.round_start_ack(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "TURN_END": console.log("TURN_END");
-				api.turn_end(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateTurnEnd(clientObject);
+				}
+				//api.turn_end(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "TURN_QUERY": console.log("TURN_QUERY");
-				api.turn_query(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateTurnQuery(clientObject);
+				}
+				//api.turn_query(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "CLOCK_REQ": console.log("CLOCK_REQ");
-				api.clock_req(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateClockReq(clientObject);
+				}
+				//api.clock_req(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "BOARD_CHECK": console.log("BOARD_CHECK");
-				api.board_check(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateBoardCheck(clientObject);
+				}
+				//api.board_check(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "BOARD_REQ": console.log("BOARD_REQ");
-				api.board_req(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateBoardReq(clientObject);
+				}
+				//api.board_req(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "PASS": console.log("PASS");
-				api.pass(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validatePass(clientObject);
+				}
+				//api.pass(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "RETIRE_ROUND": console.log("RETIRE_ROUND");
-				api.retire_round(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateRetireRound(clientObject);
+				}
+				//api.retire_round(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "RETIRE_MATCH": console.log("RETIRE_MATCH");
-				api.retire_match(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateRetireMatch(clientObject);
+				}
+				//api.retire_match(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "PROJECTED_TIE": console.log("PROJECTED_TIE");
-				api.projected_tie(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateProjectedTie(clientObject);
+				}
+				//api.projected_tie(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "PROJECTED_TIE_DEACT": console.log("PROJECTED_TIE_DEACT");
-				api.projected_tie_deact(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateProjectedTieDeact(clientObject);
+				}
+				//api.projected_tie_deact(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "ERR_UNKNOWN_COMMAND": console.log("ERR_UNKNOWN_COMMAND");
-				api.err_unknown_command(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateErrUnknownCommand(clientObject);
+				}
+				//api.err_unknown_command(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "ERR_ARGS": console.log("ERR_ARGS");
-				api.err_args(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateErrArgs(clientObject);
+				}
+				//api.err_args(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "PANIC_QUIT": console.log("PANIC_QUIT");
-				api.panic_quit(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validatePanicQuit(clientObject);
+				}
+				//api.panic_quit(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "WAIT": console.log("WAIT");
-				api.wait(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateWait(clientObject);
+				}
+				//api.wait(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "RESUME": console.log("RESUME");
-				api.resume(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validateResume(clientObject);
+				}
+				//api.resume(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "PING": console.log("PING");
-				api.ping(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validatePing(clientObject);
+				}
+				//api.ping(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			case "PONG": console.log("PONG");
-				api.pong(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validatePong(clientObject);
+				}
+				//api.pong(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
 			default://Comando no reconocido
@@ -184,11 +317,10 @@ function messageValidator(){
 /*VERIFICADORES VARIOS*/
 
 function validateRegister(clientObject){
-		console.log("validateRegister");
-		//Verificando argumentos
-		var args = clientObject.data.arguments;
-		var preProcResults = new Object();
-		clientObject.name = clientObject.data.arguments.clientName;
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+	//clientObject.name = clientObject.data.arguments.clientName;
 		//por defecto, todos los argumentos son válidos hasta que se demuestre lo contrario
 		preProcResults.okName = true;
 		preProcResults.okPass = true;
@@ -210,9 +342,249 @@ function validateRegister(clientObject){
 		inputProcessor.registerPreprocessor(clientObject);
 }
 
+function validateSessionStart(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateAccept(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateSessionQuit(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateStatsQuery(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateMatchReqInfo(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
 function validateMatchLookup(clientObject){
-	console.log("Validando MatchLookup");
-	inputProcessor.matchLookupPreprocessor(clientObject);
+	//console.log("Validando MatchLookup");
+	//inputProcessor.matchLookupPreprocessor(clientObject);
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateMatchLookupCancel(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateMatchReady(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateMatchReject(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateRoundStartAck(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateTurnEnd(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateTurnQuery(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateClockReq(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateBoardCheck(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateBoardReq(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validatePass(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateRetireRound(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateRetireMatch(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateProjectedTie(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateProjectedTieDeact(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateErrUnknownCommand(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateErrArgs(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validatePanicQuit(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateWait(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validateResume(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validatePing(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
+function validatePong(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function checkAutomataState(clientObject){
@@ -223,11 +595,12 @@ function checkAutomataState(clientObject){
 }
 
 //Envía el resultado a la función del inputProcessor (preprocesador) correcto
-//según el comando enviado por el 
+//según el comando enviado
 function checkAutomataStateReturn(clientObject){
-	if (clientObject.automata.result == false){ //no se esperaba este mensaje, enviar ERR_OUT_OF_CONTEXT
+	//if (clientObject.automata.result == false){ //no se esperaba este mensaje, enviar ERR_OUT_OF_CONTEXT
+	if(false){//cambiar por la línea de arriba, BYPASS del autómata
 		messageSender.sendErrOutOfContextCommand(clientObject);
-	} else { //derivar al preprocesador, el error por argumentos se chequea allá
+	} else { //derivar al preprocesador
 		switch(data.command){
 			//eliminar TEST en la producción final
 			case "TEST":
@@ -255,88 +628,110 @@ function checkAutomataStateReturn(clientObject){
 			case "SESSION_START":
 				inputProcessor.sessionStartPreprocessor(clientObject);
 			break;
-			case "ACCEPT": console.log("ACCEPT");
+
+			case "ACCEPT":
 				inputProcessor.acceptPreprocessor(clientObject);
 			break;
-			case "SESSION_QUIT": console.log("SESSION_QUIT");
+
+			case "SESSION_QUIT":
 				inputProcessor.sessionQuitPreprocessor(clientObject);
 			break;
-			case "STATS_QUERY": console.log("STATS_QUERY");
+
+			case "STATS_QUERY":
 				inputProcessor.statsQueryPreprocessor(clientObject);
 			break;
-			case "MATCH_REQ_INFO": console.log("MATCH_REQ_INFO");
+
+			case "MATCH_REQ_INFO":
 				inputProcessor.matchReqInfoPreprocessor(clientObject);
 			break;
-			case "MATCH_LOOKUP": console.log("MATCH_LOOKUP");
+
+			case "MATCH_LOOKUP":
 				inputProcessor.matchLookupPreprocessor(clientObject);
 			break;
-			case "MATCH_LOOKUP_CANCEL": console.log("MATCH_LOOKUP_CANCEL");
+
+			case "MATCH_LOOKUP_CANCEL":
 				inputProcessor.matchLookupCancelPreprocessor(clientObject);
 			break;
-			case "MATCH_READY": console.log("MATCH_READY");
+
+			case "MATCH_READY":
 				inputProcessor.matchReadyPreprocessor(clientObject);
 			break;
-			case "MATCH_REJECT": console.log("MATCH_REJECT");
-				api.match_reject(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "MATCH_REJECT":
+				inputProcessor.matchRejectPreprocessor(clientObject);
 			break;
-			case "ROUND_START_ACK": console.log("ROUND_START_ACK");
-				api.round_start_ack(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "ROUND_START_ACK":
+				inputProcessor.roundStartAckPreprocessor(clientObject);
 			break;
-			case "TURN_END": console.log("TURN_END");
-				api.turn_end(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "TURN_END":
+				inputProcessor.turnEndPreprocessor(clientObject);
 			break;
-			case "TURN_QUERY": console.log("TURN_QUERY");
-				api.turn_query(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "TURN_QUERY":
+				inputProcessor.turnQueryPreprocessor(clientObject);
 			break;
-			case "CLOCK_REQ": console.log("CLOCK_REQ");
-				api.clock_req(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "CLOCK_REQ":
+				inputProcessor.clockReqPreprocessor(clientObject);
 			break;
-			case "BOARD_CHECK": console.log("BOARD_CHECK");
-				api.board_check(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "BOARD_CHECK":
+				inputProcessor.boardCheckPreprocessor(clientObject);
 			break;
-			case "BOARD_REQ": console.log("BOARD_REQ");
-				api.board_req(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "BOARD_REQ":
+				inputProcessor.boardReqPreprocessor(clientObject);
 			break;
-			case "PASS": console.log("PASS");
-				api.pass(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "PASS":
+				inputProcessor.passPreprocessor(clientObject);
 			break;
-			case "RETIRE_ROUND": console.log("RETIRE_ROUND");
-				api.retire_round(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "RETIRE_ROUND":
+				inputProcessor.passPreprocessor(clientObject);
 			break;
-			case "RETIRE_MATCH": console.log("RETIRE_MATCH");
-				api.retire_match(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "RETIRE_MATCH":
+				inputProcessor.retireMatchPreprocessor(clientObject);
 			break;
-			case "PROJECTED_TIE": console.log("PROJECTED_TIE");
-				api.projected_tie(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "PROJECTED_TIE":
+				inputProcessor.projectedTiePreprocessor(clientObject);
 			break;
-			case "PROJECTED_TIE_DEACT": console.log("PROJECTED_TIE_DEACT");
-				api.projected_tie_deact(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "PROJECTED_TIE_DEACT":
+				inputProcessor.projectedTiePreprocessor(clientObject);
 			break;
-			case "ERR_UNKNOWN_COMMAND": console.log("ERR_UNKNOWN_COMMAND");
-				api.err_unknown_command(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "ERR_UNKNOWN_COMMAND":
+				inputProcessor.errUnknownCommandPreprocessor(clientObject);
 			break;
-			case "ERR_ARGS": console.log("ERR_ARGS");
-				api.err_args(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "ERR_ARGS":
+				inputProcessor.errArgsPreprocessor(clientObject);
 			break;
-			case "PANIC_QUIT": console.log("PANIC_QUIT");
-				api.panic_quit(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "PANIC_QUIT":
+				inputProcessor.panicQuitPreprocessor(clientObject);
 			break;
-			case "WAIT": console.log("WAIT");
-				api.wait(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "WAIT":
+				inputProcessor.waitPreprocessor(clientObject);
 			break;
-			case "RESUME": console.log("RESUME");
-				api.resume(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "RESUME":
+				inputProcessor.resumePreprocessor(clientObject);
 			break;
-			case "PING": console.log("PING");
-				api.ping(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "PING":
+				inputProcessor.pingPreprocessor(clientObject);
 			break;
-			case "PONG": console.log("PONG");
-				api.pong(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
+
+			case "PONG":
+				inputProcessor.pongPreprocessor(clientObject);
 			break;
-			default://Comando no reconocido
-				console.log("Error: comando no reconocido: "+ data["command"]);
-				//llamar al messageSender y enviar ERR_UNKNOWN_COMMAND
-				messageSender.sendErrUnknownCommand(clientObject);
 		}
 	}
 }
