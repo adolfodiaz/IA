@@ -53,6 +53,34 @@ function inputProcessor(){
 
 	}
 
+	this.matchRejectPreprocessor = function(clientObject){
+
+	}
+
+	this.roundStartAckPreprocessor = function(clientObject){
+
+	}
+
+	this.turnEndPreprocessor = function(clientObject){
+
+	}
+
+	this.turnQueryPreprocessor = function(clientObject){
+
+	}
+
+	this.clockReqPreprocessor = function(clientObject){
+
+	}
+
+	this.boardCheckPreprocessor = function(clientObject){
+
+	}
+
+	this.boardReqPreprocessor = function(clientObject){
+		
+	}
+
 
 }
 

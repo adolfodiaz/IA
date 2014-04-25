@@ -74,6 +74,38 @@ function outputProcessor(){
 	this.matchLookupCancelPostprocessor = function(clientObject){
 
 	}
+
+	this.matchReadyPostprocessor = function(clientObject){
+
+	}
+
+	this.matchRejectPreprocessor = function(clientObject){
+
+	}
+
+	this.roundStartAckPreprocessor = function(clientObject){
+
+	}
+
+	this.turnEndPreprocessor = function(clientObject){
+
+	}
+
+	this.turnQueryPostprocessor = function(clientObject){
+
+	}
+
+	this.clockReqPreprocessor = function(clientObject){
+
+	}
+
+	this.boardCheckPostprocessor = function(clientObject){
+
+	}
+
+	this.boardReqPreprocessor = function(clientObject){
+		
+	}
 }
 
 
