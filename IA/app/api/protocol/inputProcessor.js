@@ -8,9 +8,16 @@
 
 */
 
+var OutputProcessor = require('./outputProcessor.js').outputProcessor;
+var outputProcessor = new OutputProcessor();
+var MessageSender = require('./messageSender.js').messageSender;
+var msgSender = new MessageSender();
+
+
 function inputProcessor(){
 	this.registerPreprocessor = function(clientObject){
-		api.register(clientObject).then(registerPostprocessor);
+		console.log("registerPreprocessor");
+		api.register(clientObject).then(outputProcessor.registerPostprocessor).done(msgSender.sendMessage);
 	}
 
 	this.sessionStartPreprocessor = function(clientObject){
@@ -42,7 +49,7 @@ function inputProcessor(){
 	}
 
 	this.matchReadyPreprocessor = function(clientObject){
-		
+
 	}
 
 

@@ -64,6 +64,7 @@ function messageValidator(){
 				validateRegister(clientObject);
 				//api.register(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);								
 			break;
+			
 			case "SESSION_START": console.log("SESSION_START");
 				api.session_start(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
@@ -156,6 +157,7 @@ function messageValidator(){
 /*VERIFICADORES VARIOS*/
 
 function validateRegister(clientObject){
+		console.log("validateRegister");
 		//Verificando argumentos
 		var args = clientObject.data.arguments;
 		var preProcResults = new Object();
