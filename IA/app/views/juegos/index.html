@@ -17,7 +17,7 @@
                           {{element.name}}
                         </a>
                       </h4>
-                         <a href="/juegos/{{element.name}}"><button type="button" class="btn btn-primary" onclick="entrarPartida({{element.name}})">Jugar</button></a>
+                         <button type="button" class="btn btn-primary" onclick="entrarPartida({{element.name}})">Jugar</button>
                     </div>
                     <div id="collapse{{element.name}}" class="panel-collapse collapse">
                       <div class="panel-body">
@@ -36,7 +36,7 @@
 <div class="row">
     <div class="col-sm-8 col-sm-offset-2 text-right">
         <button class="btn btn-primary " data-toggle="modal" data-target=".bs-example-modal-lg" >Nueva Partida</button>
-        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div id = 'myModal' class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                   <h1 class"text-center ">Nueva Partida, error linea</h1>
@@ -50,6 +50,7 @@
 <script type="text/javascript">
   	var id = "{{id}}";  
 	function crearPartida(){
+    $('#myModal').modal('hide');
 		socket.emit("data", '{"command": "MATCH_LOOKUP","arguments": {"id": "'+id+'","matchName": "'+$('#nombreNuevaPartida').val()+'", "advName":" ", "timeout":" "}}')
 	}
 	function entrarPartida(nombre){

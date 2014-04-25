@@ -203,10 +203,10 @@
                 var respuesta = new Object(JSON.parse(data));
                 console.log(respuesta);
                 switch(respuesta.command){
-                	case 'MATCH_ADV_BUSY': alert('espera dato'); break;
+                	case 'MATCH_ADV_BUSY': alert('esperando contrincante'); break;
                 	case 'MATCH_NOTIFY': confirmacion();
                 	default:
-                	alert('error')	;break;
+                	alert('mensaje default')	;break;
                 }
             })
             var cronometro = new Cronometro(50);
