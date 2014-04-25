@@ -105,9 +105,22 @@ function api(){
 	}
 	this.register = function(OC){
 		var funcionAplazada = Q.defer();
-
+		var playerName = OC.data.arguments.clientName;
+		var date = new Date();
+		var player = new Player();
+		var md5 = crypto.createHash('md5');
+		md5.update((date.toString()+"puyehue"), "utf8");
+		player.id = playerName+md5.digest("hex");
+		player.playerName = playerName;		
+		onlinePlayersList[playerName] = player;
+		getPlayerNameForID[player.id] = playerName;
+		onlinePlayersList[playerName].newPlayer(player.id, playerName, OC.clientType, OC.connection);
 		OC.api = new Object();
-		OC.api.command = "sin definir";
+		OC.api.playerid = player.id;
+		OC.api.response = "REG_SUCESS";
+		OC.api.policies = new Object();
+		OC.api.policies.MAX_ABS_IDLE_TIME = 0;
+		console.log("salio de api");
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}

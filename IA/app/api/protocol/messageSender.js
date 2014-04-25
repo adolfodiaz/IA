@@ -13,17 +13,17 @@ function messageSender(){
 	this.sendMessage = function(clientObject){
 		var fnAplazada = Q.defer();
 		var resultado;
-		console.log("sendMessage"+clientObject.response);
+		
 		var JSONString = JSON.stringify(clientObject.response);
+		console.log("sendMessage"+JSONString+"   "+clientObject.clientType);
 		if(clientObject.clientType=="NET"){			
 			clientObject.connection.write(JSONString+"\n"); // NET library, comunicación a agentes o aplicaciones externas
-			resultado = "Mensaje enviado vía socket:"+JSONString;
-			fnAplazada.resolve(resultado);
+			resultado = "Mensaje enviado vía socket:"+JSONString;			
 		}else{
-			clientObject.connection.emit("data",JSONString); //Socket.IO, comunicación con navegador
+			clientObject.connection.emit("data",JSONString); //Socket.IO, comunicación con navegador			
 			resultado = "Mensaje enviado vía browser:"+JSONString;
-			fnAplazada.resolve(resultado);
 		}
+		fnAplazada.resolve(resultado);
 		return fnAplazada.promise;
 	}
 

@@ -8,8 +8,9 @@
 
 */
 
-var MessageSender = require('./messageSender.js');
-var msgSender = new MessageSender.messageSender();
+
+var MessageSender = require('./messageSender.js').messageSender;
+var msgSender = new MessageSender();
 
 var Q = require('q');
 
@@ -26,18 +27,49 @@ function outputProcessor(){
 	}
 
 	this.registerPostprocessor = function(clientObject){
-		if((clientObject.preProcResults.okName == false)||(clientObject.preProcResults.okPass == false)||(clientObject.preProcResults.okType == false)){
+		var funcionAplazada = Q.defer();
+		console.log("registerPostprocessor");
+		/*if((clientObject.preProcResults.okName == false)||(clientObject.preProcResults.okPass == false)||(clientObject.preProcResults.okType == false)){
 			msgSender.sendErrArgsCommand(clientObject);
-			return;
+			funcionAplazada.resolve("null");
+		}*/
+		if(clientObject.api.response == "REG_SUCESS"){			
+			var message = JSON.parse(('{"command": "REG_SUCESS","arguments": {"clientName": "'+clientObject.data.arguments.clientName+'", "id": "'+clientObject.api.playerid+'", "policies": {"MAX_ABS_IDLE_TIME": "'+clientObject.api.policies.MAX_ABS_IDLE_TIME+'"}}}'));
+			clientObject.response = message;
+			funcionAplazada.resolve(clientObject);
+			console.log("registerPostprocessor");
 		}
-
-		if(clientObject.api.result == "FAIL"){
-
-		} else if (clientObject.api.result == "SUCESS") {
-
-		}
+		return funcionAplazada.promise;
+		//escribir acá la reacción de la respuesta de la API
 	}
-	
+
+	this.sessionStartPostprocessor = function(clientObject){
+
+	}
+
+	this.acceptPostprocessor = function(clientObject){
+
+	}
+
+	this.sessionQuitPostprocessor = function(clientObject){
+
+	}
+
+	this.statsQueryPreprocessor = function(clientObject){
+
+	}
+
+	this.matchReqInfoPreprocessor = function(clientObject){
+
+	}
+
+	this.matchLookupPostprocessor = function(clientObject){
+
+	}
+
+	this.matchLookupCancelPostprocessor = function(clientObject){
+
+	}
 }
 
 
