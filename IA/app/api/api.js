@@ -183,7 +183,7 @@ function api(){
 		var playerID 			= OC.data.arguments.id;
 		var playerName			= getPlayerNameForID[OC.data.arguments.id];
 		var matchName			= OC.data.arguments.matchName;
-		console.log("entre a match lookup");
+		console.log("entre a match lookup" + playerName);
 
 		if(onlinePlayersList[playerName].match != null){
 			OC.api = new Object();
@@ -191,6 +191,7 @@ function api(){
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
 		}else if(matchesList[matchName] == null){
+			console.log('voy a agregar el player 1 y mandar mensaje ');
 			//crea la partida, registra al player 1 en la partida y se queda esperando
 			onlinePlayersList[playerName].newPlayer(playerID, playerName, OC.clientType, OC.connection);
 			onlinePlayersList[playerName].match = matchName;
@@ -198,7 +199,7 @@ function api(){
 			matchesList[matchName].board.crear( matchesList[matchName].rules.board.height);
 			matchesList[matchName].newMatch(matchName, playerName);
 			OC.api = new Object();
-			OC1.api.command = JSON.parse('{"command":"mensaje prueba"} ');	
+			OC.api.command = JSON.parse('{"command":"mensaje prueba"} ');	
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
 		}else if(matchesList[matchName].player2Name == null){

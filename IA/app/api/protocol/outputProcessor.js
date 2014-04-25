@@ -64,8 +64,9 @@ function outputProcessor(){
 	}
 
 	this.matchLookupPostprocessor = function(clientObject){
-		console.log("Entré al matchLookupPostprocessor");
+		console.log("Entré al matchLookup Postprocessor");
 		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api;
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}
