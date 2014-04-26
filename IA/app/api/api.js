@@ -193,6 +193,7 @@ function api(){
 			matchesList[matchName].board.crear( matchesList[matchName].rules.board.height);
 			matchesList[matchName].newMatch(matchName, playerName);
 			OC.api = new Object();
+			OC.api.resultado = true;
 			OC.api.noEnviar = true;
 			funcionAplazada.resolve(OC);
 

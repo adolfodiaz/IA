@@ -89,28 +89,37 @@ function outputProcessor(){
 	this.matchLookupPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api;
-		if(!clientObject.api.estado){
-			//enviar mensaje error;
+
+		//enviar mensaje error;
+		console.log('matchLookupPostprocessor ' + clientObject.api.resultado);
+		if(!clientObject.api.resultado){
+			
 			var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));
 			clientObject.response = message;
 		}
 		else{
-
-			switch(clientObject.api.command){
-				case 'OK': 
-					var message = JSON.parse(('{"command": "MATCH_LOOKUP_OK"}'));
-					break;
-				case 'MATCH_NOTIFY':
-					var message = JSON.parse(('{"command": "MATCH_NOTIFY"}'));
+			//en caso de enviar mensaje
+			if(!clientObject.api.noEnviar){
+				var message = JSON.parse(('{"command": "MATCH_NOTIFY","arguments": {"id": "839", "advId": "491", "advName": "Adversary"}}'));
+				//enviar mensaje al otro jugador
+				if(clientObject.api.enviarAmbos){
+					console.log('enviar mensaje MATCH_NOTIFY a ambos');
 					var clientObject2 = new Object();
 					clientObject2.response = message;
-					clientObject2.connection = clientObject.api.player1Connection;
-					clientObject2.clientType = clientObject.api.player1Type;
+					clientObject2.connection = onlinePlayersList[clientObject.api.player].connection;
+					clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
 					console.log(clientObject2);
 					messageSender.sendMessage(clientObject2);
-					break;
-				default:
-					var message = JSON.parse(('{"command": "ERROR", "arguments":"comando no reconocido"}'));
+				}//fin (envio ambos)
+				//enviar a solo el usuario
+				else{
+					console.log('envio a solo el usuario');
+					var message = JSON.parse(('{"command": "MATCH_LOOKUP_OK"}'));
+				}
+			}
+			else{
+				console.log('enviar solo al usuario')
+				var message = JSON.parse(('{"command": "MATCH_LOOKUP_OK"}'));
 			}
 			clientObject.response = message;
 		}
