@@ -64,7 +64,7 @@ function api(){
 
 	this.getIdPlayer = function(req, showTemplate){
 		
-		showTemplate(onlinePlayersList[req.user.fullname].id, Array.prototype.slice.call(list));
+		showTemplate(onlinePlayersList[req.user.fullname].id);
 	}
 
 	this.getListRoundsAndMatchesList = function(req, showTemplate){		
@@ -488,10 +488,6 @@ function api(){
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
-
-
-
-
 }
 
 module.exports.api = api;
