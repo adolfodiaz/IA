@@ -13,6 +13,8 @@ function Match(){
 	this.whoStarted;
 	this.aceptaGamePlayer1 = false;
 	this.aceptaGamePlayer2 = false;
+	this.roundACKPlayer1 = false;
+	this.roundACKPlayer2 = false; 
 	
 	this.newMatch = function(name, player1Name){
 		this.name = name;

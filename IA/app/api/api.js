@@ -233,8 +233,6 @@ function api(){
 			OC.api.noEnviar = false;
 			OC.api.enviarAmbos = false;
 			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
-			funcionAplazada.resolve(OC);
-			return funcionAplazada.promise;
 		} else {
 			var matchName = onlinePlayersList[playerName].match;
 
@@ -248,29 +246,17 @@ function api(){
 				if (Math.floor((Math.random()*2)) == 1) OC.api.datos.firstMove = true; //<!>
 				else OC.api.datos.firstMove = false; 
 				matchesList[matchName].whoStarted = OC.api.datos.firstMove;
-
-				funcionAplazada.resolve(OC);
-				return funcionAplazada.promise;
 			} else {
 				OC.api = new Object();
 				OC.api.resultado = false;
 				OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"true"';
 				OC.api.noEnviar = false;
 				OC.api.enviarAmbos = true;
-				funcionAplazada.resolve(OC);
-				return funcionAplazada.promise;
 			} 
 
-			}
-		} 
+		}
+	} 
 
-
-
-		OC.api = new Object();
-		console('MENSAJE EN MATCH_READY');
-		
-		OC.api.estado = true;
-		OC.api.command = 'OK';
 
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -285,9 +271,33 @@ function api(){
 	}
 
 	this.round_start_ack = function(OC){
+		
 		var funcionAplazada = Q.defer();
-		OC.api = new Object();
-		OC.api.response = "sin definir";
+		var playerID 		= OC.data.arguments.id;
+		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
+
+		if(onlinePlayersList[playerName].match == null){
+			OC.api = new Object();
+			OC.api.resultado = false; //Operación fallida
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
+		} else {
+			var matchName = onlinePlayersList[playerName].match;
+
+			if ((matchesList[matchName].roundACKPlayer1 == true) && 
+				(matchesList[matchName].roundACKPlayer2 == true)) {
+				OC.api = new Object();
+				OC.api.resultado = true;
+				OC.api.noEnviar = false;
+				OC.api.enviarAmbos = true;
+			} else {
+				OC.api = new Object();
+				OC.api.resultado = false;
+				OC.api.noEnviar = true;
+			} 
+		}
+		 
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
