@@ -74,7 +74,6 @@ function outputProcessor(){
 	this.statsQueryPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
-		console.log("Stats Query Postprocessor, API Response is"+clientObject.response);
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}
@@ -88,11 +87,17 @@ function outputProcessor(){
 
 	this.matchLookupPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
-		clientObject.response = clientObject.api;
+		var response = new Object();
 		if(!clientObject.api.estado){
-			//enviar mensaje error;
-			var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));
-			clientObject.response = message;
+			var razones = JSON.parse(clientObject.api.razones);
+			if((razones.alreadyPlaying)||(razones.waitingOtherAdv)||(razones.rejected)){
+				response.command = "MATCH_ADV_BUSY";
+				response.arguments = razones
+				clientObject.response = response;
+			} else {
+				
+			}
+
 		}
 		else{
 
