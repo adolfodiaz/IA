@@ -73,8 +73,17 @@ function outputProcessor(){
 
 	this.statsQueryPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
-		clientObject.response = clientObject.api.response;
-		console.log("Stats Query Postprocessor, API Response is"+clientObject.response);
+		if(clientObject.api.resultado){ //si a la API le fue bien
+			var response = new Object();
+			response.command = "STATS";
+			response.arguments = clientObject.api.datos;
+			clientObject.response = response;
+		} else { //no debería fallar la búsqueda de estadísticas, enviar mensaje de error interno
+			var response = new Object();
+			response.command = "ERR_INTERNAL_GM_ERROR";
+			response.arguments = new Object(); //para que arguments != NULL y que no se lance un ERR_ARGS desde el cliente
+			clientObject.response = response;
+		}
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}
@@ -88,12 +97,24 @@ function outputProcessor(){
 
 	this.matchLookupPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
+		var response = new Object();
+		/*if(!clientObject.api.estado){
+			var razones = JSON.parse(clientObject.api.razones);
+			if((razones.alreadyPlaying)||(razones.waitingOtherAdv)||(razones.rejected)){
+				response.command = "MATCH_ADV_BUSY";
+				response.arguments = razones
+				clientObject.response = response;
+			} //else {
+				
+			//}
+
+
 		clientObject.response = clientObject.api;
 
-		//enviar mensaje error;
+		//enviar mensaje error;*/
 		if(!clientObject.api.resultado){
 			
-			var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));
+			var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));//MATCH_ADV_BUSY o MATCH_LOOKUP_FAIL según sea el caso
 			clientObject.response = message;
 		}
 		else{

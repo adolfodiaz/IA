@@ -343,6 +343,7 @@ function validateRegister(clientObject){
 		preProcResults.okName = true;
 		preProcResults.okPass = true;
 		preProcResults.okType = true;
+
 		if ((args.clientName == null) || (args.clientName == "") || (args.clientName == {})){
 			preProcResults.okName = false
 		}
@@ -350,7 +351,7 @@ function validateRegister(clientObject){
 			preProcResults.okPass = false;
 		}
 		if((args.clientType == null)||(args.clientType == "")||(args.clientType == {})){
-			okType = false;
+			preProcResults.okType = false;
 		} else if (!((args.clientType == "AI")||(args.clientType == "HUMAN"))){
 			preProcResults.okType = false;
 		}
@@ -366,8 +367,15 @@ function validateSessionStart(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+		preProcResults.okGameName = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+		if ((args.gameName == null) || (args.gameName == "") || (args.gameName == {})) preProcResults.okGameName = false;
+		else if (!args.ganeName == "Connect4") preProcResults.okGameName = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateAccept(clientObject){
@@ -375,8 +383,12 @@ function validateAccept(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateDecline(clientObject){
@@ -384,8 +396,12 @@ function validateDecline(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateSessionQuit(clientObject){
@@ -393,8 +409,12 @@ function validateSessionQuit(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateStatsQuery(clientObject){
@@ -402,8 +422,15 @@ function validateStatsQuery(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+		preProcResults.okGameName = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+		if ((args.gameName == null) || (args.gameName == "") || (args.gameName == {})) preProcResults.okGameName = false;
+		else if (!args.ganeName == "Connect4") preProcResults.okGameName = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateMatchReqInfo(clientObject){
@@ -411,8 +438,12 @@ function validateMatchReqInfo(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateMatchLookup(clientObject){
@@ -422,8 +453,18 @@ function validateMatchLookup(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+		preProcResults.okMatchName = true;
+		preProcResults.okAdvName = true;
+		preProcResults.okTimeOut = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+		if ((args.matchName == "") || (args.matchName == {})) preProcResults.okId = false;
+		if ((args.advName == "") || (args.advName == {})) preProcResults.okId = false;
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateMatchLookupCancel(clientObject){
@@ -431,8 +472,12 @@ function validateMatchLookupCancel(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;		
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateMatchReady(clientObject){
@@ -440,8 +485,12 @@ function validateMatchReady(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR		
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateMatchReject(clientObject){
@@ -449,8 +498,15 @@ function validateMatchReject(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+
+		preProcResults.okId = true;
+		preProcResults.okReason = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+		if ((args.reason == "") || (args.reason == {})) preProcResults.okReason = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateRoundStartAck(clientObject){
@@ -458,8 +514,12 @@ function validateRoundStartAck(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateTurnEnd(clientObject){
@@ -467,8 +527,12 @@ function validateTurnEnd(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateTurnQuery(clientObject){
@@ -476,8 +540,12 @@ function validateTurnQuery(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateClockReq(clientObject){
@@ -485,14 +553,24 @@ function validateClockReq(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateBoardCheck(clientObject){
 	//Verificando argumentos
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
+
+		preProcResults.okId = true;
+		preProcResults.okMD5 = true; //<!>
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+		if ((args.MD5 == null) || (args.MD5 == "") || (args.MD5 == {})) preProcResults.okMD5 = false;
 
 	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
 	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
@@ -503,8 +581,12 @@ function validateBoardReq(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR	
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validatePass(clientObject){
@@ -512,8 +594,12 @@ function validatePass(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateRetireRound(clientObject){
@@ -521,8 +607,12 @@ function validateRetireRound(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateRetireMatch(clientObject){
@@ -530,14 +620,22 @@ function validateRetireMatch(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateProjectedTie(clientObject){
 	//Verificando argumentos
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
+
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
 
 	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
 	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
@@ -548,14 +646,22 @@ function validateProjectedTieDeact(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateErrUnknownCommand(clientObject){
 	//Verificando argumentos
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
+
+		preProcResults.okId = true; //<!>
+
+		if ((args.id == null) || (args.id == "")) preProcResults.okId = false;
 
 	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
 	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
@@ -566,8 +672,12 @@ function validateErrArgs(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true; //<!>
+
+		if ((args.id == null) || (args.id == "")) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateOutOfContext(clientObject){
@@ -575,8 +685,12 @@ function validateOutOfContext(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "")) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validatePanicQuit(clientObject){
@@ -584,8 +698,12 @@ function validatePanicQuit(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okReason = true; //<!>
+
+		if ((args.reason == "") || (args.reason == {})) preProcResults.okReason = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateWait(clientObject){
@@ -593,14 +711,22 @@ function validateWait(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okSeconds = true;
+
+		if ((args.seconds == null) || (args.seconds == "") || (args.seconds == {})) preProcResults.okSeconds = false;	
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validateResume(clientObject){
 	//Verificando argumentos
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
+
+		preProcResults.okId = true; //<!>
+
+		if ((args.id == null) || (args.id == "")) preProcResults.okId = false;
 
 	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
 	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
@@ -611,14 +737,22 @@ function validatePing(clientObject){
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
 
-	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
-	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+		preProcResults.okId = true; //<!>
+
+		if ((args.id == null) || (args.id == "")) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
 function validatePong(clientObject){
 	//Verificando argumentos
 	var args = clientObject.data.arguments;
 	var preProcResults = new Object();
+
+		preProcResults.okId = true; //<!>
+
+		if ((args.id == null) || (args.id == "")) preProcResults.okId = false;
 
 	//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
 	checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata

@@ -50,6 +50,14 @@ function messageSender(){
 		clientObject.response = response;
 		this.sendMessage(clientObject);
 	}
+
+	this.sendErrInternalGMError = function(clientObject){
+		response = new Object();
+		response.command = "ERR_INTERNAL_GM_ERROR";
+		response.arguments = new Object();
+		clientObject.response = response;
+		this.sendMessage(clientObject);
+	}
 }
 
 module.exports.messageSender = messageSender;
