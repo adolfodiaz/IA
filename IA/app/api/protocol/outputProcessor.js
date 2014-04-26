@@ -73,7 +73,17 @@ function outputProcessor(){
 
 	this.statsQueryPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
-		clientObject.response = clientObject.api.response;
+		if(clientObject.api.resultado){ //si a la API le fue bien
+			var response = new Object();
+			response.command = "STATS";
+			response.arguments = clientObject.api.datos;
+			clientObject.response = response;
+		} else { //no debería fallar la búsqueda de estadísticas, enviar mensaje de error interno
+			var response = new Object();
+			response.command = "ERR_INTERNAL_GM_ERROR";
+			response.arguments = new Object(); //para que arguments != NULL y que no se lance un ERR_ARGS desde el cliente
+			clientObject.response = response;
+		}
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}

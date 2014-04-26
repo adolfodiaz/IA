@@ -21,6 +21,21 @@ getPlayerNameForID = new Object();
 
 
 function api(){	
+
+	/*
+
+		NOTA: Convención respuestas API
+
+		Cuando llega un clientObject (OC), la API debe responder agregando el objeto OC.api, el cual tiene los siguientes atributos:
+
+		- OC.api.resultado: true si la operación pedida fue exitosa, false si hay errores o no se pudo hacer
+		- OC.api.datos: la información de salida si OC.api.resultado es TRUE
+		- OC.api.razones: las razones por las cuales la operación falló (sólo se lee si OC.api.resultado es FALSE)
+		- OC.api.noEnviar: cuando no se debe enviar ningún mensaje al cliente que llamó (por ejemplo, cuando se reciben confirmaciones)
+		- OC.api.enviarAmbos: significa que, aparte de enviarle una respuesta al cliente que la originó, hay que enviar una COPIA
+		- OC.api.player: indica el nombre del jugador (¡no el objeto!) al cual se le enviaría la copia del mensaje
+
+	*/
 	
 
 	this.signUp = function(name){
@@ -154,10 +169,20 @@ function api(){
 	}
 
 	this.stats_query = function(OC){
+		//actualmente el argumento gameName es simplemente ignorado
 		var funcionAplazada = Q.defer();
 		OC.api = new Object();
-		OC.api.response = "sin definir";
+		OC.api.resultado = true;//si el llamado a la BD falla o hay otro problemas, debe estar incluido en un IF para cambiar esto a FALSE
+		OC.api.datos = onlinePlayersList[getPlayerNameForID[OC.data.arguments.id]].stats;
+		OC.api.noEnviar = false;
+		OC.api.enviarAmbos = false;
+		OC.api.player = null;
 		funcionAplazada.resolve(OC);
+
+		//temporal
+		console.log("Nombre jugador:"+getPlayerNameForID[OC.data.arguments.id]);
+		console.log("Performance factor:"+OC.api.datos.globalPerformanceFactor);
+		//fin temporal
 		return funcionAplazada.promise;
 	}
 
