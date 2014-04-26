@@ -329,8 +329,24 @@ function api(){
 
 	this.turn_end = function(OC){
 		var funcionAplazada = Q.defer();
+		var playerID 		= OC.data.arguments.id;
+		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
+
+		if(onlinePlayersList[playerName].match == null){
+			OC.api = new Object();
+			OC.api.resultado = false; //Operación fallida
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
+		} else {		
+		onlinePlayersList[playerName].turnEnd = true;
 		OC.api = new Object();
-		OC.api.response = "sin definir";
+		OC.api.resultado = true;
+		OC.api.datos.turnEnd = onlinePlayersList[playerName].turnEnd;
+		OC.api.noEnviar = false;
+		OC.api.enviarAmbos = false;
+		}
+	
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
