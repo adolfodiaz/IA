@@ -34,21 +34,72 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-8 col-sm-offset-2 text-right">
-        <button class="btn btn-primary " data-toggle="modal" data-target=".bs-example-modal-lg" >Nueva Partida</button>
-        <div id = 'myModal' class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <h1 class"text-center ">Nueva Partida, error linea</h1>
-                  <input id="nombreNuevaPartida" value=""/>
-                  <input type="button" value ="crear" onclick="crearPartida()"/>
-                </div>
-              </div>
+  <div class="col-sm-8 col-sm-offset-2 text-right">
+  <!--Boton Modal Crear Partida-->
+    <button class="btn btn-primary " data-toggle="modal" data-target="#myModal">Nueva Partida</button>
+  <!-- Modal -->
+    <div class="modal fade text-center" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Creando nueva partida</h4>
+          </div>
+          <div class="modal-body">
+
+            <input  id="nombreNuevaPartida" type="text" class="form-control" placeholder="Nombre de la partida" name="Partida" value="">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" onclick="crearPartida()">Crear</button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
+</div> <!--Fin row -->
+
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2 text-right">
+  <!-- Modal Esperando Partida-->
+    <div class="modal fade text-center" id="myModal2" data-backdrop='static' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Esperando Partida</h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" onclick="alert('no implementado')">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!--Fin row --> 
+
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2 text-right">
+  <!--Modal Confirmacion partida-->
+    <div class="modal fade text-center" id="myModal3" data-backdrop='static' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">PARTIDA ENCONTRADA</h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="confirmacionMatch(true)">ACEPTAR</button>
+            <button type="button" class="btn btn-primary" onclick="confirmacionMatch(false)">RECHAZAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!--Fin row -->
 <script type="text/javascript">
-  	var id = "{{id}}";  
+   var id = "{{id}}"; 
+   alert('asdf');
+   
+   
 	function crearPartida(){
     $('#myModal').modal('hide');
 		socket.emit("data", '{"command": "MATCH_LOOKUP","arguments": {"id": "'+id+'","matchName": "'+$('#nombreNuevaPartida').val()+'", "advName":" ", "timeout":" "}}');

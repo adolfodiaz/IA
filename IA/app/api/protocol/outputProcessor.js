@@ -91,7 +91,6 @@ function outputProcessor(){
 		clientObject.response = clientObject.api;
 
 		//enviar mensaje error;
-		console.log('matchLookupPostprocessor ' + clientObject.api.resultado);
 		if(!clientObject.api.resultado){
 			
 			var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));
@@ -103,22 +102,18 @@ function outputProcessor(){
 				var message = JSON.parse(('{"command": "MATCH_NOTIFY","arguments": {"id": "839", "advId": "491", "advName": "Adversary"}}'));
 				//enviar mensaje al otro jugador
 				if(clientObject.api.enviarAmbos){
-					console.log('enviar mensaje MATCH_NOTIFY a ambos');
 					var clientObject2 = new Object();
 					clientObject2.response = message;
 					clientObject2.connection = onlinePlayersList[clientObject.api.player].connection;
 					clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
-					console.log(clientObject2);
 					messageSender.sendMessage(clientObject2);
 				}//fin (envio ambos)
 				//enviar a solo el usuario
 				else{
-					console.log('envio a solo el usuario');
 					var message = JSON.parse(('{"command": "MATCH_LOOKUP_OK"}'));
 				}
 			}
 			else{
-				console.log('enviar solo al usuario')
 				var message = JSON.parse(('{"command": "MATCH_LOOKUP_OK"}'));
 			}
 			clientObject.response = message;
