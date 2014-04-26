@@ -25,7 +25,6 @@ function Rules(){
 	this.matchEficiencyLimit.enabled = true;
 	this.matchEficiencyLimit.minRounds = 10;
 	this.matchEficiencyLimit.efficiencyLimit  =0.75;
-
 }
 
 module.exports.Rules = Rules;

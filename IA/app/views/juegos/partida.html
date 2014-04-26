@@ -27,11 +27,15 @@
 
 {% block SCRIPT %}
 <script type="text/javascript">
+
+	var id = "{{id}}";
+
 	this.jugadaAceptada = 1;
 	this.turno = true;
 	this.esperarJugador = true;
 	var tablero = new Tablero();
     tablero.crear_tablero_html( 'tablero' ,  {{tamTablero}} , new Array({{squares}}) );
+    
     this.inicio = {{inicio}};
 
     function jugarFicha(fil,col){

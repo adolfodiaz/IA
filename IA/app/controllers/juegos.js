@@ -29,6 +29,7 @@ exports.index = function(req, res){
 	});
 }
 exports.partida = function (req, res) {
+	api.getIdPlayer(req, function(id) )
 	res.render(templates.partida, {
         title: 'Partida de '+req.match.name,
         squares: req.match.board.squares,

@@ -18,8 +18,6 @@ matchesList = new Object();
 //para busqueda rapida
 getPlayerNameForID = new Object();
 
-
-
 function api(){	
 	
 
@@ -47,6 +45,11 @@ function api(){
 		db.ob
 		//db.guardar_partida()
 		//fin prueba BD
+	}
+
+	this.getIdPlayer = function(req, showTemplate){
+		
+		showTemplate(onlinePlayersList[req.user.fullname].id, Array.prototype.slice.call(list));
 	}
 
 	this.getListRoundsAndMatchesList = function(req, showTemplate){		
@@ -225,8 +228,7 @@ function api(){
 		var playerID = OC.data.arguments.id;
 
 		OC.api = new Object();
-		console('MENSAJE EN MATCH_READY');
-		
+
 		OC.api.estado = true;
 		OC.api.command = 'OK';
 
