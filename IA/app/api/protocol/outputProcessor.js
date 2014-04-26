@@ -88,34 +88,44 @@ function outputProcessor(){
 	this.matchLookupPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		var response = new Object();
-		if(!clientObject.api.estado){
+		/*if(!clientObject.api.estado){
 			var razones = JSON.parse(clientObject.api.razones);
 			if((razones.alreadyPlaying)||(razones.waitingOtherAdv)||(razones.rejected)){
 				response.command = "MATCH_ADV_BUSY";
 				response.arguments = razones
 				clientObject.response = response;
-			} else {
+			} //else {
 				
-			}
+			//}
 
+
+		clientObject.response = clientObject.api;
+
+		//enviar mensaje error;*/
+		if(!clientObject.api.resultado){
+			
+			var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));//MATCH_ADV_BUSY o MATCH_LOOKUP_FAIL según sea el caso
+			clientObject.response = message;
 		}
 		else{
-
-			switch(clientObject.api.command){
-				case 'OK': 
-					var message = JSON.parse(('{"command": "MATCH_LOOKUP_OK"}'));
-					break;
-				case 'MATCH_NOTIFY':
-					var message = JSON.parse(('{"command": "MATCH_NOTIFY"}'));
+			//en caso de enviar mensaje
+			if(!clientObject.api.noEnviar){
+				var message = JSON.parse(('{"command": "MATCH_NOTIFY","arguments": {"id": "839", "advId": "491", "advName": "Adversary"}}'));
+				//enviar mensaje al otro jugador
+				if(clientObject.api.enviarAmbos){
 					var clientObject2 = new Object();
 					clientObject2.response = message;
-					clientObject2.connection = clientObject.api.player1Connection;
-					clientObject2.clientType = clientObject.api.player1Type;
-					console.log(clientObject2);
+					clientObject2.connection = onlinePlayersList[clientObject.api.player].connection;
+					clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
 					messageSender.sendMessage(clientObject2);
-					break;
-				default:
-					var message = JSON.parse(('{"command": "ERROR", "arguments":"comando no reconocido"}'));
+				}//fin (envio ambos)
+				//enviar a solo el usuario
+				else{
+					var message = JSON.parse(('{"command": "MATCH_LOOKUP_OK"}'));
+				}
+			}
+			else{
+				var message = JSON.parse(('{"command": "MATCH_LOOKUP_OK"}'));
 			}
 			clientObject.response = message;
 		}

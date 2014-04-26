@@ -2,61 +2,124 @@
 
 {% block CONTENT %}
 <div class="row">
-    <div class="col-sm-8 col-sm-offset-2">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Partidas en juego</h3>
-            </div>
-            <div class="panel-body">
-                <div class="panel-group" id="accordion">
-                {% for element in elements %}
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{element.name}}">
-                          {{element.name}}
-                        </a>
-                      </h4>
-                         <button type="button" class="btn btn-primary" onclick="entrarPartida('{{element.name}}')">Jugar</button>
-                    </div>
-                    <div id="collapse{{element.name}}" class="panel-collapse collapse">
-                      <div class="panel-body">
-                         jugador bla bla bla...
+  <div class="col-sm-8 col-sm-offset-2">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Partidas en juego</h3>
+      </div>
+      <div class="panel-body">
+        <div class="panel-group" id="accordion">
+        {% for element in elements %}
+          <div class="panel panel-default">
+            <a  data-toggle="collapse" data-parent="#accordion" href="#collapse{{element.name}}">
+              <div class="panel-heading" style="padding: 7px;">
+                  {% if element.player2Name!=null %}
+                      <button type="button" class="btn btn-primary" onclick="alert('no implementado')">Espectador</button>
+                  {% else %}
+                     <button type="button" class="btn btn-primary" onclick="entrarPartida('{{element.name}}')">Jugar</button>
+                  {% endif %}
 
-                      </div>
-                    </div>
-                  </div>
-                {% endfor %}
-                </div>    
+                  <h4 class="panel-title" style="display: inline;align-content: center; "> 
+                  {{element.name}} 
+                      
+                   </h4>
+              </div>
+            </a>
+            <div id="collapse{{element.name}}" class="panel-collapse collapse">
+              <div class="panel-body">
+              
+                 {{element.player1Name}} 
+                    {% if element.player2Name!=null %}
+                        vs {{element.player2Name}} 
+                    {% else %}
+                        está esperando contrincante
+                    {% endif %}
+              </div>
             </div>
-        </div>
+          </div>
+        {% endfor %}
+        </div>    
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="row">
-    <div class="col-sm-8 col-sm-offset-2 text-right">
-        <button class="btn btn-primary " data-toggle="modal" data-target=".bs-example-modal-lg" >Nueva Partida</button>
-        <div id = 'myModal' class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <h1 class"text-center ">Nueva Partida, error linea</h1>
-                  <input id="nombreNuevaPartida" value=""/>
-                  <input type="button" value ="crear" onclick="crearPartida()"/>
-                </div>
-              </div>
+  <div class="col-sm-8 col-sm-offset-2 text-right">
+  <!--Boton Modal Crear Partida-->
+    <button class="btn btn-primary " data-toggle="modal" data-target="#myModal">Nueva Partida</button>
+  <!-- Modal -->
+    <div class="modal fade text-center" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Creando nueva partida</h4>
+          </div>
+          <div class="modal-body">
+            <input  id="nombreNuevaPartida" type="text" class="form-control" placeholder="Nombre de la partida" name="Partida" value="">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" onclick="crearPartida()">Crear</button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
+</div> <!--Fin row -->
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2 text-right">
+  <!-- Modal Esperando Partida-->
+    <div class="modal fade text-center" id="myModal2" data-backdrop='static' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Esperando Partida</h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" onclick="alert('no implementado')">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!--Fin row --> 
+
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2 text-right">
+  <!--Modal Confirmacion partida-->
+    <div class="modal fade text-center" id="myModal3" data-backdrop='static' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">PARTIDA ENCONTRADA</h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="confirmacionMatch(true)">ACEPTAR</button>
+            <button type="button" class="btn btn-primary" onclick="confirmacionMatch(false)">RECHAZAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!--Fin row -->
 <script type="text/javascript">
-  	var id = "{{id}}";  
+  var id = "{{id}}";    
 	function crearPartida(){
     $('#myModal').modal('hide');
 		socket.emit("data", '{"command": "MATCH_LOOKUP","arguments": {"id": "'+id+'","matchName": "'+$('#nombreNuevaPartida').val()+'", "advName":" ", "timeout":" "}}');
 	}
 	function entrarPartida(nombre){
-
 		socket.emit("data", '{"command": "MATCH_LOOKUP","arguments": {"id": "'+id+'","matchName": "'+nombre+'", "advName":" ", "timeout":" "}}')
 	}
-
+  function confirmacionMatch(respuesta){
+    if(respuesta==true) {
+          socket.emit("data", '{"command": "MATCH_READY","arguments": {"id": "'+id+'"}}');
+      }
+    else{
+      alert("no implementado");
+    }
+  }
 </script>
 {% endblock %}

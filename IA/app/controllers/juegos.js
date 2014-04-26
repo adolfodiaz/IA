@@ -19,6 +19,7 @@ exports.match = function(req, res, next, id){
 }
 
 exports.index = function(req, res){
+	
 	api.getListRoundsAndMatchesList(req, function(id, list){
 	 	res.render(templates.index, {
 	                title: 'Connect4',

@@ -108,7 +108,6 @@ function api(){
 		OC.api.response = "REG_SUCESS";
 		OC.api.policies = new Object();
 		OC.api.policies.MAX_ABS_IDLE_TIME = 0;
-		console.log("salio de api");
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -170,22 +169,19 @@ function api(){
 		return funcionAplazada.promise;
 	}
 
-	this.match_lookup = function(OC){		
+	this.match_lookup = function(OC){
 		var funcionAplazada 	= Q.defer();		
 		var playerID 			= OC.data.arguments.id;
 		var playerName			= getPlayerNameForID[OC.data.arguments.id];
 		var matchName			= OC.data.arguments.matchName;
-		console.log("entre a match lookup" + playerName);
 
 		if(onlinePlayersList[playerName].match != null){
-			console.log('error en agregar player');
 			OC.api = new Object();
 			OC.api.resultado = false;
 			OC.api.razones = '"alreadyPlaying":"true","waitingOtherAdv":"false","rejected":"false"';
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
 		}else if(matchesList[matchName] == null){
-			console.log('voy a agregar el player 1 y mandar mensaje ');
 			//crea la partida, registra al player 1 en la partida y se queda esperando
 			onlinePlayersList[playerName].newPlayer(playerID, playerName, OC.clientType, OC.connection);
 			onlinePlayersList[playerName].match = matchName;
@@ -193,9 +189,9 @@ function api(){
 			matchesList[matchName].board.crear( matchesList[matchName].rules.board.height);
 			matchesList[matchName].newMatch(matchName, playerName);
 			OC.api = new Object();
+			OC.api.resultado = true;
 			OC.api.noEnviar = true;
 			funcionAplazada.resolve(OC);
-
 			return funcionAplazada.promise;
 		}else if(matchesList[matchName].player2Name == null){
 			//ingresa como player 2 y debe dar comienzo a la partida
@@ -208,7 +204,6 @@ function api(){
 			OC.api.noEnviar = false;
 			OC.api.enviarAmbos= true;
 			OC.api.player = matchesList[matchName].player1Name;
-
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
 		}else{
@@ -230,9 +225,8 @@ function api(){
 		var playerID = OC.data.arguments.id;
 
 		OC.api = new Object();
-		console('entro a match_ready');
-
-
+		console('MENSAJE EN MATCH_READY');
+		
 		OC.api.estado = true;
 		OC.api.command = 'OK';
 
