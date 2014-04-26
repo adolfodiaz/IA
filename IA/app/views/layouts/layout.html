@@ -196,14 +196,6 @@
             function redireccionarPartida(nombre){
                 location.href = '/juegos/'+nombre;
             }
-            function confirmacionMatch(respuesta){
-            	if(respuesta==true) {
-                    socket.emit("data", '{"command": "MATCH_READY","arguments": {"id": "'+id+'"}}');
-                }
-            	else{
-            		alert("no implementado");
-            	}
-            }
         </script>
         {% block SCRIPT %}{% endblock %}
     </body>
