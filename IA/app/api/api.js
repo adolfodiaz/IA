@@ -207,7 +207,7 @@ function api(){
 			OC.api.razones = '"alreadyPlaying":"true","waitingOtherAdv":"false","rejected":"false"';
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
-		}else if(matchesList[matchName] == null){
+		} else if(matchesList[matchName] == null){
 			//crea la partida, registra al player 1 en la partida y se queda esperando
 			onlinePlayersList[playerName].newPlayer(playerID, playerName, OC.clientType, OC.connection);
 			onlinePlayersList[playerName].match = matchName;
@@ -318,7 +318,6 @@ function api(){
 				OC.api.noEnviar = true;
 			} 
 		}
-		 
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -499,7 +498,7 @@ function api(){
 			OC.api.noEnviar = false;
 			OC.api.enviarAmbos = false;
 			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
-		if(((matchesList[matchName].player1Name == playerName) 
+		} else if(((matchesList[matchName].player1Name == playerName) 
 			&& (matchesList[matchName].putPassOrRetirePlayer1 == false))
 			|| ((matchesList[matchName].player2Name == playerName) 
 			&& (matchesList[matchName].putPassOrRetirePlayer2 == false))) {
@@ -542,7 +541,7 @@ function api(){
 			OC.api.enviarAmbos = false;
 			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
 		} 		
-		if(((matchesList[matchName].player1Name == playerName) 
+		else if(((matchesList[matchName].player1Name == playerName) 
 			&& (matchesList[matchName].putPassOrRetirePlayer1 == false))
 			|| ((matchesList[matchName].player2Name == playerName) 
 			&& (matchesList[matchName].putPassOrRetirePlayer2 == false))) {
