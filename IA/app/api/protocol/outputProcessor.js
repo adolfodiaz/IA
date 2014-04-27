@@ -145,61 +145,7 @@ function outputProcessor(){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
 		funcionAplazada.resolve(clientObject);
-
-		if(!clientObject.api.resultado){ //Caso Error
-			
-			if (!clientObject.api.noEnviar && !clientObject.api.enviarAmbos) { //Error técnico
-				var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));
-				clientObject.response = message;
-			}
-
-			if (!clientObject.api.noEnviar && clientObject.api.enviarAmbos) { // MATCH_ADV_BUSY
-					//Jugador 2
-					var clientObjectP2 = new Object();
-					var message = JSON.parse(('{"command": "MATCH_ADV_BUSY", "arguments":{'+clientObject.api.razones+'}}'));
-
-					clientObjectP2.response = message;
-					clientObjectP2.connection = clientObject.api.player1Connection;
-					clientObjectP2.clientType = clientObject.api.player1Type;
-
-					messageSender.sendMessage(clientObjectP2);
-					/////////
-
-					//Jugador 1
-
-					
-					var message = JSON.parse(('{"command": "MATCH_ADV_BUSY", "arguments":{'+clientObject.api.razones+'}}'));
-					clientObject.response = message;
-			}
-		}
-		else{// ROUND_START
-
-					var datos = clientObject.datos;
-					datos.color = "Red";
-					datos.advColor= "Blue";
-					datos.initialBoard null;
-					var clientObjectP2 = new Object();
-					var message =JSON.parse(('{"command": "ROUND_START","arguments": {"color": "'+datos.color+'", "advColor": "'+datos.advColor+'", "firstMove": "'+(!datos.firstMove)+'", "initialBoard": "'+datos.initialBoard+'"}}'));
-
-					clientObjectP2.response = message;
-					clientObjectP2.connection = clientObject.api.player1Connection;
-					clientObjectP2.clientType = clientObject.api.player1Type;
-
-					messageSender.sendMessage(clientObjectP2);
-					/////////
-
-					//Jugador 1
-
-					
-					var message =JSON.parse(('{"command": "ROUND_START","arguments": {"color": "'+datos.color+'", "advColor": "'+datos.advColor+'", "firstMove": "'+datos.firstMove+'", "initialBoard": "'+datos.initialBoard+'"}}'));
-					clientObject.response = message;
-					
-					
-		}	
-		//mandar mensajes
-		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
-	}
 	}
 
 	this.matchRejectPostprocessor = function(clientObject){

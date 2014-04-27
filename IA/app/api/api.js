@@ -437,6 +437,9 @@ function api(){
 		return funcionAplazada.promise;
 	}
 
-}
-module.exports.api = api;
 
+
+
+}
+
+module.exports.api = api;
