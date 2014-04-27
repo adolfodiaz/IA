@@ -248,6 +248,7 @@ function api(){
 		var funcionAplazada = Q.defer();
 		var playerID 		= OC.data.arguments.id;
 		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
+		var matchName = onlinePlayersList[playerName].match;
 
 		if(onlinePlayersList[playerName].match == null){
 			OC.api = new Object();
@@ -256,7 +257,6 @@ function api(){
 			OC.api.enviarAmbos = false;
 			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
 		} else {
-			var matchName = onlinePlayersList[playerName].match;
 
 			if ((matchesList[matchName].aceptaGamePlayer1 == true) && 
 				(matchesList[matchName].aceptaGamePlayer2 == true)) {
@@ -264,7 +264,7 @@ function api(){
 				OC.api.resultado = true;
 				OC.api.noEnviar = false;
 				OC.api.enviarAmbos = true;
-				if(playerName== matchesList[matchName].player1Name)
+				if(playerName == matchesList[matchName].player1Name)
 					OC.api.player =   matchesList[matchName].player2Name;
 				else 
 					OC.api.player =   matchesList[matchName].player1Name;
@@ -313,6 +313,11 @@ function api(){
 				OC.api.resultado = true;
 				OC.api.noEnviar = false;
 				OC.api.enviarAmbos = true;
+				//manda nombre del otro jugador
+				if(playerName == matchesList[matchName].player1Name)
+					OC.api.player =   matchesList[matchName].player2Name;
+				else 
+					OC.api.player =   matchesList[matchName].player1Name;				
 			} else {
 				OC.api = new Object();
 				OC.api.resultado = false;
@@ -373,20 +378,27 @@ function api(){
 
 	this.board_req = function(OC){
 		var funcionAplazada = Q.defer();
-		OC.api = new Object();
-		OC.api.response = "sin definir";
+		var playerID 		= OC.data.arguments.id;
+		var playerName 		= getPlayerNameForID[OC.data.arguments.id];		
+		var matchName 		= onlinePlayersList[playerName].match;
+
+		if(onlinePlayersList[playerName].match == null){
+			OC.api = new Object();
+			OC.api.resultado = false; //Operación fallida
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
+		} else {
+			OC.api = new Object();
+			OC.api.resultado = true; //Operación fallida
+			OC.api.board = matchesList[matchName].board;
+			OC.api.noEnviar = false;
+		}		 
+
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
 
-	this.pass = function(OC){
-		var funcionAplazada = Q.defer();
-		console.log("API:PASS");
-		OC.api = new Object();
-		OC.api.response = "sin definir";
-		funcionAplazada.resolve(OC);
-		return funcionAplazada.promise;
-	}
 
 	this.retire_round = function(OC){
 		var funcionAplazada = Q.defer();
