@@ -46,7 +46,6 @@ function api(){
 		onlinePlayersList[name] = player;
 		getPlayerNameForID[player.id] = name;
 
-		
 		//prueba BD
 		db.saludar(function(){
 			console.log("hola mundo");
@@ -177,7 +176,6 @@ function api(){
 		OC.api.enviarAmbos = false;
 		OC.api.player = null;
 		funcionAplazada.resolve(OC);
-
 		//temporal
 		console.log("Nombre jugador:"+getPlayerNameForID[OC.data.arguments.id]);
 		console.log("Performance factor:"+OC.api.datos.globalPerformanceFactor);
@@ -266,7 +264,10 @@ function api(){
 				OC.api.resultado = true;
 				OC.api.noEnviar = false;
 				OC.api.enviarAmbos = true;
-
+				if(playerName== matchesList[matchName].player1Name)
+					OC.api.player =   matchesList[matchName].player2Name;
+				else 
+					OC.api.player =   matchesList[matchName].player1Name;
 				if (Math.floor((Math.random()*2)) == 1) OC.api.datos.firstMove = true; //<!>
 				else OC.api.datos.firstMove = false; 
 				matchesList[matchName].whoStarted = OC.api.datos.firstMove;
