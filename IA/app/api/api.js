@@ -62,9 +62,9 @@ function api(){
 		//fin prueba BD
 	}
 
-	this.getIdPlayer = function(req, showTemplate){
+	this.getIdPlayer = function(req, showTemplate){	
+		showTemplate(Array.prototype.slice.call(onlinePlayersList[req.user.fullname].id));
 		
-		showTemplate(onlinePlayersList[req.user.fullname].id);
 	}
 
 	this.getListRoundsAndMatchesList = function(req, showTemplate){		
@@ -283,7 +283,6 @@ function api(){
 			} 
 
 		}
-	} 
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
