@@ -248,7 +248,7 @@ function api(){
 		var funcionAplazada = Q.defer();
 		var playerID 		= OC.data.arguments.id;
 		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
-		var matchName = onlinePlayersList[playerName].match;
+		var matchName 		= onlinePlayersList[playerName].match;
 
 		if(onlinePlayersList[playerName].match == null){
 			OC.api = new Object();
@@ -297,6 +297,7 @@ function api(){
 		var funcionAplazada = Q.defer();
 		var playerID 		= OC.data.arguments.id;
 		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
+		var matchName 		= onlinePlayersList[playerName].match;
 
 		if(onlinePlayersList[playerName].match == null){
 			OC.api = new Object();
@@ -305,7 +306,6 @@ function api(){
 			OC.api.enviarAmbos = false;
 			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
 		} else {
-			var matchName = onlinePlayersList[playerName].match;
 
 			if ((matchesList[matchName].roundACKPlayer1 == true) && 
 				(matchesList[matchName].roundACKPlayer2 == true)) {
