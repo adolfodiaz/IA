@@ -192,12 +192,13 @@ function outputProcessor(){
 				datos.initialBoard = null;
 				datos.firstMove = clientObject.api.datos.firstMove;
 				var clientObjectP2 = new Object();
-				var message =JSON.parse(('{"command": "ROUND_START","arguments": {"color": "red", "advColor": "Blue", "firstMove": "'+ datos.firstMove+'", "initialBoard": "null"}}'));
+				var message = JSON.parse(('{"command": "ROUND_START","arguments": {"matchName":"'+!clientObject.api.datos.matchName+'", "color": "red", "advColor": "Blue", "firstMove": "'+ datos.firstMove+'", "initialBoard": "null"}}'));
 
 				//enviar mensaje al otro jugador
 				if(clientObject.api.enviarAmbos){
 					var clientObject2 = new Object();
-					clientObject2.response = message;
+					clientObject2.response = JSON.parse(('{"command": "ROUND_START","arguments": {"matchName":"'+clientObject.api.datos.matchName+'", "color": "red", "advColor": "Blue", "firstMove": "'+ datos.firstMove+'", "initialBoard": "null"}}'));
+;
 					clientObject2.connection = onlinePlayersList[clientObject.api.player].connection;
 					clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
 					messageSender.sendMessage(clientObject2);

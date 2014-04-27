@@ -62,7 +62,7 @@ function api(){
 	}
 
 	this.getIdPlayer = function(req, showTemplate){	
-		showTemplate(Array.prototype.slice.call(onlinePlayersList[req.user.fullname].id));
+		showTemplate(onlinePlayersList[req.user.fullname].id);
 	}
 
 	this.getListRoundsAndMatchesList = function(req, showTemplate){		
@@ -359,6 +359,7 @@ function api(){
 					OC.api.player =   matchesList[matchName].player1Name;
 				}
 				OC.api.datos=new Object();
+				OC.api.datos.matchName = matchName;
 				if (Math.floor((Math.random()*2)) == 1) OC.api.datos.firstMove = true; //<!>
 				else OC.api.datos.firstMove = false;
 				matchesList[matchName].whoStarted = OC.api.datos.firstMove;

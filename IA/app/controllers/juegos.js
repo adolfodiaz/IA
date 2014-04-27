@@ -31,31 +31,29 @@ exports.index = function(req, res){
 }
 exports.partida = function (req, res) {
 	if(res.error) {
-		req.flash('error', 'Ups, no existe esta partida')
+		req.flash('error', 'Ups, no existe esta partida');
 		res.redirect(url_base);
 	}
 	else{
-		api.getIdPlayer(req, function (id) {
-
+		console.log("llamando a funcion de al lado xd");
+		var partida=true;
+		api.getIdPlayer(req, function(id) {
+			nombrePlayer = getPlayerNameForID[id];
 			//si es jugador 1
-			if(matchesList[req.match.name].player1Name == nombrePlayer){
-				var partida = matchesList[req.match.name].whoStarted;
+			if( req.match.player1Name == getPlayerNameForID[id] ){
+				var partida = req.match.whoStarted;
 			} //si es jugador 2
-			else if(matchesList[req.match.name].player2Name == nombrePlayer){
-				var partida = (!matchesList[req.match.name].whoStarted);
-				
+			else if(req.match.player2Name == getPlayerNameForID[id]){
+				var partida = !req.match.whoStarted;
 			
 			//si es espectador
 			//} else if(){
 				
 			}
 			else{
-				req.flash('error', 'Ups, no puedes entrar a esta partida')
+				req.flash('error', 'Ups, no puedes entrar a esta partida');
 				res.redirect(url_base);
 			}
-			//si no deberia entra
-
-			//		req.match.spectators pendiente permitir espectadores
 			res.render(templates.partida, {
 					id: id,
 			        title: 'Partida de '+req.match.name,
@@ -65,7 +63,6 @@ exports.partida = function (req, res) {
 			        inicio: req.inicio,
 			        partida: partida
 			    });
-		    }
-		);
+		});
 	}
 }

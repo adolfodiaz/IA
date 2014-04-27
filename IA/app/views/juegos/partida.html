@@ -11,27 +11,21 @@
     </div>
 </div>
 
-
 <h1>prueba</h1>
-
- 
 <script type="text/javascript"> 
-	
 	function jugarFicha(fil,col){ 
 		content = document.getElementById('col'+fil+col); 
 		alert ("Valor: "+content.innerHTML); 
 	}
 </script>
-
 {% endblock %}
 
 {% block SCRIPT %}
 <script type="text/javascript">
 	window.onload = function() {
 	    socket.emit("data", '{"command": "ROUND_START_ACK","arguments": {"id": "'+id+'"}}');
+	    inicio = true;
 	}
-	
-
 	var id = "{{id}}";
 	
 	this.jugadaAceptada = 1;
@@ -61,14 +55,13 @@
 						break;
 		        }
 		        //this.jugadaAceptada++;
-	    	}
-	    	else{
+	    	}else{
 	    		var mensaje = document.getElementById("msnje"); 
 				mensaje.innerHTML = "Debes esperar tu turno";
 	    	}
-    	}{
+    	}else {
     		var mensaje = document.getElementById("msnje"); 
-			mensaje.innerHTML = "Esperando al otro jugador";
+			mensaje.innerHTML = "El juego comenzará pronto";
 		}
 	}
     
