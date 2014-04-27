@@ -488,7 +488,7 @@ function api(){
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
-<<<<<<< HEAD
+
 
 	this.put= function(OC){
 		var funcionAplazada = Q.defer();
@@ -521,12 +521,6 @@ function api(){
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
-
-
-
-
-=======
->>>>>>> 78f4a4668517ef15156d920b3bf791c0295e8256
 }
 
 module.exports.api = api;
