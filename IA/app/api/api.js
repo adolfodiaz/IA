@@ -18,9 +18,22 @@ matchesList = new Object();
 //para busqueda rapida
 getPlayerNameForID = new Object();
 
-
-
 function api(){	
+
+	/*
+
+		NOTA: Convención respuestas API
+
+		Cuando llega un clientObject (OC), la API debe responder agregando el objeto OC.api, el cual tiene los siguientes atributos:
+
+		- OC.api.resultado: true si la operación pedida fue exitosa, false si hay errores o no se pudo hacer
+		- OC.api.datos: la información de salida si OC.api.resultado es TRUE
+		- OC.api.razones: las razones por las cuales la operación falló (sólo se lee si OC.api.resultado es FALSE)
+		- OC.api.noEnviar: cuando no se debe enviar ningún mensaje al cliente que llamó (por ejemplo, cuando se reciben confirmaciones)
+		- OC.api.enviarAmbos: significa que, aparte de enviarle una respuesta al cliente que la originó, hay que enviar una COPIA
+		- OC.api.player: indica el nombre del jugador (¡no el objeto!) al cual se le enviaría la copia del mensaje
+
+	*/
 	
 
 	this.signUp = function(name){
@@ -47,6 +60,11 @@ function api(){
 		db.ob
 		//db.guardar_partida()
 		//fin prueba BD
+	}
+
+	this.getIdPlayer = function(req, showTemplate){	
+		showTemplate(Array.prototype.slice.call(onlinePlayersList[req.user.fullname].id));
+		
 	}
 
 	this.getListRoundsAndMatchesList = function(req, showTemplate){		
@@ -154,10 +172,20 @@ function api(){
 	}
 
 	this.stats_query = function(OC){
+		//actualmente el argumento gameName es simplemente ignorado
 		var funcionAplazada = Q.defer();
 		OC.api = new Object();
-		OC.api.response = "sin definir";
+		OC.api.resultado = true;//si el llamado a la BD falla o hay otro problemas, debe estar incluido en un IF para cambiar esto a FALSE
+		OC.api.datos = onlinePlayersList[getPlayerNameForID[OC.data.arguments.id]].stats;
+		OC.api.noEnviar = false;
+		OC.api.enviarAmbos = false;
+		OC.api.player = null;
 		funcionAplazada.resolve(OC);
+
+		//temporal
+		console.log("Nombre jugador:"+getPlayerNameForID[OC.data.arguments.id]);
+		console.log("Performance factor:"+OC.api.datos.globalPerformanceFactor);
+		//fin temporal
 		return funcionAplazada.promise;
 	}
 
@@ -233,8 +261,6 @@ function api(){
 			OC.api.noEnviar = false;
 			OC.api.enviarAmbos = false;
 			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
-			funcionAplazada.resolve(OC);
-			return funcionAplazada.promise;
 		} else {
 			var matchName = onlinePlayersList[playerName].match;
 
@@ -248,30 +274,15 @@ function api(){
 				if (Math.floor((Math.random()*2)) == 1) OC.api.datos.firstMove = true; //<!>
 				else OC.api.datos.firstMove = false; 
 				matchesList[matchName].whoStarted = OC.api.datos.firstMove;
-
-				funcionAplazada.resolve(OC);
-				return funcionAplazada.promise;
 			} else {
 				OC.api = new Object();
 				OC.api.resultado = false;
 				OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"true"';
 				OC.api.noEnviar = false;
 				OC.api.enviarAmbos = true;
-				funcionAplazada.resolve(OC);
-				return funcionAplazada.promise;
 			} 
 
-			}
-		} 
-
-
-
-		OC.api = new Object();
-		console('MENSAJE EN MATCH_READY');
-		
-		OC.api.estado = true;
-		OC.api.command = 'OK';
-
+		}
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -285,17 +296,57 @@ function api(){
 	}
 
 	this.round_start_ack = function(OC){
+		
 		var funcionAplazada = Q.defer();
-		OC.api = new Object();
-		OC.api.response = "sin definir";
+		var playerID 		= OC.data.arguments.id;
+		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
+
+		if(onlinePlayersList[playerName].match == null){
+			OC.api = new Object();
+			OC.api.resultado = false; //Operación fallida
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
+		} else {
+			var matchName = onlinePlayersList[playerName].match;
+
+			if ((matchesList[matchName].roundACKPlayer1 == true) && 
+				(matchesList[matchName].roundACKPlayer2 == true)) {
+				OC.api = new Object();
+				OC.api.resultado = true;
+				OC.api.noEnviar = false;
+				OC.api.enviarAmbos = true;
+			} else {
+				OC.api = new Object();
+				OC.api.resultado = false;
+				OC.api.noEnviar = true;
+			} 
+		}
+		 
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
 
 	this.turn_end = function(OC){
 		var funcionAplazada = Q.defer();
+		var playerID 		= OC.data.arguments.id;
+		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
+
+		if(onlinePlayersList[playerName].match == null){
+			OC.api = new Object();
+			OC.api.resultado = false; //Operación fallida
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
+		} else {		
+		matchesList[matchName].turnEnd = true;
 		OC.api = new Object();
-		OC.api.response = "sin definir";
+		OC.api.resultado = true;
+		OC.api.datos.turnEnd = matchesList[matchName].turnEnd;
+		OC.api.noEnviar = false;
+		OC.api.enviarAmbos = false;
+		}
+	
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -438,8 +489,89 @@ function api(){
 	}
 
 
+	this.put= function(OC){
+		var funcionAplazada = Q.defer();
+		var playerID 		= OC.data.arguments.id;
+		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
+		var matchName		= onlinePlayersList[playerName].match;
+		var xPos 			= OC.data.arguments.xPos;
+		var yPos			= OC.data.arguments.yPos;
 
+		if(onlinePlayersList[playerName].match == null){
+			OC.api = new Object();
+			OC.api.resultado = false; //Operación fallida
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
+		if(((matchesList[matchName].player1Name == playerName) 
+			&& (matchesList[matchName].putPassOrRetirePlayer1 == false))
+			|| ((matchesList[matchName].player2Name == playerName) 
+			&& (matchesList[matchName].putPassOrRetirePlayer2 == false))) {
+			OC.api = new Object();
+			OC.api.resultado = false; //Operación fallida
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"true"';
+		} else /*if (posición válida)*/ { // { IMAGINO QUE VA UNA VALIDACIÓN DE FETA
+			OC.api = new Object();
+			OC.api.resultado = true; 
+			OC.api.noEnviar = true;
+			OC.api.enviarAmbos = false;
+			OC.datos.xPos = xPos;
+			OC.datos.yPos = yPos;
+			if (matchesList[matchName].player1Name == playerName) matchesList[matchName].putPassOrRetirePlayer1 = false;
+			else putPassOrRetirePlayer2 = false;		
+		} /*else {
+			OC.api = newObject;
+			OC.api.resultado = false;
+			OC.noEnviar = false;
+			OC.enviarAmbos = false;
+			// Cuando un paso es inválido le doy true a la espera de otro para reflejar el error
+			OC.razones = '"alreadyPlaying":"false","waitingOtherAdv":"true","rejected":"false"';
+		}*/
+		funcionAplazada.resolve(OC);
+		return funcionAplazada.promise;
+	}
 
+	this.pass = function(OC){
+		var funcionAplazada = Q.defer();
+		var playerID 		= OC.data.arguments.id;
+		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
+		var matchName		= onlinePlayersList[playerName].match;
+
+		if(onlinePlayersList[playerName].match == null){
+			OC.api = new Object();
+			OC.api.resultado = false;
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
+		} 		
+		if(((matchesList[matchName].player1Name == playerName) 
+			&& (matchesList[matchName].putPassOrRetirePlayer1 == false))
+			|| ((matchesList[matchName].player2Name == playerName) 
+			&& (matchesList[matchName].putPassOrRetirePlayer2 == false))) {
+			OC.api = new Object();
+			OC.api.resultado = false; //Operación fallida
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"true"';
+		} else if (matchesList[matchName].rules.allowPass == true) {
+			OC.api = new Object();
+			OC.api.resultado = true;
+			OC.api.noEnviar = true;
+			if (matchesList[matchName].player1Name == playerName) matchesList[matchName].putPassOrRetirePlayer1 = false;
+			else putPassOrRetirePlayer2 = false;			
+		}
+		else {
+			OC.api = new Object();
+			OC.api.resultado = false;
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"true"';
+		}		
+		funcionAplazada.resolve(OC);
+		return funcionAplazada.promise;
+	}
 }
 
 module.exports.api = api;

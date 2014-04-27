@@ -19,7 +19,6 @@ exports.match = function(req, res, next, id){
 }
 
 exports.index = function(req, res){
-	
 	api.getListRoundsAndMatchesList(req, function(id, list){
 	 	res.render(templates.index, {
 	                title: 'Connect4',
@@ -29,11 +28,13 @@ exports.index = function(req, res){
 	});
 }
 exports.partida = function (req, res) {
-	res.render(templates.partida, {
-        title: 'Partida de '+req.match.name,
-        squares: req.match.board.squares,
-        nombre: req.match.name,
-        tamTablero: req.match.board.boardSize,
-        inicio: req.inicio
-    });
+	api.getIdPlayer(req, function (id) {
+		res.render(templates.partida, {
+	        title: 'Partida de '+req.match.name,
+	        squares: req.match.board.squares,
+	        nombre: req.match.name,
+	        tamTablero: req.match.board.boardSize,
+	        inicio: req.inicio
+	    });
+	});
 }
