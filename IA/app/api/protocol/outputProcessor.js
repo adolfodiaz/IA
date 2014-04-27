@@ -187,7 +187,7 @@ function outputProcessor(){
 					var datos = clientObject.datos;
 					datos.color = "Red";
 					datos.advColor= "Blue";
-					datos.initialBoard null;
+					datos.initialBoard = null;
 					var clientObjectP2 = new Object();
 					var message =JSON.parse(('{"command": "ROUND_START","arguments": {"color": "'+datos.color+'", "advColor": "'+datos.advColor+'", "firstMove": "'+(!datos.firstMove)+'", "initialBoard": "'+datos.initialBoard+'"}}'));
 
