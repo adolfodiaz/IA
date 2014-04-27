@@ -257,6 +257,55 @@ function outputProcessor(){
 		return funcionAplazada.promise;
 	}
 
+	this.putPostprocessor = function(clientObject){
+		var funcionAplazada = Q.defer()
+		if(clientObject.api.resultado){ //la jugada es válida
+			var response = new Object();
+			response.command = "ADMITTED";
+			response.arguments = clientObject.api.datos;
+			clientObject.response = response;
+		} else { //la jugada no es válida, está en posición errada o hay un error
+			var response = new Object();
+			switch(clientObject.api.razones){
+				case "PLAYER_NOT_IN_MATCH":
+					response.command = "ERR_INTERNAL_GM_ERROR";
+					response.arguments = new Object();
+					response.arguments.reason = clientObject.api.razones;
+					clientObject.response = response;
+				break;
+
+				case "ALREADY_PLAYED":
+					response.command = "ERR_ALREADY_PLAYED";
+					response.arguments = new Object();
+					clientObject.response = response;
+				break;
+
+				case "ILLEGAL_MOVE":
+					response.command = "ERR_ILLEGAL_MOVE";
+					response.arguments = new Object();
+					response.arguments = clientObject.api.datos;
+					clientObject.response = response;
+				break;
+
+				case "WRONG_POS":
+					response.command = "ERR_ILLEGAL_MOVE";
+					response.arguments = new Object();
+					response.arguments = clientObject.api.datos;
+					clientObject.response = response;
+				break;
+
+				default:
+					response.command = "ERR_INTERNAL_GM_ERROR";
+					response.arguments = new Object();
+					response.arguments.reason = "UNDEFINED_REASON <api.put>";
+					clientObject.response = response;
+				break;
+			}
+		}
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
+	}
+
 	this.turnEndPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;

@@ -63,6 +63,10 @@ function inputProcessor(){
 		api.round_start_ack(clientObject).then(outputProcessor.roundStartAckPostprocessor).done(msgSender.sendMessage);
 	}
 
+	this.putPreprocessor = function(clientObject){
+		api.put(clientObject).then(outputProcessor.putPostprocessor).done(msgSender.sendMessage);
+	}
+
 	this.turnEndPreprocessor = function(clientObject){
 		api.turn_end(clientObject).then(outputProcessor.turnEndPostprocessor).done(msgSender.sendMessage);
 	}

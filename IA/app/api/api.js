@@ -631,7 +631,7 @@ function api(){
 			OC.api.resultado = false; //Operación fallida
 			OC.api.noEnviar = false;
 			OC.api.enviarAmbos = false;
-			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
+			OC.api.razones = "PLAYER_NOT_IN_MATCH";
 		} else if(((matchesList[matchName].player1Name == playerName) 
 			&& (matchesList[matchName].putPassOrRetirePlayer1 == false))
 			|| ((matchesList[matchName].player2Name == playerName) 
@@ -640,7 +640,7 @@ function api(){
 			OC.api.resultado = false; //Operación fallida
 			OC.api.noEnviar = false;
 			OC.api.enviarAmbos = false;
-			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"true"';
+			OC.api.razones = "ALREADY_PLAYED";//ya usó antes un PUT, PASS o RETIRE durante el mismo turno
 		} else /*if (posición válida)*/ { // { IMAGINO QUE VA UNA VALIDACIÓN DE FETA
 			OC.api = new Object();
 			OC.api.resultado = true; 
@@ -650,13 +650,19 @@ function api(){
 			OC.datos.yPos = yPos;
 			if (matchesList[matchName].player1Name == playerName) matchesList[matchName].putPassOrRetirePlayer1 = false;
 			else putPassOrRetirePlayer2 = false;		
-		} /*else {
+		} /*else { //posición falsa, DETERMINAR SI ES POR CONECTAR 3 EN LINEA O POR PONER LA FICHA EN MAL LUGAR
+			//POR SEPARADO
 			OC.api = newObject;
 			OC.api.resultado = false;
 			OC.noEnviar = false;
 			OC.enviarAmbos = false;
 			// Cuando un paso es inválido le doy true a la espera de otro para reflejar el error
-			OC.razones = '"alreadyPlaying":"false","waitingOtherAdv":"true","rejected":"false"';
+			OC.razones = "WRONG_POS"; //o ILLEGAL_MOVE, habrá que definir esto según las respuestas de Feta
+			//Excepcionalmente usaremos OC.api.datos para especificar si el jugador pierde o no:
+			OC.api.datos = new Object();
+			var rules = new Rules();
+			OC.api.datos.loseRound = rules.wrongPosLose; //verdadero significa que el jugador que se equivocó pierde la partida
+			//OC.api.datos.loseRound = rules.illegalMoveLose; //para cuando pierde por conectar 3
 		}*/
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
