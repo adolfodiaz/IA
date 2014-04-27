@@ -318,7 +318,12 @@ function api(){
 			OC.api.enviarAmbos = false;
 			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
 		} else {
-
+			if(playerName == matchesList[matchName].player1Name){
+				matchesList[matchName].aceptaGamePlayer1 = true;
+			}
+			else {
+				matchesList[matchName].aceptaGamePlayer2 = true;
+			}
 
 			if ((matchesList[matchName].aceptaGamePlayer1 == true) && 
 				(matchesList[matchName].aceptaGamePlayer2 == true)) {
