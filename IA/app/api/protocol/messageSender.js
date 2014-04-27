@@ -16,8 +16,8 @@ function messageSender(){
 		
 		var JSONString = JSON.stringify(clientObject.response);
 
-		if ((clientObject.api.noEnviar != null) || (clientObject.api.noEnviar != '') || (clientObject.api.noEnviar != {})) {
-			if (clientObject.api.noEnviar == false) {
+		//if ((clientObject.api.noEnviar != null) || (clientObject.api.noEnviar != '') || (clientObject.api.noEnviar != {})) {
+			//if (clientObject.api.noEnviar == false) {
 				
 				console.log("sendMessage: "+JSONString+"   "+clientObject.clientType); 
 				if(clientObject.clientType=="NET"){			
@@ -27,10 +27,12 @@ function messageSender(){
 					clientObject.connection.emit("data",JSONString); //Socket.IO, comunicación con navegador			
 					resultado = "Mensaje enviado vía browser:"+JSONString;
 				}
-			} else {
-				console.log(clientObject.response.command + " operación realizada con exito!");
-			}
-		}
+
+			//} else {
+			//	console.log(clientObject.response.command + " operación realizada con exito!");
+			//}
+		//}
+
 
 		fnAplazada.resolve(resultado);
 		return fnAplazada.promise;
