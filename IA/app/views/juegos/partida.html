@@ -28,8 +28,9 @@
 {% block SCRIPT %}
 <script type="text/javascript">
 	window.onload = function() {
-		socket.emit("data", '{"command": "ROUND_START_ACK","arguments": {"id": "837"}}')
+	    socket.emit("data", '{"command": "ROUND_START_ACK","arguments": {"id": "'+id+'"}}');
 	}
+	
 
 	var id = "{{id}}";
 	
@@ -42,7 +43,6 @@
     this.inicio = {{inicio}};
 
     function jugarFicha(fil,col){
-
     	if(inicio){
 	    	if(turno){
 	    		//turno = false;
