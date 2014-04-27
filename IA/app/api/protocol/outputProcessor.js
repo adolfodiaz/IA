@@ -156,7 +156,13 @@ function outputProcessor(){
 		clientObject.response = clientObject.api.response;
 		funcionAplazada.resolve(clientObject);
 
-		if(!clientObject.api.resultado){ //Caso Error
+		if (clientObject.api.noEnviar){
+			var message = JSON.parse(('{"command": "OK"}'));
+			clientObject.response = message;
+		}
+
+		else{
+		if(!clientObject.api.resultado ){ //Caso Error
 			
 			if (!clientObject.api.noEnviar && !clientObject.api.enviarAmbos) { //Error técnico
 				var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));
@@ -171,7 +177,7 @@ function outputProcessor(){
 					clientObjectP2.response = message;
 					clientObjectP2.connection = clientObject.api.player1Connection;
 					clientObjectP2.clientType = clientObject.api.player1Type;
-
+					console.log("voy enviar mensaje al jugador 2");
 					messageSender.sendMessage(clientObjectP2);
 					/////////
 
@@ -180,6 +186,7 @@ function outputProcessor(){
 					
 					var message = JSON.parse(('{"command": "MATCH_ADV_BUSY", "arguments":{'+clientObject.api.razones+'}}'));
 					clientObject.response = message;
+
 			}
 		}
 		else{// ROUND_START
@@ -206,6 +213,7 @@ function outputProcessor(){
 					
 					
 		}	
+	}
 		//mandar mensajes
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
