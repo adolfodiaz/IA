@@ -162,6 +162,14 @@ function messageValidator(){
 				//api.round_start_ack(clientObject).then(outputProcessor.buildResponse).done(messageSender.sendMessage);
 			break;
 
+			case "PUT": console.log("PUT");
+				if(clientObject.data.arguments == null){
+					messageSender.sendErrArgsCommand(clientObject);
+				} else {
+					validatePut(clientObject);
+				}
+			break;
+
 			case "TURN_END": console.log("TURN_END");
 				if(clientObject.data.arguments == null){
 					messageSender.sendErrArgsCommand(clientObject);
@@ -522,6 +530,19 @@ function validateRoundStartAck(clientObject){
 		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
 }
 
+function validatePut(clientObject){
+	//Verificando argumentos
+	var args = clientObject.data.arguments;
+	var preProcResults = new Object();
+
+		preProcResults.okId = true;
+
+		if ((args.id == null) || (args.id == "") || (args.id == {})) preProcResults.okId = false;
+
+		//checkAutomataState(clientObject);//pasar por el autómata, ACTIVAR
+		checkAutomataStateReturn(clientObject);//borrar esta línea cuando haya que pasar por el autómata
+}
+
 function validateTurnEnd(clientObject){
 	//Verificando argumentos
 	var args = clientObject.data.arguments;
@@ -840,6 +861,10 @@ function checkAutomataStateReturn(clientObject){
 
 			case "ROUND_START_ACK":
 				inputProcessor.roundStartAckPreprocessor(clientObject);
+			break;
+
+			case "PUT":
+				inputProcessor.putPreprocessor(clientObject);
 			break;
 
 			case "TURN_END":

@@ -15,14 +15,24 @@ function messageSender(){
 		var resultado;
 		
 		var JSONString = JSON.stringify(clientObject.response);
-		console.log("sendMessage: "+JSONString+"   "+clientObject.clientType);
-		if(clientObject.clientType=="NET"){			
-			clientObject.connection.write(JSONString+"\n"); // NET library, comunicación a agentes o aplicaciones externas
-			resultado = "Mensaje enviado vía socket:"+JSONString;			
-		}else{
-			clientObject.connection.emit("data",JSONString); //Socket.IO, comunicación con navegador			
-			resultado = "Mensaje enviado vía browser:"+JSONString;
+
+		if ((clientObject.api.noEnviar != null) || (clientObject.api.noEnviar != '') || (clientObject.api.noEnviar != {})) {
+			if (clientObject.api.noEnviar == false) {
+				
+				console.log("sendMessage: "+JSONString+"   "+clientObject.clientType); 
+				if(clientObject.clientType=="NET"){			
+					clientObject.connection.write(JSONString+"\n"); // NET library, comunicación a agentes o aplicaciones externas
+					resultado = "Mensaje enviado vía socket:"+JSONString;			
+				}else{
+					clientObject.connection.emit("data",JSONString); //Socket.IO, comunicación con navegador			
+					resultado = "Mensaje enviado vía browser:"+JSONString;
+				}
+
+			} else {
+				console.log(clientObject.response.command + " operación realizada con exito!");
+			}
 		}
+
 		fnAplazada.resolve(resultado);
 		return fnAplazada.promise;
 	}
