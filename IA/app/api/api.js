@@ -188,8 +188,38 @@ function api(){
 
 	this.session_quit = function(OC){
 		var funcionAplazada = Q.defer();
+		var playerName = getPlayerNameForID[OC.data.arguments.id];
 		OC.api = new Object();
-		OC.api.response = "sin definir";
+		if(onlinePlayersList[playerName]!=null){
+			if(onlinePlayersList[playerName].sessionStarted == true){//como debería ser
+				onlinePlayersList[playerName].sessionStarted = false;
+				//showPlayerAsConnected()?
+				//SI EL FRONTEND MANEJA UNA LISTA DE PLAYERS CONECTADOS, ES AHORA CUANDO DEBE ACTUALIZARLA
+				//aquí es donde debería mostrarse como "Conectado" y no antes
+				OC.api.resultado = true;
+				OC.api.datos = onlinePlayersList[playerName].stats;
+				OC.api.noEnviar = false;
+				OC.api.enviarAmbos = false;
+				OC.api.razones = null;
+				OC.api.player = null;
+				//como nos fue bien, debemos contestar enviando las estadísticas (comando STATS en el outputProcessor)
+				//y el cliente debería desconectarse (o en browser, logout)
+			} else { //ya tenía la sesión iniciada, nunca debería llegar acá si el autómata está bien implementado
+				OC.api.resultado = false; //Contestar con ERR_GM_INTERNAL_ERROR, es una situación anómala
+				OC.api.datos = null;
+				OC.api.noEnviar = false;
+				OC.api.enviarAmbos = false;
+				OC.api.razones = "SESSION_NEVER_STARTED";
+				OC.api.player = null;
+			}
+		} else { //no debería llegar acá, quiere decir que un cliente quiere hacer SESSION_START sin estar conectado O: ¿Se pasó de largo el REGISTER?
+			OC.api.resultado = false;
+			OC.api.datos = null;
+			OC.api.razones = "PLAYER_NOT_ONLINE";
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.player = null;
+		}
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -297,7 +327,7 @@ function api(){
 				else 
 					OC.api.player =   matchesList[matchName].player1Name;
 				if (Math.floor((Math.random()*2)) == 1) OC.api.datos.firstMove = true; //<!>
-				else OC.api.datos.firstMove = false; 
+				else OC.api.datos.firstMove = false;
 				matchesList[matchName].whoStarted = OC.api.datos.firstMove;
 			} else {
 				OC.api = new Object();
