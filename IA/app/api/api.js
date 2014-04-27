@@ -296,8 +296,29 @@ function api(){
 
 	this.match_lookup_cancel = function(OC){
 		var funcionAplazada = Q.defer();
-		OC.api = new Object();
-		OC.api.response = "sin definir";
+		var playerID 		= OC.data.arguments.id;
+		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
+		var matchName 		= matchesList[playerName].match;
+		var matchIndex 		= matchesList.indexOf(matchName);
+
+		if(onlinePlayersList[playerName].match != null){
+			OC.api = new Object();
+			OC.api.resultado = false; //Operación fallida
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"true","waitingOtherAdv":"false","rejected":"false"';
+			funcionAplazada.resolve(OC);
+			return funcionAplazada.promise;
+		}	if (matchIndex > -1) {
+			matchesList.splice(matchIndex,1);
+		}
+
+		onlinePlayersList[playerName].match = null;
+
+		OC.api.resultado = true;
+		OC.api.noEnviar = true;
+		OC.api.enviarAmbos= false;
+
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
