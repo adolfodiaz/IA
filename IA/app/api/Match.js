@@ -17,6 +17,10 @@ function Match(){
 	this.aceptaGamePlayer2 = false;
 	this.roundACKPlayer1 = false;
 	this.roundACKPlayer2 = false;
+
+	this.putPassOrRetirePLayer1 = true;
+	this.putPassOrRetirePLayer2 = true;
+
 	this.turnEnd = false;  
 	
 	this.newMatch = function(name, player1Name){
