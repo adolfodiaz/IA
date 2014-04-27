@@ -175,8 +175,9 @@ function outputProcessor(){
 					var message = JSON.parse(('{"command": "MATCH_ADV_BUSY", "arguments":{'+clientObject.api.razones+'}}'));
 
 					clientObjectP2.response = message;
-					clientObjectP2.connection = clientObject.api.player1Connection;
-					clientObjectP2.clientType = clientObject.api.player1Type;
+					console.log(clientObject.api.player); 
+					clientObjectP2.connection = onlinePlayersList[clientObject.api.player].connection;
+					clientObjectP2.clientType = onlinePlayersList[clientObject.api.player].clientType;
 					console.log("voy enviar mensaje al jugador 2");
 					messageSender.sendMessage(clientObjectP2);
 					/////////
@@ -198,9 +199,9 @@ function outputProcessor(){
 					var clientObjectP2 = new Object();
 					var message =JSON.parse(('{"command": "ROUND_START","arguments": {"color": "'+datos.color+'", "advColor": "'+datos.advColor+'", "firstMove": "'+(!datos.firstMove)+'", "initialBoard": "'+datos.initialBoard+'"}}'));
 
-					clientObjectP2.response = message;
-					clientObjectP2.connection = clientObject.api.player1Connection;
-					clientObjectP2.clientType = clientObject.api.player1Type;
+					lientObjectP2.response = message;
+					clientObjectP2.connection = onlinePlayersList[clientObject.api.player].connection;
+					clientObjectP2.clientType = onlinePlayersList[clientObject.api.player].clientType;
 
 					messageSender.sendMessage(clientObjectP2);
 					/////////

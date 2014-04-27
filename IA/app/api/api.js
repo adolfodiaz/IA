@@ -248,9 +248,14 @@ function api(){
 		var funcionAplazada = Q.defer();
 		var playerID 		= OC.data.arguments.id;
 		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
-		var matchName = onlinePlayersList[playerName].match;
+		var matchName 		= onlinePlayersList[playerName].match;
+		console.log("probar las weas");
+		console.log(matchesList[matchName].aceptaGamePlayer1);
+		console.log(matchesList[matchName].aceptaGamePlayer2);
 
+		
 		if(onlinePlayersList[playerName].match == null){
+			console.log("hola hay un error raro");
 			OC.api = new Object();
 			OC.api.resultado = false; //Operación fallida
 			OC.api.noEnviar = false;
@@ -258,28 +263,59 @@ function api(){
 			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
 		} else {
 
+
 			if ((matchesList[matchName].aceptaGamePlayer1 == true) && 
 				(matchesList[matchName].aceptaGamePlayer2 == true)) {
 				OC.api = new Object();
 				OC.api.resultado = true;
 				OC.api.noEnviar = false;
 				OC.api.enviarAmbos = true;
-				if(playerName == matchesList[matchName].player1Name)
+				if(playerName == matchesList[matchName].player1Name){
+					console.log("player name sera player 2");
 					OC.api.player =   matchesList[matchName].player2Name;
-				else 
+				}
+				else {
 					OC.api.player =   matchesList[matchName].player1Name;
+					console.log("player name sera player 1");
+				}
+					
 				if (Math.floor((Math.random()*2)) == 1) OC.api.datos.firstMove = true; //<!>
 				else OC.api.datos.firstMove = false; 
 				matchesList[matchName].whoStarted = OC.api.datos.firstMove;
-			} else {
+			} 
+
+			else if ((matchesList[matchName].aceptaGamePlayer1 == true) || 
+				(matchesList[matchName].aceptaGamePlayer2 == true)){
+				
+					OC.api = new Object();
+					OC.api.resultado = true;
+					OC.api.noEnviar = true;
+					OC.api.enviarAmbos = false;
+
+				}
+
+			else if ((matchesList[matchName].aceptaGamePlayer1 == false) && 
+				(matchesList[matchName].aceptaGamePlayer2 == false)) {
+				console.log("Entré a ADV busy >.>!!!!");
 				OC.api = new Object();
 				OC.api.resultado = false;
 				OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"true"';
 				OC.api.noEnviar = false;
 				OC.api.enviarAmbos = true;
+
+				if(playerName == matchesList[matchName].player1Name){
+					console.log("player name sera player 2");
+					OC.api.player =   matchesList[matchName].player2Name;
+				}
+				else {
+					OC.api.player =   matchesList[matchName].player1Name;
+					console.log("player name sera player 1");
+				}
 			} 
 
 		}
+		
+		console.log(OC.api.player);
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
