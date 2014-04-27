@@ -428,8 +428,32 @@ function api(){
 
 	this.board_check = function(OC){
 		var funcionAplazada = Q.defer();
-		OC.api = new Object();
-		OC.api.response = "sin definir";
+		var playerID 		= OC.data.arguments.id;
+		var playerName 		= getPlayerNameForID[OC.data.arguments.id];		
+		var matchName 		= onlinePlayersList[playerName].match;
+		var MD5Client		= OC.data.arguments.MD5;
+		var MD5Server		= crypto.createHash('md5');
+		MD5Server.update((matchesList[matchName].board.squares.toString()), "utf8");
+
+		if(onlinePlayersList[playerName].match == null){
+			OC.api = new Object();
+			OC.api.resultado = false; //Operación fallida
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
+		} else if (MD5Client == MD5Server) {
+			OC.api = new Object();
+			OC.api.resultado = true; 
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.datos.boardStatus = "SYNC";
+			} else {
+				OC.api = new Object();
+				OC.api.resultado = true; 
+				OC.api.noEnviar = false;
+				OC.api.enviarAmbos = false;
+				OC.api.datos.boardStatus = "DESYNC";
+		}		
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -448,7 +472,7 @@ function api(){
 			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
 		} else {
 			OC.api = new Object();
-			OC.api.resultado = true; //Operación fallida
+			OC.api.resultado = true; 
 			OC.api.board = matchesList[matchName].board;
 			OC.api.noEnviar = false;
 		}		 
