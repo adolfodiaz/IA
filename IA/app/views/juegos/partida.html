@@ -27,6 +27,10 @@
 
 {% block SCRIPT %}
 <script type="text/javascript">
+	window.onload = function() {
+		socket.emit("data", '{"command": "ROUND_START_ACK","arguments": {"id": "837"}}')
+	}
+
 	var id = "{{id}}";
 	
 	this.jugadaAceptada = 1;

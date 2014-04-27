@@ -12,10 +12,7 @@ var templates = {
 exports.match = function(req, res, next, id){
 	//datos temporales de partida;
 	if(matchesList[id] != null){
-		
-			req.match = matchesList[id];
-			req.inicio = false;
-		
+		req.match = matchesList[id];
 	}
 	else res.error = true;
 	
@@ -45,7 +42,7 @@ exports.partida = function (req, res) {
 			        squares: req.match.board.squares,
 			        nombre: req.match.name,
 			        tamTablero: req.match.board.boardSize,
-			        inicio: req.inicio
+			        inicio: req.inicio,
 			    });
 		    }
 		);
