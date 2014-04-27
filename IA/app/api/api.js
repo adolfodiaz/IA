@@ -639,6 +639,13 @@ function api(){
 			OC.api.resultado = true; 
 			OC.api.noEnviar = true;
 			OC.api.enviarAmbos = false;
+
+			if (playerName == matchesList[matchName].player1Name) 
+				matchesList[matchName].board.squares[xPos][yPos] = 1;
+			else
+				matchesList[matchName].board.squares[xPos][yPos] = 2;
+			
+
 			OC.datos.xPos = xPos;
 			OC.datos.yPos = yPos;
 			if (matchesList[matchName].player1Name == playerName) matchesList[matchName].putPassOrRetirePlayer1 = false;
