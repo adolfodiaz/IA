@@ -168,17 +168,7 @@ function outputProcessor(){
 
 	this.matchLookupCancelPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
-		if(clientObject.api.resultado){ //si a la API le fue bien
-			var response = new Object();
-			response.command = "MATCH_LOOKUP_CANCEL";
-			response.arguments = clientObject.api.datos;
-			clientObject.response = response;
-		} else { //no debería fallar la búsqueda de estadísticas, enviar mensaje de error interno
-			var response = new Object();
-			response.command = "ERR_INTERNAL_GM_ERROR";
-			response.arguments = new Object(); //para que arguments != NULL y que no se lance un ERR_ARGS desde el cliente
-			clientObject.response = response;
-		}
+		clientObject.response = clientObject.api.response;
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}
@@ -187,7 +177,9 @@ function outputProcessor(){
 		var funcionAplazada = Q.defer()
 		funcionAplazada.resolve(clientObject);
 		console.log('llego al postprocessor');
+
 		if(!clientObject.api.resultado){ //false
+		 	
 			var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));//MATCH_ADV_BUSY o MATCH_LOOKUP_FAIL según sea el caso
 			clientObject.response = message;
 		}
@@ -237,55 +229,6 @@ function outputProcessor(){
 	this.roundStartAckPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
-		funcionAplazada.resolve(clientObject);
-		return funcionAplazada.promise;
-	}
-
-	this.putPostprocessor = function(clientObject){
-		var funcionAplazada = Q.defer()
-		if(clientObject.api.resultado){ //la jugada es válida
-			var response = new Object();
-			response.command = "ADMITTED";
-			response.arguments = clientObject.api.datos;
-			clientObject.response = response;
-		} else { //la jugada no es válida, está en posición errada o hay un error
-			var response = new Object();
-			switch(clientObject.api.razones){
-				case "PLAYER_NOT_IN_MATCH":
-					response.command = "ERR_INTERNAL_GM_ERROR";
-					response.arguments = new Object();
-					response.arguments.reason = clientObject.api.razones;
-					clientObject.response = response;
-				break;
-
-				case "ALREADY_PLAYED":
-					response.command = "ERR_ALREADY_PLAYED";
-					response.arguments = new Object();
-					clientObject.response = response;
-				break;
-
-				case "ILLEGAL_MOVE":
-					response.command = "ERR_ILLEGAL_MOVE";
-					response.arguments = new Object();
-					response.arguments = clientObject.api.datos;
-					clientObject.response = response;
-				break;
-
-				case "WRONG_POS":
-					response.command = "ERR_ILLEGAL_MOVE";
-					response.arguments = new Object();
-					response.arguments = clientObject.api.datos;
-					clientObject.response = response;
-				break;
-
-				default:
-					response.command = "ERR_INTERNAL_GM_ERROR";
-					response.arguments = new Object();
-					response.arguments.reason = "UNDEFINED_REASON <api.put>";
-					clientObject.response = response;
-				break;
-			}
-		}
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}

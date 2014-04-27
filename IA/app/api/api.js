@@ -272,7 +272,7 @@ function api(){
 			matchesList[matchName].newMatch(matchName, playerName);
 			OC.api = new Object();
 			OC.api.resultado = true;
-			OC.api.noEnviar = false; //Nada para el usuario.
+			OC.api.noEnviar = true; //Nada para el usuario.
 			OC.api.enviarAmbos = false;
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
@@ -639,13 +639,6 @@ function api(){
 			OC.api.resultado = true; 
 			OC.api.noEnviar = true;
 			OC.api.enviarAmbos = false;
-
-			if (playerName == matchesList[matchName].player1Name) 
-				matchesList[matchName].board.squares[xPos][yPos] = 1;
-			else
-				matchesList[matchName].board.squares[xPos][yPos] = 2;
-			
-
 			OC.datos.xPos = xPos;
 			OC.datos.yPos = yPos;
 			if (matchesList[matchName].player1Name == playerName) matchesList[matchName].putPassOrRetirePlayer1 = false;
