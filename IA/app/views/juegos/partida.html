@@ -27,9 +27,8 @@
 
 {% block SCRIPT %}
 <script type="text/javascript">
-
 	var id = "{{id}}";
-
+	
 	this.jugadaAceptada = 1;
 	this.turno = true;
 	this.esperarJugador = true;
@@ -39,6 +38,7 @@
     this.inicio = {{inicio}};
 
     function jugarFicha(fil,col){
+
     	if(inicio){
 	    	if(turno){
 	    		//turno = false;

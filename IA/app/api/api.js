@@ -64,18 +64,14 @@ function api(){
 
 	this.getIdPlayer = function(req, showTemplate){	
 		showTemplate(Array.prototype.slice.call(onlinePlayersList[req.user.fullname].id));
-		
 	}
 
 	this.getListRoundsAndMatchesList = function(req, showTemplate){		
-
 		var list = new Array();
 		for(var round in matchesList){
 			list.push(matchesList[round]);
 		}
-
 		showTemplate(onlinePlayersList[req.user.fullname].id, Array.prototype.slice.call(list));
-		
 	}
 
 	this.response = function(connection, data, clientType, response, sendMessage){
