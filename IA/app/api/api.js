@@ -487,6 +487,39 @@ function api(){
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
+
+	this.put= function(OC){
+		var funcionAplazada = Q.defer();
+		var playerID 		= OC.data.arguments.id;
+		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
+		var xPos 			= OC.data.arguments.xPos;
+		var yPos			= OC.data.arguments.yPos;
+
+		if(onlinePlayersList[playerName].match == null){
+			OC.api = new Object();
+			OC.api.resultado = false; //Operación fallida
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
+		} else /*if (posición válida)*/ { // { IMAGINO QUE VA UNA VALIDACIÓN DE FETA
+			OC.api = new Object();
+			OC.api.resultado = true; 
+			OC.api.noEnviar = true;
+			OC.api.enviarAmbos = false;
+			OC.datos.xPos = xPos;
+			OC.datos.yPos = yPos;			
+		} /*else {
+			OC.api = newObject;
+			OC.api.resultado = false;
+			OC.noEnviar = false;
+			OC.enviarAmbos = false;
+			// Cuando un paso es inválido le doy true a la espera de otro para reflejar el error
+			OC.razones = '"alreadyPlaying":"false","waitingOtherAdv":"true","rejected":"false"';
+		}*/
+		funcionAplazada.resolve(OC);
+		return funcionAplazada.promise;
+	}
 }
 
 module.exports.api = api;
