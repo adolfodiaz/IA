@@ -27,6 +27,11 @@
 
 {% block SCRIPT %}
 <script type="text/javascript">
+	window.onload = function() {
+	    socket.emit("data", '{"command": "ROUND_START_ACK","arguments": {"id": "'+id+'"}}');
+	}
+	
+
 	var id = "{{id}}";
 	
 	this.jugadaAceptada = 1;
@@ -38,7 +43,6 @@
     this.inicio = {{inicio}};
 
     function jugarFicha(fil,col){
-
     	if(inicio){
 	    	if(turno){
 	    		//turno = false;

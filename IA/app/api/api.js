@@ -135,9 +135,37 @@ function api(){
 
 	this.session_start = function(OC){
 		var funcionAplazada = Q.defer();
-		console.log("API: SESSION_START");
+		var playerName = getPlayerNameForID[OC.data.arguments.id];
 		OC.api = new Object();
-		OC.api.response = "sin definir";
+		if(onlinePlayersList[playerName]!=null){
+			if(onlinePlayersList[playerName].sessionStarted == false){//como debería ser
+				onlinePlayersList[playerName].sessionStarted = true;
+				//showPlayerAsConnected()?
+				//SI EL FRONTEND MANEJA UNA LISTA DE PLAYERS CONECTADOS, ES AHORA CUANDO DEBE ACTUALIZARLA
+				//aquí es donde debería mostrarse como "Conectado" y no antes
+				OC.api.resultado = true;
+				OC.api.datos = new Rules();
+				OC.api.noEnviar = false;
+				OC.api.enviarAmbos = false;
+				OC.api.razones = null;
+				OC.api.player = null;
+				//como nos fue bien, debemos contestar enviando las reglas (comando RULES en el outputProcessor)
+			} else { //ya tenía la sesión iniciada, nunca debería llegar acá si el autómata está bien implementado
+				OC.api.resultado = false; //Contestar con ERR_GM_INTERNAL_ERROR, es una situación anómala
+				OC.api.datos = null;
+				OC.api.noEnviar = false;
+				OC.api.enviarAmbos = false;
+				OC.api.razones = "SESSION_ALREADY_STARTED";
+				OC.api.player = null;
+			}
+		} else { //no debería llegar acá, quiere decir que un cliente quiere hacer SESSION_START sin estar conectado O: ¿Se pasó de largo el REGISTER?
+			OC.api.resultado = false;
+			OC.api.datos = null;
+			OC.api.razones = "PLAYER_NOT_ONLINE";
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.player = null;
+		}
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -160,8 +188,38 @@ function api(){
 
 	this.session_quit = function(OC){
 		var funcionAplazada = Q.defer();
+		var playerName = getPlayerNameForID[OC.data.arguments.id];
 		OC.api = new Object();
-		OC.api.response = "sin definir";
+		if(onlinePlayersList[playerName]!=null){
+			if(onlinePlayersList[playerName].sessionStarted == true){//como debería ser
+				onlinePlayersList[playerName].sessionStarted = false;
+				//showPlayerAsConnected()?
+				//SI EL FRONTEND MANEJA UNA LISTA DE PLAYERS CONECTADOS, ES AHORA CUANDO DEBE ACTUALIZARLA
+				//aquí es donde debería mostrarse como "Conectado" y no antes
+				OC.api.resultado = true;
+				OC.api.datos = onlinePlayersList[playerName].stats;
+				OC.api.noEnviar = false;
+				OC.api.enviarAmbos = false;
+				OC.api.razones = null;
+				OC.api.player = null;
+				//como nos fue bien, debemos contestar enviando las estadísticas (comando STATS en el outputProcessor)
+				//y el cliente debería desconectarse (o en browser, logout)
+			} else { //ya tenía la sesión iniciada, nunca debería llegar acá si el autómata está bien implementado
+				OC.api.resultado = false; //Contestar con ERR_GM_INTERNAL_ERROR, es una situación anómala
+				OC.api.datos = null;
+				OC.api.noEnviar = false;
+				OC.api.enviarAmbos = false;
+				OC.api.razones = "SESSION_NEVER_STARTED";
+				OC.api.player = null;
+			}
+		} else { //no debería llegar acá, quiere decir que un cliente quiere hacer SESSION_START sin estar conectado O: ¿Se pasó de largo el REGISTER?
+			OC.api.resultado = false;
+			OC.api.datos = null;
+			OC.api.razones = "PLAYER_NOT_ONLINE";
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.player = null;
+		}
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -249,9 +307,7 @@ function api(){
 		var playerID 		= OC.data.arguments.id;
 		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
 		var matchName 		= onlinePlayersList[playerName].match;
-		console.log("probar las weas");
-		console.log(matchesList[matchName].aceptaGamePlayer1);
-		console.log(matchesList[matchName].aceptaGamePlayer2);
+
 
 		
 		if(onlinePlayersList[playerName].match == null){
@@ -280,7 +336,7 @@ function api(){
 				}
 					
 				if (Math.floor((Math.random()*2)) == 1) OC.api.datos.firstMove = true; //<!>
-				else OC.api.datos.firstMove = false; 
+				else OC.api.datos.firstMove = false;
 				matchesList[matchName].whoStarted = OC.api.datos.firstMove;
 			} 
 
@@ -333,6 +389,7 @@ function api(){
 		var funcionAplazada = Q.defer();
 		var playerID 		= OC.data.arguments.id;
 		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
+		var matchName 		= onlinePlayersList[playerName].match;
 
 		if(onlinePlayersList[playerName].match == null){
 			OC.api = new Object();
@@ -341,7 +398,6 @@ function api(){
 			OC.api.enviarAmbos = false;
 			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
 		} else {
-			var matchName = onlinePlayersList[playerName].match;
 
 			if ((matchesList[matchName].roundACKPlayer1 == true) && 
 				(matchesList[matchName].roundACKPlayer2 == true)) {
@@ -406,8 +462,32 @@ function api(){
 
 	this.board_check = function(OC){
 		var funcionAplazada = Q.defer();
-		OC.api = new Object();
-		OC.api.response = "sin definir";
+		var playerID 		= OC.data.arguments.id;
+		var playerName 		= getPlayerNameForID[OC.data.arguments.id];		
+		var matchName 		= onlinePlayersList[playerName].match;
+		var MD5Client		= OC.data.arguments.MD5;
+		var MD5Server		= crypto.createHash('md5');
+		MD5Server.update((matchesList[matchName].board.squares.toString()), "utf8");
+
+		if(onlinePlayersList[playerName].match == null){
+			OC.api = new Object();
+			OC.api.resultado = false; //Operación fallida
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
+		} else if (MD5Client == MD5Server) {
+			OC.api = new Object();
+			OC.api.resultado = true; 
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.datos.boardStatus = "SYNC";
+			} else {
+				OC.api = new Object();
+				OC.api.resultado = true; 
+				OC.api.noEnviar = false;
+				OC.api.enviarAmbos = false;
+				OC.api.datos.boardStatus = "DESYNC";
+		}		
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -426,7 +506,7 @@ function api(){
 			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
 		} else {
 			OC.api = new Object();
-			OC.api.resultado = true; //Operación fallida
+			OC.api.resultado = true; 
 			OC.api.board = matchesList[matchName].board;
 			OC.api.noEnviar = false;
 		}		 

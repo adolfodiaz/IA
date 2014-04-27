@@ -45,7 +45,18 @@ function outputProcessor(){
 
 	this.sessionStartPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
-		clientObject.response = clientObject.api.response;
+		if(clientObject.api.resultado){ //si a la API le fue bien
+			var response = new Object();
+			response.command = "RULES";
+			response.arguments = clientObject.api.datos;
+			clientObject.response = response;
+		} else { //no debería pasar esto, enviar mensaje de error interno
+			var response = new Object();
+			response.command = "ERR_INTERNAL_GM_ERROR";
+			response.arguments = new Object();
+			response.arguments.reason = clientObject.api.razones;
+			clientObject.response = response;
+		}
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}
@@ -66,7 +77,18 @@ function outputProcessor(){
 
 	this.sessionQuitPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
-		clientObject.response = clientObject.api.response;
+		if(clientObject.api.resultado){ //si a la API le fue bien
+			var response = new Object();
+			response.command = "STATS";
+			response.arguments = clientObject.api.datos;
+			clientObject.response = response;
+		} else { //no debería pasar esto, enviar mensaje de error interno
+			var response = new Object();
+			response.command = "ERR_INTERNAL_GM_ERROR";
+			response.arguments = new Object();
+			response.arguments.reason = clientObject.api.razones;
+			clientObject.response = response;
+		}
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}

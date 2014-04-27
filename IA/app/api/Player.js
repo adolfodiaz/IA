@@ -7,6 +7,7 @@ function Player(){
 	this.PlayerClass;//AI o Humano
 	this.automataState;
 	this.automataPreviousState = null;
+	this.sessionStarted = false;
 
 	//Estadísticas del jugador
 	this.stats = new Object();
