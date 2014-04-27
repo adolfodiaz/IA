@@ -36,14 +36,19 @@ exports.partida = function (req, res) {
 	}
 	else{
 		api.getIdPlayer(req, function (id) {
-			player = onlinePlayersList[(getPlayerNameForID[id])] ;
-			var partida;
+			alert( getPlayerNameForID[id] );
+
+			var nombrePlayer = getPlayerNameForID[id];
+
+			player = onlinePlayersList[ nombrePlayer ] ;
+			alert(player);
+			
 			//si es jugador 1
-			if(matchesList[id].player1Name == player){
-				partida = matchesList[id].whoStarted;
+			if(matchesList[req.match.name].player1Name == player){
+				var partida = matchesList[req.match.name].whoStarted;
 			} //si es jugador 2
-			else if(matchesList[id].player2Name == player){
-				partida = (!matchesList[id].whoStarted);
+			else if(matchesList[req.match.name].player2Name == player){
+				var partida = (!matchesList[req.match.name].whoStarted);
 				;
 			
 			//si es espectador

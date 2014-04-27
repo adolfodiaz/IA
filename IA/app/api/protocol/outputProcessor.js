@@ -175,68 +175,44 @@ function outputProcessor(){
 
 	this.matchReadyPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
-		clientObject.response = clientObject.api.response;
 		funcionAplazada.resolve(clientObject);
+		console.log('llego al postprocessor');
 
-		if (clientObject.api.noEnviar){
-			var message = JSON.parse(('{"command": "OK"}'));
+		if(!clientObject.api.resultado){ //false
+		 	
+			var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));//MATCH_ADV_BUSY o MATCH_LOOKUP_FAIL según sea el caso
+			clientObject.response = message;
+		}
+		else{
+			//en caso de enviar mensaje
+			if(!clientObject.api.noEnviar){
+				var datos = new Object();
+				datos.color = "Red";
+				datos.advColor= "Blue";
+				datos.initialBoard = null;
+				datos.firstMove = clientObject.api.datos.firstMove;
+				var clientObjectP2 = new Object();
+				var message =JSON.parse(('{"command": "ROUND_START","arguments": {"color": "red", "advColor": "Blue", "firstMove": "'+ datos.firstMove+'", "initialBoard": "null"}}'));
+
+				//enviar mensaje al otro jugador
+				if(clientObject.api.enviarAmbos){
+					var clientObject2 = new Object();
+					clientObject2.response = message;
+					clientObject2.connection = onlinePlayersList[clientObject.api.player].connection;
+					clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
+					messageSender.sendMessage(clientObject2);
+				}//fin (envio ambos)
+				//enviar a solo el usuario
+				else{
+					var message = JSON.parse(('{"command": "OK"}'));
+				}
+			}
+			else{//caso de no enviar mensaje;
+				var message = JSON.parse(('{"command": "OK"}'));
+			}
 			clientObject.response = message;
 		}
 
-		else{
-		if(!clientObject.api.resultado ){ //Caso Error
-			
-			if (!clientObject.api.noEnviar && !clientObject.api.enviarAmbos) { //Error técnico
-				var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));
-				clientObject.response = message;
-			}
-
-			if (!clientObject.api.noEnviar && clientObject.api.enviarAmbos) { // MATCH_ADV_BUSY
-					//Jugador 2
-					var clientObjectP2 = new Object();
-					var message = JSON.parse(('{"command": "MATCH_ADV_BUSY", "arguments":{'+clientObject.api.razones+'}}'));
-
-					clientObjectP2.response = message;
-					console.log(clientObject.api.player); 
-					clientObjectP2.connection = onlinePlayersList[clientObject.api.player].connection;
-					clientObjectP2.clientType = onlinePlayersList[clientObject.api.player].clientType;
-					console.log("voy enviar mensaje al jugador 2");
-					messageSender.sendMessage(clientObjectP2);
-					/////////
-
-					//Jugador 1
-
-					
-					var message = JSON.parse(('{"command": "MATCH_ADV_BUSY", "arguments":{'+clientObject.api.razones+'}}'));
-					clientObject.response = message;
-
-			}
-		}
-		else{// ROUND_START
-
-					var datos = clientObject.datos;
-					datos.color = "Red";
-					datos.advColor= "Blue";
-					datos.initialBoard = null;
-					var clientObjectP2 = new Object();
-					var message =JSON.parse(('{"command": "ROUND_START","arguments": {"color": "'+datos.color+'", "advColor": "'+datos.advColor+'", "firstMove": "'+(!datos.firstMove)+'", "initialBoard": "'+datos.initialBoard+'"}}'));
-
-					lientObjectP2.response = message;
-					clientObjectP2.connection = onlinePlayersList[clientObject.api.player].connection;
-					clientObjectP2.clientType = onlinePlayersList[clientObject.api.player].clientType;
-
-					messageSender.sendMessage(clientObjectP2);
-					/////////
-
-					//Jugador 1
-
-					
-					var message =JSON.parse(('{"command": "ROUND_START","arguments": {"color": "'+datos.color+'", "advColor": "'+datos.advColor+'", "firstMove": "'+datos.firstMove+'", "initialBoard": "'+datos.initialBoard+'"}}'));
-					clientObject.response = message;
-					
-					
-		}	
-	}
 		//mandar mensajes
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
