@@ -187,9 +187,7 @@ function outputProcessor(){
 		var funcionAplazada = Q.defer()
 		funcionAplazada.resolve(clientObject);
 		console.log('llego al postprocessor');
-
 		if(!clientObject.api.resultado){ //false
-		 	
 			var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));//MATCH_ADV_BUSY o MATCH_LOOKUP_FAIL según sea el caso
 			clientObject.response = message;
 		}

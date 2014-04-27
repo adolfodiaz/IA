@@ -272,7 +272,8 @@ function api(){
 			matchesList[matchName].newMatch(matchName, playerName);
 			OC.api = new Object();
 			OC.api.resultado = true;
-			OC.api.noEnviar = true; //Nada para el usuario.
+			OC.api.noEnviar = false; //Nada para el usuario.
+			OC.api.enviarAmbos = false;
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
 		}else if(matchesList[matchName].player2Name == null){
@@ -360,7 +361,6 @@ function api(){
 				OC.api.datos=new Object();
 				if (Math.floor((Math.random()*2)) == 1) OC.api.datos.firstMove = true; //<!>
 				else OC.api.datos.firstMove = false;
-				console.log('ingresando  datos');
 				matchesList[matchName].whoStarted = OC.api.datos.firstMove;
 			} 
 			else{
