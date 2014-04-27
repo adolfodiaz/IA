@@ -507,7 +507,7 @@ function api(){
 			&& (matchesList[matchName].putPassOrRetirePlayer1 == false))
 			|| ((matchesList[matchName].player2Name == playerName) 
 			&& (matchesList[matchName].putPassOrRetirePlayer2 == false))) {
-			C.api = new Object();
+			OC.api = new Object();
 			OC.api.resultado = false; //Operación fallida
 			OC.api.noEnviar = false;
 			OC.api.enviarAmbos = false;
@@ -550,7 +550,7 @@ function api(){
 			&& (matchesList[matchName].putPassOrRetirePlayer1 == false))
 			|| ((matchesList[matchName].player2Name == playerName) 
 			&& (matchesList[matchName].putPassOrRetirePlayer2 == false))) {
-			C.api = new Object();
+			OC.api = new Object();
 			OC.api.resultado = false; //Operación fallida
 			OC.api.noEnviar = false;
 			OC.api.enviarAmbos = false;
