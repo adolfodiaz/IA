@@ -274,6 +274,49 @@ function outputProcessor(){
 		return funcionAplazada.promise;
 	}
 
+	this.putPostprocessor = function(clientObject){
+		api.datos.
+		var funcionAplazada = Q.defer()
+		clientObject.response = clientObject.api.response;
+
+		if(!clientObject.api.resultado){ //Si hay un error  y si la jugada fue inválida
+			
+			if (clientObject.api.noEnviar) {// Si la jugado fue inválida
+				var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));
+				clientObject.response = message;
+			}
+
+			else {
+
+				var message = JSON.parse(('{"command": "ERR_WRONG_POS", "arguments":{"loseRound": "false"}}'));
+				clientObject.response = message;
+			}
+			}
+		}
+		else{
+			//Hay que enviar un TURN y hay que ver si alguien gano, perdió o sigue el juego.
+
+			if (clientObject.api.datos.win == 0){ // La Jugada es válida pero nadie ha ganado
+
+				var clientObject2 = new Object();
+				clientObject2.response =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "yourTurn" : true , "advMove": {"move": "PUT", "XPos":'+clientObject.datos.XPos+', "YPos":'+clientObject.datos.YPos+', "valid": true, "timeUsed" : 0}}}'));
+				
+				var message = clientObject2.response =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "yourTurn" : false , "advMove": {"move": "PUT", "XPos":'+clientObject.datos.XPos+', "YPos":'+clientObject.datos.YPos+', "valid": true, "timeUsed" : 0}}}'));
+			}
+
+			//if (clientObject.api.)
+
+			
+			clientObject2.connection = onlinePlayersList[clientObject.api.player].connection;
+			clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
+			messageSender.sendMessage(clientObject2);
+
+			
+		}
+
+		funcionAplazada.resolve(clientObject);
+		return funcionAplazada.promise;
+	}
 
 	this.turnEndPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
