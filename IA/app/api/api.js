@@ -638,6 +638,7 @@ function api(){
 			OC.api.enviarAmbos = false;
 			OC.api.razones = playerName + " NO SE ENCUENTRA EN MATCH";
 		} else { // Si el jugador esta en match
+			console.log('marca 1');
 			if (((matchesList[matchName].player1Name == playerName) // Si el jugador ha jugado ya su movimiento 
 				&& (matchesList[matchName].putPassOrRetirePlayer1 == false))
 				|| ((matchesList[matchName].player2Name == playerName) 
@@ -650,6 +651,7 @@ function api(){
 				OC.api.razones = playerName + " YA HA REALIZADO SU JUGADA"; 	
 			} else  // Si no ha jugado
 				if (true){ // si su movimiento es válido, insertar funcion feta de jugada	
+					console.log('marca 2');
 					OC.api = new Object();
 					OC.api.datos = new Object();
 
@@ -677,6 +679,7 @@ function api(){
 						OC.api.datos.win = 0; // Sigue jugando
 					//}
 				} else { //Si el movimiento es inválido
+					console.log('marca no feliz 1');
 					OC.api = new Object();
 					OC.api.resultado = false;
 					OC.api.noEnviar = false;
@@ -684,6 +687,7 @@ function api(){
 					OC.api.razones = playerName + " HA REALIZADO UNA JUGADA INVALIDA";
 				}
 			}
+			console.log('saliendo de api');
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
 	}

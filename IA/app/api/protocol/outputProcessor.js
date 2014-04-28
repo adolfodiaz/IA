@@ -278,6 +278,7 @@ function outputProcessor(){
 		
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
+		console.log('entre al putPostprocessor');
 
 		if(!clientObject.api.resultado){ //ENTRA SI ES FALSE Si hay un error  y si la jugada fue inválida
 			
@@ -296,9 +297,10 @@ function outputProcessor(){
 		}
 		else{
 			//Hay que enviar un TURN y hay que ver si alguien gano, perdió o sigue el juego.
+			console.log(' enviar un TURN y hay que ver si alguien gano');
 
 			if (clientObject.api.datos.win == 0){ // La Jugada es válida pero nadie ha ganado
-
+				console.log('caso feliz');
 				var clientObject2 = new Object();
 				clientObject2.response =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "yourTurn" : true , "advMove": {"move": "PUT", "XPos":'+clientObject.datos.XPos+', "YPos":'+clientObject.datos.YPos+', "valid": true, "timeUsed" : 0}}}'));
 				
