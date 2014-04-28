@@ -276,7 +276,8 @@ function outputProcessor(){
 
 	this.putPostprocessor = function(clientObject){
 		
-		var funcionAplazada = Q.defer()
+		var funcionAplazada = Q.defer();
+		funcionAplazada.resolve(clientObject);
 		clientObject.response = clientObject.api.response;
 
 		if(!clientObject.api.resultado){ //ENTRA SI ES FALSE Si hay un error  y si la jugada fue inválida
