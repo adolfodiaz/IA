@@ -301,7 +301,7 @@ function outputProcessor(){
 				var clientObject2 = new Object();
 				clientObject2.response =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "yourTurn" : true , "advMove": {"move": "PUT", "XPos":'+clientObject.datos.XPos+', "YPos":'+clientObject.datos.YPos+', "valid": true, "timeUsed" : 0}}}'));
 				
-				var message = clientObject2.response =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "yourTurn" : false , "advMove": {"move": "PUT", "XPos":'+clientObject.datos.XPos+', "YPos":'+clientObject.datos.YPos+', "valid": true, "timeUsed" : 0}}}'));
+				var message =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "yourTurn" : false , "advMove": {"move": "PUT", "XPos":'+clientObject.datos.XPos+', "YPos":'+clientObject.datos.YPos+', "valid": true, "timeUsed" : 0}}}'));
 			}
 
 			//if (clientObject.api.)
@@ -310,9 +310,12 @@ function outputProcessor(){
 			clientObject2.connection = onlinePlayersList[clientObject.api.player].connection;
 			clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
 			messageSender.sendMessage(clientObject2);
+			clientObject.response = message;
+			
 
 			
 		}
+
 
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
