@@ -403,15 +403,35 @@ function api(){
 				OC.api = new Object();
 				OC.api.resultado = true;
 				OC.api.noEnviar = false;
-				OC.api.enviarAmbos = true;
+				//OC.api.enviarAmbos = true;
 				//manda nombre del otro jugador
 				if(playerName == matchesList[matchName].player1Name)
 					OC.api.player =   matchesList[matchName].player2Name;
+
 				else 
-					OC.api.player =   matchesList[matchName].player1Name;				
+					OC.api.player =   matchesList[matchName].player1Name;
+
+				if (matchesList[matchName].whoStarted == true) {
+
+					if (playerName == matchesList[matchName].player1Name)
+						OC.api.enviarAmbos= false;
+
+					else 
+						OC.api.enviarAmbos = true;
+
+				} 
+
+				else
+					if (playerName == matchesList[matchName].player2Name)
+						OC.api.enviarAmbos= false;
+
+					else 
+						OC.api.enviarAmbos = true;
+
+
 			} else {
 				OC.api = new Object();
-				OC.api.resultado = false;
+				OC.api.resultado = true;
 				OC.api.noEnviar = true;
 			}
 		}
