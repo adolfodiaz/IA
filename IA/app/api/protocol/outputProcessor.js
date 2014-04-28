@@ -279,16 +279,17 @@ function outputProcessor(){
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
 
-		if(!clientObject.api.resultado){ //Si hay un error  y si la jugada fue inválida
+		if(!clientObject.api.resultado){ //ENTRA SI ES FALSE Si hay un error  y si la jugada fue inválida
 			
-			if (clientObject.api.noEnviar) {// Si la jugado fue inválida
+			if (clientObject.api.noEnviar) {// ENTRA SI ES TRUE Si la jugado fue inválida
 				var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));
 				clientObject.response = message;
 			}
 
-			else {
+			else { // ENTRA SI ES FALSE
 
 				var message = JSON.parse(('{"command": "ERR_WRONG_POS", "arguments":{"loseRound": "false"}}'));
+
 				clientObject.response = message;
 			}
 			
@@ -306,8 +307,25 @@ function outputProcessor(){
 
 			if (clientObject.api.datos.win == 1){ // Si el jugador que tiene la conexión directa es quien gana
 
-				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY", }}'));
+				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY" }}'));
+				var clientObject2 = new Object();
+				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT" }}'));
 
+			}
+
+			if (clientObject.api.datos.win == 2){ // Si el jugador que tiene la conexión directa es quien gana
+
+				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT" }}'));
+				var clientObject2 = new Object();
+				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY" }}'));
+
+			}
+
+			if (clientObject.api.datos.win == 3){ // Si el jugador que tiene la conexión directa es quien gana
+
+				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW" }}'));
+				var clientObject2 = new Object();
+				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW" }}'));
 
 			}
 
