@@ -275,7 +275,7 @@ function outputProcessor(){
 	}
 
 	this.putPostprocessor = function(clientObject){
-		api.datos.
+		
 		var funcionAplazada = Q.defer()
 		clientObject.response = clientObject.api.response;
 
@@ -291,7 +291,7 @@ function outputProcessor(){
 				var message = JSON.parse(('{"command": "ERR_WRONG_POS", "arguments":{"loseRound": "false"}}'));
 				clientObject.response = message;
 			}
-			}
+			
 		}
 		else{
 			//Hay que enviar un TURN y hay que ver si alguien gano, perdió o sigue el juego.
@@ -304,6 +304,13 @@ function outputProcessor(){
 				var message =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "yourTurn" : false , "advMove": {"move": "PUT", "XPos":'+clientObject.datos.XPos+', "YPos":'+clientObject.datos.YPos+', "valid": true, "timeUsed" : 0}}}'));
 			}
 
+			if (clientObject.api.datos.win == 1){ // Si el jugador que tiene la conexión directa es quien gana
+
+				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY", }}'));
+
+
+			}
+
 			//if (clientObject.api.)
 
 			
@@ -311,7 +318,7 @@ function outputProcessor(){
 			clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
 			messageSender.sendMessage(clientObject2);
 			clientObject.response = message;
-			
+
 
 			
 		}
