@@ -11,13 +11,6 @@
     </div>
 </div>
 
-<h1>prueba</h1>
-<script type="text/javascript"> 
-	function jugarFicha(fil,col){ 
-		content = document.getElementById('col'+fil+col); 
-		alert ("Valor: "+content.innerHTML); 
-	}
-</script>
 {% endblock %}
 
 {% block SCRIPT %}
@@ -25,36 +18,33 @@
 	window.onload = function() {
 	    socket.emit("data", '{"command": "ROUND_START_ACK","arguments": {"id": "'+id+'"}}');
 	    inicio = true;
+	    var mensaje = document.getElementById("msnje"); 
+		mensaje.innerHTML = "Espere su turno";
 	}
 	var id = "{{id}}";
-	
-	this.jugadaAceptada = 1;
-	this.turno = true;
-	this.esperarJugador = true;
+	this.color; // true representa player1 y color blanco 
+	this.inicio = {{inicio}}; //indica si el juego ya partio
+	this.turno = true;   //indica si corresponde comenzar el juego
 	var tablero = new Tablero();
     tablero.crear_tablero_html( 'tablero' ,  {{tamTablero}} , new Array({{squares}}) );
     
-    this.inicio = {{inicio}};
-
+    function colocarFicha(fila,col,colorDeFicha){
+    	// colorDeFicha true es blanco
+    	// colorDeFicha false es negro
+    	content = document.getElementById("tablero_id_"+fil+col); 
+		var div = document.createElement("div");
+		if(color) div.className = "circulo_blanco";
+		else div.className = "circulo_negro";
+        content.appendChild(div);
+        content.setAttribute('onclick',null);
+    }
     function jugarFicha(fil,col){
     	if(inicio){
 	    	if(turno){
 	    		//turno = false;
 				content = document.getElementById("tablero_id_"+fil+col); 
-				switch(jugadaAceptada){
-		        	case 1:
-						var div = document.createElement("div");
-						if(inicio) div.className = "circulo_blanco";
-						else div.className = "circulo_negro";
-				        content.appendChild(div);
-				        content.setAttribute('onclick',null);
-						break;
-					case 2:
-						var mensaje = document.getElementById("msnje"); 
-						mensaje.innerHTML = "win";
-						break;
-		        }
-		        //this.jugadaAceptada++;
+				colocarFicha(fil,col,color);
+				turn = false;
 	    	}else{
 	    		var mensaje = document.getElementById("msnje"); 
 				mensaje.innerHTML = "Debes esperar tu turno";
@@ -64,6 +54,29 @@
 			mensaje.innerHTML = "El juego comenzará pronto";
 		}
 	}
-    
+    function partida(data){
+    	switch(data.move){
+    		case 'FIRST':
+    			this.color = true;
+    			turno = true;
+    			var mensaje = document.getElementById("msnje"); 
+				mensaje.innerHTML = "SU TURNO";
+    			break;
+    		case 'WAIT':
+    			this.color = false;
+    			turno = false;
+    			var mensaje = document.getElementById("msnje"); 
+				mensaje.innerHTML = "ESPERE SU TURNO";
+    		case 'PUT':
+    			jugarFicha(data.xPos, data.yPos, !turno);
+    			turno = true;
+    			break;
+    		case 'PASS':
+    			alert('no implementado');
+    			break;
+    		case 'default':
+    			alert('no implementado');
+    	}
+    }
 </script>
 {% endblock %}
