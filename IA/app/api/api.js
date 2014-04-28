@@ -619,6 +619,7 @@ function api(){
 
 
 	this.put= function(OC){
+
 		var funcionAplazada = Q.defer();
 		var playerID 		= OC.data.arguments.id;
 		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
@@ -626,47 +627,63 @@ function api(){
 		var xPos 			= OC.data.arguments.xPos;
 		var yPos			= OC.data.arguments.yPos;
 
-		if(onlinePlayersList[playerName].match == null){
+		if onlinePlayersList[playerName].matchName == null){
 			OC.api = new Object();
-			OC.api.resultado = false; //Operación fallida
-			OC.api.noEnviar = false;
-			OC.api.enviarAmbos = false;
-			OC.api.razones = "PLAYER_NOT_IN_MATCH";
-		} else if(((matchesList[matchName].player1Name == playerName) 
-			&& (matchesList[matchName].putPassOrRetirePlayer1 == false))
-			|| ((matchesList[matchName].player2Name == playerName) 
-			&& (matchesList[matchName].putPassOrRetirePlayer2 == false))) {
-			OC.api = new Object();
-			OC.api.resultado = false; //Operación fallida
-			OC.api.noEnviar = false;
-			OC.api.enviarAmbos = false;
-			OC.api.razones = "ALREADY_PLAYED";//ya usó antes un PUT, PASS o RETIRE durante el mismo turno
-		} else /*if (posición válida)*/ { // { IMAGINO QUE VA UNA VALIDACIÓN DE FETA
-			OC.api = new Object();
-			OC.api.resultado = true; 
-			OC.api.noEnviar = true;
-			OC.api.enviarAmbos = false;
-			OC.datos.xPos = xPos;
-			OC.datos.yPos = yPos;
-			if (matchesList[matchName].player1Name == playerName) matchesList[matchName].putPassOrRetirePlayer1 = false;
-			else putPassOrRetirePlayer2 = false;		
-		} /*else { //posición falsa, DETERMINAR SI ES POR CONECTAR 3 EN LINEA O POR PONER LA FICHA EN MAL LUGAR
-			//POR SEPARADO
-			OC.api = newObject;
 			OC.api.resultado = false;
-			OC.noEnviar = false;
-			OC.enviarAmbos = false;
-			// Cuando un paso es inválido le doy true a la espera de otro para reflejar el error
-			OC.razones = "WRONG_POS"; //o ILLEGAL_MOVE, habrá que definir esto según las respuestas de Feta
-			//Excepcionalmente usaremos OC.api.datos para especificar si el jugador pierde o no:
-			OC.api.datos = new Object();
-			var rules = new Rules();
-			OC.api.datos.loseRound = rules.wrongPosLose; //verdadero significa que el jugador que se equivocó pierde la partida
-			//OC.api.datos.loseRound = rules.illegalMoveLose; //para cuando pierde por conectar 3
-		}*/
-		funcionAplazada.resolve(OC);
-		return funcionAplazada.promise;
-	}
+			OC.api.noEnviar = false;
+			OC.api.enviarAmbos = false;
+			OC.api.razones = playerName + " NO SE ENCUENTRA EN MATCH";
+		} else { // Si el jugador esta en match
+			if (((matchesList[matchName].player1Name == playerName) // Si el jugador ha jugado ya su movimiento 
+				&& (matchesList[matchName].putPassOrRetirePlayer1 == false))
+				|| ((matchesList[matchName].player2Name == playerName) 
+				&& (matchesList[matchName].putPassOrRetirePlayer2 == false))) {
+
+				OC.api = new Object();
+				OC.api.resultado = false;
+				OC.api.noEnviar = false;
+				OC.api.enviarAmbos = false;
+				OC.api.razones = playerName + " YA HA REALIZADO SU JUGADA"; 	
+			} else { // Si no ha jugado
+				if (true){ // si su movimiento es válido, insertar funcion feta de jugada	
+					OC.api = new Object();
+					OC.api.datos = new Object();
+
+					OC.api.resultado = true;
+					OC.api.noEnviar = false; // True es para que se quede esparando.
+					OC.api.enviarAmbos = true; // Se debe enviara a ambos
+					OC.api.datos.xPos = xPos;
+					OC.pai.datos.yPos = yPos;
+
+					if (matchesList[matchName].player1Name == playerName) { 	// Si es player 1 se actualiza tablero en posición	
+						matchesList[matchName].board.squares[xPos][yPos] = 1;	// Usando unos, sino, usando 2.
+						matchesList[matchName].putPassOrRetirePlayer1 = false;
+					} else {
+						matchesList[matchName].board.squares[xPos][yPos] = 2;
+						putPassOrRetirePlayer2 = false;	 
+					}	
+
+					/*if (false) { //si jugandor gano, insertar función feta de si gana o no
+						OC.api.datos.win = 1; // Jugador ganó
+					}
+
+					if (false) { // si jugador perdió, insertar funcion feta de si gana o no
+						OC.api.datos.win = 2; // Jugador perdió
+					} else { //Simplemente siguen jugando */
+						OC.api.datos.win = 0; // Sigue jugando
+					//}
+				} else { //Si el movimiento es inválido
+					OC.api = new Object();
+					OC.api.resultado = false;
+					OC.api.noEnviar = false;
+					OC.api.enviarAmbos = false;
+					OC.api.razones = playerName + " HA REALIZADO UNA JUGADA INVALIDA";
+				}
+			}
+			funcionAplazada.resolve(OC);
+			return funcionAplazada.promise;
+	}	
+		
 
 	this.pass = function(OC){
 		var funcionAplazada = Q.defer();
