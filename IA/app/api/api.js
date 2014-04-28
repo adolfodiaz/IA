@@ -627,10 +627,13 @@ function api(){
 		var xPos 			= OC.data.arguments.xPos;
 		var yPos			= OC.data.arguments.yPos;
 
+		console.log ("coord put api" xPos + " " + yPos);
+
 		if (onlinePlayersList[playerName].matchName == null){
+			console.log ("ERROR, jugador no en juego");
 			OC.api = new Object();
 			OC.api.resultado = false;
-			OC.api.noEnviar = false;
+			OC.api.noEnviar = true;
 			OC.api.enviarAmbos = false;
 			OC.api.razones = playerName + " NO SE ENCUENTRA EN MATCH";
 		} else { // Si el jugador esta en match
@@ -641,7 +644,7 @@ function api(){
 
 				OC.api = new Object();
 				OC.api.resultado = false;
-				OC.api.noEnviar = false;
+				OC.api.noEnviar = true;
 				OC.api.enviarAmbos = false;
 				OC.api.razones = playerName + " YA HA REALIZADO SU JUGADA"; 	
 			} else  // Si no ha jugado
