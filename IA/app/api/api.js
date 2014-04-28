@@ -627,7 +627,7 @@ function api(){
 		var xPos 			= OC.data.arguments.xPos;
 		var yPos			= OC.data.arguments.yPos;
 
-		if onlinePlayersList[playerName].matchName == null){
+		if (onlinePlayersList[playerName].matchName == null){
 			OC.api = new Object();
 			OC.api.resultado = false;
 			OC.api.noEnviar = false;
@@ -644,7 +644,7 @@ function api(){
 				OC.api.noEnviar = false;
 				OC.api.enviarAmbos = false;
 				OC.api.razones = playerName + " YA HA REALIZADO SU JUGADA"; 	
-			} else { // Si no ha jugado
+			} else  // Si no ha jugado
 				if (true){ // si su movimiento es válido, insertar funcion feta de jugada	
 					OC.api = new Object();
 					OC.api.datos = new Object();
@@ -682,7 +682,8 @@ function api(){
 			}
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
-	}	
+	}
+
 		
 
 	this.pass = function(OC){
