@@ -242,54 +242,38 @@ function outputProcessor(){
 
 
 		if(!clientObject.api.resultado){ //Si hay un error 
-		 	
 			var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));
 			clientObject.response = message;
 		}
 		else{
 			//en caso de enviar mensaje
 			if(!clientObject.api.noEnviar){ //Enviamos TURN 
-				
-				var playerName 		= getPlayerNameForID[OC.data.arguments.id];
+				console.log('marca 1');
+				var playerName 		= getPlayerNameForID[clientObject.data.arguments.id];
 				var matchName 		= onlinePlayersList[playerName].match;
-				var rules = matchesList[matchName].rules;
-
-				var message = JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.remainingRoundTime+'", "advMove": {"move": "FIRST", "XpoS": "-1", "YPos": "-1", "valid": "true", "timeUsed" : "0"}}'));
-
-				if(!clientObject.api.enviarAmbos){ // Sólo le tengo que enviar el mensaje al jugador conectado directamente.
-
-					clientObject.response = message;
-				} 
-
-				else{ // Si tengo que enviar el mensaje al otro jugador
-
+				var rules 			= matchesList[matchName].rules;
+				if(clientObject.api.enviarAmbos){ // Sólo le tengo que enviar el mensaje al jugador conectado directamente.
 					var clientObject2 = new Object();
-					clientObject2.response = JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.remainingRoundTime+'", "advMove": {"move": "FIRST", "XpoS": "-1", "YPos": "-1", "valid": "true", "timeUsed" : "0"}}'));
+					clientObject2.response = JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "advMove": {"move": "FIRST", "XpoS": "-1", "YPos": "-1", "valid": "true", "timeUsed" : "0"}}}'));
 					clientObject2.connection = onlinePlayersList[clientObject.api.player].connection;
 					clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
 					messageSender.sendMessage(clientObject2);
-
-					var message = JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.remainingRoundTime+'", "advMove": {"move": "WAIT", "XpoS": "-1", "YPos": "-1", "valid": "true", "timeUsed" : "0"}}'));
+					var message = JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "advMove": {"move": "WAIT", "XpoS": "-1", "YPos": "-1", "valid": "true", "timeUsed" : "0"}}}'));
 					clientObject.response = message;
-
+					console.log('marca2');
 				}
-				
 			}
-
 			else {
-				
 				var message = JSON.parse(('{"command": "OK"}'));
 				clientObject.response = message;
-
 			}
-
-
 		}
 
 		//mandar mensajes
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}
+
 
 	this.turnEndPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()

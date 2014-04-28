@@ -22,9 +22,9 @@
 		mensaje.innerHTML = "Espere su turno";
 	}
 	var id = "{{id}}";
-	this.color; // true representa player1 y color blanco 
-	this.inicio = {{inicio}}; //indica si el juego ya partio
-	this.turno = true;   //indica si corresponde comenzar el juego
+	var color; // true representa player1 y color blanco 
+	var inicio = {{inicio}}; //indica si el juego ya partio
+	var turno = true;   //indica si corresponde comenzar el juego
 	var tablero = new Tablero();
     tablero.crear_tablero_html( 'tablero' ,  {{tamTablero}} , new Array({{squares}}) );
     
@@ -55,6 +55,7 @@
 		}
 	}
     function partida(data){
+    	console.log(data);
     	switch(data.move){
     		case 'FIRST':
     			this.color = true;

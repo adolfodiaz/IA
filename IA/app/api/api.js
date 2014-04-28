@@ -385,7 +385,9 @@ function api(){
 		var playerID 		= OC.data.arguments.id;
 		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
 		var matchName 		= onlinePlayersList[playerName].match;
-
+		
+		onlinePlayersList[playerName].connection = OC.connection;
+		
 		if(onlinePlayersList[playerName].match == null){
 			OC.api = new Object();
 			OC.api.resultado = false; //Operación fallida
@@ -399,47 +401,24 @@ function api(){
 			else {
 				matchesList[matchName].roundACKPlayer2 = true;
 			}
-			console.log('player 1:' +matchesList[matchName].roundACKPlayer1 + ' ; player2: ' + matchesList[matchName].roundACKPlayer2 );
+
 			if ((matchesList[matchName].roundACKPlayer1 == true) && 
 				(matchesList[matchName].roundACKPlayer2 == true)) {
 				OC.api = new Object();
 				OC.api.resultado = true;
 				OC.api.noEnviar = false;
-				//OC.api.enviarAmbos = true;
-				//manda nombre del otro jugador
+				OC.api.enviarAmbos = true;
 				if(playerName == matchesList[matchName].player1Name)
 					OC.api.player =   matchesList[matchName].player2Name;
-
 				else 
 					OC.api.player =   matchesList[matchName].player1Name;
-
-				if (matchesList[matchName].whoStarted == true) {
-
-					if (playerName == matchesList[matchName].player1Name)
-						OC.api.enviarAmbos= false;
-
-					else 
-						OC.api.enviarAmbos = true;
-
-				} 
-
-				else{
-					if (playerName == matchesList[matchName].player2Name)
-						OC.api.enviarAmbos= false;
-
-					else 
-						OC.api.enviarAmbos = true;
-
-
-			} 
-		}	
-
-		else {
-
-				OC.api = new Object();
-				OC.api.resultado = true;
-				OC.api.noEnviar = true;
 			}
+			else {
+
+					OC.api = new Object();
+					OC.api.resultado = true;
+					OC.api.noEnviar = true;
+				}
 		}
 		console.log('enviando round_start_ack a OutputProcessor' );
 		funcionAplazada.resolve(OC);

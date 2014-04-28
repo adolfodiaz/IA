@@ -10,6 +10,7 @@ function Rules(){
 	this.time.maxIdleTime = 600; //cuánto tiempo puede estar un jugador sin enviar un comando durante un juego si timedTurn es falso
 	this.time.maxRoundTime = 1200; //tiempo total máximo de una ronda (partida)
 	this.time.maxMatchTime = 20000;//tiempo total máximo del Match (suma de todas las partidas)
+	this.time.remainingRoundTime = 200; //(duda)
 	this.game = new Object();
 	this.game.roundsPerMatch = 200; //cuántas partidas se jugarán por Match
 	this.game.noConnect3 = false; //si es TRUE, no puedes conectar 3 piezas seguidas (es un movimiento ilegal)
