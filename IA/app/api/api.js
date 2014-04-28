@@ -627,7 +627,7 @@ function api(){
 		var xPos 			= OC.data.arguments.xPos;
 		var yPos			= OC.data.arguments.yPos;
 
-		console.log ("coord put api" xPos + " " + yPos);
+		console.log ("coord put api" + xPos + " " + yPos);
 
 		if (onlinePlayersList[playerName].matchName == null){
 			console.log ("ERROR, jugador no en juego");
