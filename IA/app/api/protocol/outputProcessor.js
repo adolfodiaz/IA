@@ -276,7 +276,8 @@ function outputProcessor(){
 
 	this.putPostprocessor = function(clientObject){
 		
-		var funcionAplazada = Q.defer()
+		var funcionAplazada = Q.defer();
+		funcionAplazada.resolve(clientObject);
 		clientObject.response = clientObject.api.response;
 		console.log('entre al putPostprocessor');
 
