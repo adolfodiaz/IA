@@ -63,8 +63,8 @@
 			mensaje.innerHTML = "El juego comenzará pronto";
 		}
 	}
-    function partida(data){
-    	console.log(data);
+    function partida(data2){
+        data = arguments.advMove;
     	switch(data.move){
     		case 'FIRST':
     			color = true;
@@ -79,8 +79,14 @@
 				mensaje.innerHTML = "ESPERE SU TURNO";
                 break;
     		case 'PUT':
-    			jugarFicha(data.xPos, data.yPos, !turno);
-    			turno = true;
+                if(data2.arguments.yourTurn){
+                    jugarFicha(data.xPos, data.yPos, !turno);
+                    turno = true;
+                } 
+                else{
+                    alert('alerta no entregada');
+                    turn = false;
+                }
     			break;
     		case 'PASS':
     			alert('no implementado');

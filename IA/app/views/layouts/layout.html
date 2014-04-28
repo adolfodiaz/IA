@@ -186,8 +186,8 @@
                                               $('#myModal3').modal('show');break;
                     case 'ROUND_START'      : redireccionarPartida(respuesta.arguments.matchName); break;
                     case 'ROUND_END'        : alert('no implementado'); break;
-                    case 'TURN'             : partida(respuesta.arguments.advMove); break;
-
+                    case 'TURN'             : partida(respuesta.arguments); break;
+                    case 'ERR_WRONG_POS'    : alert('movimiendo invalido'), 
                     case 'OK'               : break;
                     
                     case 'ERROR': alert('ERROR: '+respuesta.arguments); break;
