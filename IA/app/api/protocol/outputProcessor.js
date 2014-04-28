@@ -269,7 +269,7 @@ function outputProcessor(){
 					clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
 					messageSender.sendMessage(clientObject2);
 
-					var message = JSON.parse(('{"command": "OK"}'));
+					var message = JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.remainingRoundTime+'", "advMove": {"move": "WAIT", "XpoS": "-1", "YPos": "-1", "valid": "true", "timeUsed" : "0"}}'));
 					clientObject.response = message;
 
 				}
