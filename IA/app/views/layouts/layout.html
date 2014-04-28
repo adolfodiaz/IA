@@ -174,10 +174,8 @@
         <script src="/js/util/tablero.js"></script>
 
         <script type="text/javascript">
-        	var asdf;
             var socket = io.connect('http://localhost:7076');
             socket.on("data", function(data){
-            	asdf = data;
                 var respuesta = new Object(JSON.parse(data));
                 console.log(respuesta);
                 switch(respuesta.command){
@@ -186,8 +184,8 @@
                                               $('#myModal3').modal('show');break;
                     case 'ROUND_START'      : redireccionarPartida(respuesta.arguments.matchName); break;
                     case 'ROUND_END'        : alert('no implementado'); break;
-                    case 'TURN'             : partida(respuesta.arguments); break;
-                    case 'ERR_WRONG_POS'    : alert('movimiendo invalido'), 
+                    case 'TURN'             : partida(respuesta); break;
+                    case 'ERR_WRONG_POS'    : alert('movimiendo invalido'); break;
                     case 'OK'               : break;
                     
                     case 'ERROR': alert('ERROR: '+respuesta.arguments); break;

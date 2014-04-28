@@ -14,8 +14,6 @@
 {% endblock %}
 
 {% block SCRIPT %}
-
-
 <script type="text/javascript">
     console.log('marca ');
 	window.onload = function() {
@@ -64,7 +62,7 @@
 		}
 	}
     function partida(data2){
-        data = arguments.advMove;
+        data = data2.arguments.advMove;
     	switch(data.move){
     		case 'FIRST':
     			color = true;
