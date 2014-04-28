@@ -331,14 +331,12 @@ function api(){
 		var matchName 		= onlinePlayersList[playerName].match;
 
 		if(onlinePlayersList[playerName].match == null){
-			console.log("hola hay un error raro");
 			OC.api = new Object();
 			OC.api.resultado = false; //Operación fallida
 			OC.api.noEnviar = false;
 			OC.api.enviarAmbos = false;
 			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
 		} else {
-			console.log('no tengo error');
 			if(playerName == matchesList[matchName].player1Name){
 				matchesList[matchName].aceptaGamePlayer1 = true;
 			}
@@ -370,7 +368,6 @@ function api(){
 				OC.api.noEnviar = true;
 			}
 		}
-		console.log('me voy a match_ready professor' );
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -384,7 +381,6 @@ function api(){
 	}
 
 	this.round_start_ack = function(OC){
-		
 		var funcionAplazada = Q.defer();
 		var playerID 		= OC.data.arguments.id;
 		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
@@ -397,7 +393,13 @@ function api(){
 			OC.api.enviarAmbos = false;
 			OC.api.razones = '"alreadyPlaying":"false","waitingOtherAdv":"false","rejected":"false"';
 		} else {
-
+			if(playerName == matchesList[matchName].player1Name){
+				matchesList[matchName].roundACKPlayer1 = true;
+			}
+			else {
+				matchesList[matchName].roundACKPlayer2 = true;
+			}
+			console.log('player 1:' +matchesList[matchName].roundACKPlayer1 + ' ; player2: ' + matchesList[matchName].roundACKPlayer2 );
 			if ((matchesList[matchName].roundACKPlayer1 == true) && 
 				(matchesList[matchName].roundACKPlayer2 == true)) {
 				OC.api = new Object();
@@ -421,7 +423,7 @@ function api(){
 
 				} 
 
-				else
+				else{
 					if (playerName == matchesList[matchName].player2Name)
 						OC.api.enviarAmbos= false;
 
@@ -429,12 +431,17 @@ function api(){
 						OC.api.enviarAmbos = true;
 
 
-			} else {
+			} 
+		}	
+
+		else {
+
 				OC.api = new Object();
 				OC.api.resultado = true;
 				OC.api.noEnviar = true;
 			}
 		}
+		console.log('enviando round_start_ack a OutputProcessor' );
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
