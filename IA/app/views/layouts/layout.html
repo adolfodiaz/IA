@@ -187,6 +187,7 @@
                     case 'TURN'             : partida(respuesta); break;
                     case 'ERR_WRONG_POS'    : alert('movimiendo invalido'); break;
                     case 'OK'               : break;
+                    case 'FIN'              : finGame(respuesta.arguments); break;
                     
                     case 'ERROR': alert('ERROR: '+respuesta.arguments); break;
                 	default:

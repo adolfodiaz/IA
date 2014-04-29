@@ -23,6 +23,7 @@
 		mensaje.innerHTML = "COMENZANDO PARTIDA";
 	}
 	var id = "{{id}}";
+    this.fin = true;
 	this.color; // true representa player1 y color blanco 
 	this.inicio; //indica si el juego ya partio
 	this.turno;   //indica si corresponde comenzar el juego
@@ -39,29 +40,44 @@
         content.appendChild(div);
         content.setAttribute('onclick',null);
     }
+    function finJuego(data){
+        fin = false;
+        if(win){
+            alert('Ganaste');
+        }
+        else{
+            alert('Perdiste');
+        }
+    }
     function jugarFicha(fil,col){
-    	if(inicio){
-	    	if(turno){
-	    		//turno = false;
-				content = document.getElementById(("tablero_id_"+ fil + col)); 
-                console.log(content);
-				colocarFicha( fil, col, color);
-				turno = false;
-                aceptaTurno = false;
-            //    socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'", "xPos": '+fil+',
-   // "yPos": '+col+'}}');
+        if(fin){
+        	if(inicio){
+    	    	if(turno){
+    	    		//turno = false;
+    				content = document.getElementById(("tablero_id_"+ fil + col)); 
+                    console.log(content);
+    				colocarFicha( fil, col, color);
+    				turno = false;
+                    aceptaTurno = false;
+                //    socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'", "xPos": '+fil+',
+       // "yPos": '+col+'}}');
 
-    socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'","xPos": '+fil+',"yPos":'+col+' }}');
+        socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'","xPos": '+fil+',"yPos":'+col+' }}');
 
-	    	}else{
-	    		var mensaje = document.getElementById("msnje"); 
-				mensaje.innerHTML = "Debes esperar tu turno";
-	    	}
-    	}else {
-    		var mensaje = document.getElementById("msnje"); 
-			mensaje.innerHTML = "El juego comenzará pronto";
-		}
+    	    	}else{
+    	    		var mensaje = document.getElementById("msnje"); 
+    				mensaje.innerHTML = "Debes esperar tu turno";
+    	    	}
+        	}else {
+        		
+    		}
+        }
+        else{
+            var mensaje = document.getElementById("msnje"); 
+            mensaje.innerHTML = "FIN DEL JUEGO";
+        }
 	}
+
     function partida(data2){
         data = data2.arguments.advMove;
     	switch(data.move){
