@@ -414,7 +414,6 @@ function api(){
 					OC.api.player =   matchesList[matchName].player1Name;
 			}
 			else {
-
 					OC.api = new Object();
 					OC.api.resultado = true;
 					OC.api.noEnviar = true;

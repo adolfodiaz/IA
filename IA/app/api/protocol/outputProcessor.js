@@ -248,7 +248,6 @@ function outputProcessor(){
 		else{
 			//en caso de enviar mensaje
 			if(!clientObject.api.noEnviar){ //Enviamos TURN 
-				console.log('marca 1');
 				var playerName 		= getPlayerNameForID[clientObject.data.arguments.id];
 				var matchName 		= onlinePlayersList[playerName].match;
 				var rules 			= matchesList[matchName].rules;

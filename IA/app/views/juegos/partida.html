@@ -47,6 +47,7 @@
                 console.log(content);
 				colocarFicha( fil, col, color);
 				turno = false;
+                aceptaTurno = false;
             //    socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'", "xPos": '+fil+',
    // "yPos": '+col+'}}');
 
@@ -78,12 +79,24 @@
                 break;
     		case 'PUT':
                 if(data2.arguments.yourTurn){
-                    jugarFicha(data.xPos, data.yPos, !turno);
+                    colocarFicha(data.xPos, data.yPos, !color);
+                    var mensaje = document.getElementById("msnje"); 
+                    mensaje.innerHTML = "TU TURNO";
                     turno = true;
-                } 
+                }
                 else{
-                    alert('alerta no entregada');
-                    turn = false;
+                    if(aceptaTurno){
+                        aceptaTurno = true;
+                        alert('error en jugada, no implementado');
+                        var mensaje = document.getElementById("msnje"); 
+                        mensaje.innerHTML = "ESPERE SU TURNO";
+                    }
+                    else{
+                        var mensaje = document.getElementById("msnje"); 
+                        mensaje.innerHTML = "ESPERE SU TURNO";
+                        turn = false;
+                    }
+                    
                 }
     			break;
     		case 'PASS':
