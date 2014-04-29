@@ -5,6 +5,7 @@ function Tablero(){
                // Crea un elemento <table> y un elemento <tbody>
                   var tabla   = document.createElement("table");
                   tabla.id = "chess_board";
+                  tabla.style.margin = '0px auto';
                   var tblBody = document.createElement("tbody");
                  //Creamos las filas
                   k = 0;

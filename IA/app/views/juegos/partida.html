@@ -63,8 +63,7 @@
                     aceptaTurno = false;
                 //    socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'", "xPos": '+fil+',
        // "yPos": '+col+'}}');
-
-        socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'","xPos": '+fil+',"yPos":'+col+' }}');
+        socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'","xPos": '+col+',"yPos":'+fil+' }}');
 
     	    	}else{
     	    		var mensaje = document.getElementById("msnje"); 
