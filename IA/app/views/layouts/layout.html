@@ -87,7 +87,7 @@
     </div>
     -->
                     </div>
-                    <div class="col-sm-3 .col-sm-offset-5">
+                    <div class="col-sm-3 col-sm-offset-5">
                         <div class="profile-info profile-info-right">
                             {% if is_authenticated %}
                                 <p class="profile-info-main">
@@ -102,7 +102,7 @@
                                     {% endif %}
                                 </p>
                                 <a class="profile-info-sub" href="/users/{{user._id}}">{{user.fullname}}</a>
-       bootstrap                         <p>
+                               <p>
                                     <small><a class="profile-info-sub text-muted" href="/logout">Cerrar sesión</a></small>
                                 </p>
                             {% endif %}
