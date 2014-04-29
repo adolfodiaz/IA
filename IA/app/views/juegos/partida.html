@@ -50,7 +50,7 @@
             //    socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'", "xPos": '+fil+',
    // "yPos": '+col+'}}');
 
-    socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'","xPos": "'+fil+'","yPos":"'+col+'" }}');
+    socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'","xPos": '+fil+',"yPos":'+col+' }}');
 
 	    	}else{
 	    		var mensaje = document.getElementById("msnje"); 

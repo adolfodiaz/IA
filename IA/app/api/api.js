@@ -653,22 +653,28 @@ function api(){
 				if (true){ // si su movimiento es válido, insertar funcion feta de jugada	
 					console.log('marca 2');
 					OC.api = new Object();
-					OC.api.datos = new Object();
 
 					OC.api.resultado = true;
 					OC.api.noEnviar = false; // True es para que se quede esparando.
 					OC.api.enviarAmbos = true; // Se debe enviara a ambos
+					console.log('marca 3.1');
+					console.log('marca 3.2' +(xPos + 1) );
+					console.log('marca 3.3');
+					
+					OC.api.datos = new Object();
 					OC.api.datos.xPos = xPos;
-					OC.pai.datos.yPos = yPos;
+					OC.api.datos.yPos = yPos;
 
+					console.log('marca3');
 					if (matchesList[matchName].player1Name == playerName) { 	// Si es player 1 se actualiza tablero en posición	
 						matchesList[matchName].board.squares[xPos][yPos] = 1;	// Usando unos, sino, usando 2.
 						matchesList[matchName].putPassOrRetirePlayer1 = false;
 					} else {
 						matchesList[matchName].board.squares[xPos][yPos] = 2;
-						putPassOrRetirePlayer2 = false;	 
+						matchesList[matchName].putPassOrRetirePlayer2 = false;	 
 					}	
 
+					console.log('marca4');
 					/*if (false) { //si jugandor gano, insertar función feta de si gana o no
 						OC.api.datos.win = 1; // Jugador ganó
 					}
