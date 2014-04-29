@@ -63,7 +63,7 @@ function outputProcessor(){
 
 	this.acceptPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer()
-		clientObject.response = clientObject.api.response;
+		clientObject.response = JSON.parse(('{"command": "ACCEPT_ACK"}'));
 		funcionAplazada.resolve(clientObject);
 		return funcionAplazada.promise;
 	}
