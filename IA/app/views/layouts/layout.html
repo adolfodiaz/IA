@@ -72,7 +72,7 @@
 
         <div class="preheader"></div>
         <div class="wrapper app-header">
-            <div class="container">
+            <div class="container" id='header'>
                 <div class="row">
                     <div class="col-sm-4">
                         <!-- <a href="/"><img src="/img/logo.png" alt="Logo"></a> -->
@@ -86,10 +86,8 @@
       0:0
     </div>
     -->
-
-
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-3 .col-sm-offset-5">
                         <div class="profile-info profile-info-right">
                             {% if is_authenticated %}
                                 <p class="profile-info-main">
@@ -107,9 +105,6 @@
        bootstrap                         <p>
                                     <small><a class="profile-info-sub text-muted" href="/logout">Cerrar sesión</a></small>
                                 </p>
-                            {% else %}
-                                <p class="profile-info-main">Welcome</p>
-                                <a class="profile-info-sub" href="/login">Login</a>
                             {% endif %}
                         </div>
                     </div>
@@ -188,7 +183,7 @@
                     case 'OK'               : break;
                     case 'ROUND_END'        : finJuego(respuesta.arguments); break;
                     
-                    case 'ERROR': alert('ERROR: '+respuesta.arguments); break;
+                    case 'ERROR'            : alert('ERROR: '+respuesta.arguments); break;
                 	default:
                 	   alert('mensaje no reconocido' + respuesta.command );break;
                 }
