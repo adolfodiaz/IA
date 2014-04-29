@@ -41,14 +41,16 @@
         content.setAttribute('onclick',null);
     }
     function finJuego(data){
+        fin = false;
         switch(data.reason){
             case 'VICTORY': alert('JUEGO TERMINADO. FELICIDADES, GANASTE'); break;
             case 'DEFEAT': alert('JUEGO TERMINADO. SIGUE PRACTICANDO, PERDISTE');break;
             case 'DRAW': alert('JUEGO TERMINADO. HA SIDO UN EMPATE');break;
-            default: alert('juego finalizado, razon desconocida ');
+            default: alert('juego finalizado, razon desconocida ');break;
         }
         location.href = '/juegos';
     }
+
     function jugarFicha(fil,col){
         if(fin){
         	if(inicio){
