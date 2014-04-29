@@ -664,14 +664,21 @@ function api(){
 					OC.api.datos = new Object();
 					OC.api.datos.xPos = xPos;
 					OC.api.datos.yPos = yPos;
+					if(playerName == matchesList[matchName].player1Name)
+						OC.api.player =   matchesList[matchName].player2Name;
+					else 
+						OC.api.player =   matchesList[matchName].player1Name;
 
 					console.log('marca3');
 					if (matchesList[matchName].player1Name == playerName) { 	// Si es player 1 se actualiza tablero en posición	
 						matchesList[matchName].board.squares[xPos][yPos] = 1;	// Usando unos, sino, usando 2.
 						matchesList[matchName].putPassOrRetirePlayer1 = false;
+						matchesList[matchName].putPassOrRetirePlayer2 = true;
+
 					} else {
 						matchesList[matchName].board.squares[xPos][yPos] = 2;
 						matchesList[matchName].putPassOrRetirePlayer2 = false;	 
+						matchesList[matchName].putPassOrRetirePlayer1 = true;
 					}	
 
 					console.log('marca4');
