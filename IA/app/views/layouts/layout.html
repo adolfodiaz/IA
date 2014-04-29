@@ -183,11 +183,10 @@
                 	case 'MATCH_NOTIFY'     : $('#myModal2').modal('hide');
                                               $('#myModal3').modal('show');break;
                     case 'ROUND_START'      : redireccionarPartida(respuesta.arguments.matchName); break;
-                    case 'ROUND_END'        : alert('no implementado'); break;
                     case 'TURN'             : partida(respuesta); break;
                     case 'ERR_WRONG_POS'    : alert('movimiendo invalido'); break;
                     case 'OK'               : break;
-                    case 'FIN'              : finGame(respuesta.arguments); break;
+                    case 'ROUND_END'        : finJuego(respuesta.arguments); break;
                     
                     case 'ERROR': alert('ERROR: '+respuesta.arguments); break;
                 	default:
