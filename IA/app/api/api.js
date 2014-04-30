@@ -426,6 +426,8 @@ function api(){
 		matchesList[matchName].lastMovementTimePlayer1 = date;
 		matchesList[matchName].lastMovementTimePlayer2 = date;
 		setTimeout(matchEndAlert,matchesList[matchName].rules.time.maxRoundTime*1000, matchName);
+		//setTimeout(endOfTimeTurn,matchesList[matchName].rules.time.turnDuration*1000, matchName, playerName, date);
+		//falta primer turno
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
@@ -639,7 +641,6 @@ function api(){
 		console.log ("coord put api" + xPos + " " + yPos);
 		console.log (playerName + " " + matchName);
 //adolfo reloj
-		//adolfo
 		if(match.player1Name==playerName){
 			//es el jugador 1
 			var lastMovementTimePlayer = match.lastMovementTimePlayer1;
@@ -653,7 +654,7 @@ function api(){
 
 		var currentTime = new Date();
 		//se valida si el jugador jugo antes del tiempo reglamentario
-		if((currentTime-startTime)>match.rules.time.turnDuration*1000){
+		if((currentTime-match.startTime)>match.rules.time.turnDuration*1000){
 			console.log("se acabo el tiempo de partida: falta avisar");
 
 		}else if((currentTime-lastMovementTimePlayer)>match.rules.time.turnDuration*1000){
@@ -1296,12 +1297,14 @@ function api(){
 
 			console.log('saliendo de api');
 //adolfo  reloj
-			if(match.player1Name==playerName){
-				var date = new Date();
-				match.lastMovementTimePlayer1 = date;
+			var date = new Date();
+			if(match.player1Name==playerName){				
+				match.lastMovementTimePlayer1 = date;				
+			}else{
 				match.lastMovementTimePlayer2 = date;
 			}
-
+			setTimeout(endOfTimeTurn,matchesList[matchName].rules.time.turnDuration*1000, matchName, playerName, date);
+			
 //adolfo  reloj
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
@@ -1353,9 +1356,29 @@ function api(){
 
 	function matchEndAlert(matchName){
 		if(!matchesList[matchName].MatchEnd){
+			matchesList[matchName].MatchEnd=true;
 			console.log("avisar que termino la partida");
 		}
 		//avisar a los jugadores que se acabo el tiempo
+	}
+
+	function endOfTimeTurn(matchName, playerName, timeChecking){
+		if(!matchesList[matchName].MatchEnd){
+			var match = matchesList[matchName];
+			var lastMovementTimePlayer;
+			var playerName2;
+			if(match.player1Name==playerName){
+				lastMovementTimePlayer = match.lastMovementTimePlayer1;
+				playerName2 = match.player2Name;
+			}else{
+				lastMovementTimePlayer = match.lastMovementTimePlayer2;
+				playerName2 = match.player1Name;
+			}
+			if(timeChecking==lastMovementTimePlayer){
+				console.log("paso el tiempo para el jugador: "+playerName2);
+				matchesList[matchName].MatchEnd=true;
+			}
+		}		
 	}
 
 module.exports.api = api;
