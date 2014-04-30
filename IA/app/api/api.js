@@ -1354,31 +1354,33 @@ function api(){
 }
 
 
-	function matchEndAlert(matchName){
-		if(!matchesList[matchName].MatchEnd){
-			matchesList[matchName].MatchEnd=true;
-			console.log("avisar que termino la partida");
-		}
-		//avisar a los jugadores que se acabo el tiempo
-	}
 
-	function endOfTimeTurn(matchName, playerName, timeChecking){
-		if(!matchesList[matchName].MatchEnd){
-			var match = matchesList[matchName];
-			var lastMovementTimePlayer;
-			var playerName2;
-			if(match.player1Name==playerName){
-				lastMovementTimePlayer = match.lastMovementTimePlayer1;
-				playerName2 = match.player2Name;
-			}else{
-				lastMovementTimePlayer = match.lastMovementTimePlayer2;
-				playerName2 = match.player1Name;
-			}
-			if(timeChecking==lastMovementTimePlayer){
-				console.log("paso el tiempo para el jugador: "+playerName2);
-				matchesList[matchName].MatchEnd=true;
-			}
-		}		
+function matchEndAlert(matchName){
+	if(!matchesList[matchName].MatchEnd){
+		matchesList[matchName].MatchEnd=true;
+		console.log("avisar que termino la partida");
 	}
+	//avisar a los jugadores que se acabo el tiempo
+}
+
+function endOfTimeTurn(matchName, playerName, timeChecking){
+	if(!matchesList[matchName].MatchEnd){
+		var match = matchesList[matchName];
+		var lastMovementTimePlayer;
+		var playerName2;
+		if(match.player1Name==playerName){
+			lastMovementTimePlayer = match.lastMovementTimePlayer1;
+			playerName2 = match.player2Name;
+		}else{
+			lastMovementTimePlayer = match.lastMovementTimePlayer2;
+			playerName2 = match.player1Name;
+		}
+		if(timeChecking==lastMovementTimePlayer){
+			console.log("paso el tiempo para el jugador: "+playerName2);
+			matchesList[matchName].MatchEnd=true;
+			//avisar a los jugadores quien gano y quien perdio (el jugador playerName gano y el jugador playerName2 perdio)
+		}
+	}		
+}
 
 module.exports.api = api;
