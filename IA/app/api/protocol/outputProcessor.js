@@ -320,7 +320,7 @@ function outputProcessor(){
 
 			}
 
-			if (clientObject.api.datos.win == 2){ // Si el jugador que tiene la conexión directa es quien gana
+			if (clientObject.api.datos.win == 2){ // Si el jugador que tiene la conexión directa es quien pierde
 
 				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT" }}'));
 				var clientObject2 = new Object();
@@ -328,7 +328,7 @@ function outputProcessor(){
 
 			}
 
-			if (clientObject.api.datos.win == 3){ // Si el jugador que tiene la conexión directa es quien gana
+			if (clientObject.api.datos.win == 3){ // Empate 
 
 				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW" }}'));
 				var clientObject2 = new Object();

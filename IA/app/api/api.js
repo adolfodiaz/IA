@@ -18,6 +18,8 @@ matchesList = new Object();
 //para busqueda rapida
 getPlayerNameForID = new Object();
 
+
+
 function api(){	
 
 	/*
@@ -631,6 +633,7 @@ function api(){
 		var matchName		= onlinePlayersList[playerName].match;
 		var xPos 			= OC.data.arguments.xPos;
 		var yPos			= OC.data.arguments.yPos;
+<<<<<<< HEAD
 		var match 			= matchesList[matchName];
 
 		console.log ("coord put api" + xPos + " " + yPos);
@@ -692,6 +695,22 @@ function api(){
 
 //adolfo  reloj
 
+=======
+		var tablero 		= matchesList[matchName].board;
+		var xPos2 			= OC.data.arguments.yPos;
+		var yPos2			= OC.data.arguments.xPos;			
+
+		if (matchesList[matchName].player1Name == playerName) {
+
+			var numJugador = 1;
+		}
+		else{
+
+			var numJugador = 2;
+		}
+
+		console.log ("llega posicion x: " + xPos + " y: " + yPos);
+>>>>>>> 0524d511d69af3201c73b9906001fb5188d0ad79
 
 		if (onlinePlayersList[playerName].match == null){
 			console.log ("ERROR, jugador no en juego");
@@ -701,7 +720,7 @@ function api(){
 			OC.api.enviarAmbos = false;
 			OC.api.razones = playerName + " NO SE ENCUENTRA EN MATCH";
 		} else { // Si el jugador esta en match
-			console.log('marca 1');
+			
 			if (((matchesList[matchName].player1Name == playerName) // Si el jugador ha jugado ya su movimiento 
 				&& (matchesList[matchName].putPassOrRetirePlayer1 == false))
 				|| ((matchesList[matchName].player2Name == playerName) 
@@ -713,49 +732,562 @@ function api(){
 				OC.api.enviarAmbos = false;
 				OC.api.razones = playerName + " YA HA REALIZADO SU JUGADA"; 	
 			} else  // Si no ha jugado
-				if (true){ // si su movimiento es válido, insertar funcion feta de jugada	
-					console.log('marca 2');
+
+
+				////////////////////////////////////////////////////////////
+
+				////INICIO_VALIDACION
+
+
+					var resultadoJugada = -2;
+					console.log('Resultado jugada antes de ' +resultadoJugada);
+					console.log('Posicion X ' +xPos2);
+					console.log('POsicion Y ' +yPos2);
+					if(xPos2 >= tablero.boardSize || yPos2 >= tablero.boardSize || xPos2 < 0 || yPos2 < 0 ){
+						resultadoJugada = -1; //"Jugada Invalida - Fuera del tablero";
+						console.log("Jugada Invalida - Fuera del tablero");
+					}else{
+						if(tablero.squares[xPos2][yPos2] == 0){
+							var victoria = false;
+							var tresEnLinea = false;
+							arribaIzquierda = 0;
+							abajoDerecha = 0;
+							arribaDerecha = 0;
+							abajoIzquierda = 0;
+							arriba = 0;
+							abajo = 0;
+							izquierda = 0;
+							derecha = 0;
+							
+							/*Revisar Diagonal Descendente*/
+
+							if(xPos2-1 >= 0 && yPos2-1 >= 0){
+								arribaIzquierda++;
+								if(xPos2-2 >= 0 && yPos2-2 >= 0){
+									arribaIzquierda++;
+									if(xPos2-3 >= 0 && yPos2-3 >= 0){
+										arribaIzquierda++;
+									}
+								}
+							}
+							if(xPos2+1 < tablero.boardSize && yPos2+1 < tablero.boardSize){
+								abajoDerecha++;
+								if(xPos2+2 < tablero.boardSize && yPos2+2 < tablero.boardSize){
+									abajoDerecha++;
+									if(xPos2+3 < tablero.boardSize && yPos2+3 < tablero.boardSize){
+										abajoDerecha++;
+									}
+								}
+							}
+
+							if(arribaIzquierda>0){
+								if(tablero.squares[xPos2-1][yPos2-1]!=numJugador){
+									if(abajoDerecha>0){
+										if(tablero.squares[xPos2+1][yPos2+1]!=numJugador){
+											
+										}else if(abajoDerecha>1){
+											if(tablero.squares[xPos2+2][yPos2+2]!=numJugador){
+												
+											}else{
+												tresEnLinea = true;
+												if(abajoDerecha>2){
+													if(tablero.squares[xPos2+3][yPos2+3]!=numJugador){ //llegando a este if, hay 3 en linea
+														
+													}else{
+														victoria = true;
+														
+													}
+												}
+											}
+										}
+									}
+								}else if(arribaIzquierda>1){
+									if(tablero.squares[xPos2-2][yPos2-2]!=numJugador){
+										if(abajoDerecha>0){
+											if(tablero.squares[xPos2+1][yPos2+1]!=numJugador){
+												
+											}else{
+												tresEnLinea = true;
+												if(abajoDerecha>1){
+													if(tablero.squares[xPos2+2][yPos2+2]!=numJugador){ //llegando a este if, hay 3 en linea
+														
+													}else{
+														victoria = true;
+														
+													}
+												}
+											}
+										}
+									}else if(arribaIzquierda>2){
+										if(tablero.squares[xPos2-3][yPos2-3]!=numJugador){ //llegando a este if, hay 3 en linea
+											tresEnLinea = true;
+											if(abajoDerecha>0){
+												if(tablero.squares[xPos2+1][yPos2+1]!=numJugador){
+													
+												}else{
+													victoria = true;
+													
+												}
+											}
+										}else{
+											victoria = true;
+											
+										}
+									}else if(abajoDerecha>0){
+										if(tablero.squares[xPos2+1][yPos2+1]!=numJugador){
+											
+										}else{
+											victoria = true;
+											
+										}
+									}
+								}else if(abajoDerecha>0){
+									if(tablero.squares[xPos2+1][yPos2+1]!=numJugador){
+										
+									}else{
+										tresEnLinea = true;
+										if(abajoDerecha>1){
+											if(tablero.squares[xPos2+2][yPos2+2]!=numJugador){ //llegando a este if, hay 3 en linea
+												
+											}else{
+												victoria = true;
+												
+											}
+										}
+									}
+								}
+							}else if(abajoDerecha>0){
+								if(tablero.squares[xPos2+1][yPos2+1]!=numJugador){
+									
+								}else if(abajoDerecha>1){
+									if(tablero.squares[xPos2+2][yPos2+2]!=numJugador){
+										
+									}else{
+										tresEnLinea = true;
+										if(abajoDerecha>2){
+											if(tablero.squares[xPos2+3][yPos2+3]!=numJugador){ //llegando a este if, hay 3 en linea
+												
+											}else{
+												victoria = true;
+												
+											}
+										}
+									}
+								}
+							}
+
+							/*Revisar Diagonal Ascendente*/
+
+							if(xPos2-1 >= 0 && yPos2+1 < tablero.boardSize){
+								arribaDerecha++;
+								if(xPos2-2 >= 0 && yPos2+2 < tablero.boardSize){
+									arribaDerecha++;
+									if(xPos2-3 >= 0 && yPos2+3 < tablero.boardSize){
+										arribaDerecha++;
+									}
+								}
+							}
+							if(xPos2+1 < tablero.boardSize && yPos2-1 >= 0){
+								abajoIzquierda++;
+								if(xPos2+2 < tablero.boardSize && yPos2-2 >= 0){
+									abajoIzquierda++;
+									if(xPos2+3 < tablero.boardSize && yPos2-3 >= 0){
+										abajoIzquierda++;
+									}
+								}
+							}
+
+							if(arribaDerecha>0){
+								if(tablero.squares[xPos2-1][yPos2+1]!=numJugador){
+									if(abajoIzquierda>0){
+										if(tablero.squares[xPos2+1][yPos2-1]!=numJugador){
+											
+										}else if(abajoIzquierda>1){
+											if(tablero.squares[xPos2+2][yPos2-2]!=numJugador){
+												
+											}else{
+												tresEnLinea = true;
+												if(abajoIzquierda>2){
+													if(tablero.squares[xPos2+3][yPos2-3]!=numJugador){ //llegando a este if, hay 3 en linea
+														
+													}else{
+														victoria = true;
+														
+													}
+												}
+											}
+										}
+									}
+								}else if(arribaDerecha>1){
+									if(tablero.squares[xPos2-2][yPos2+2]!=numJugador){
+										if(abajoIzquierda>0){
+											if(tablero.squares[xPos2+1][yPos2-1]!=numJugador){
+												
+											}else{
+												tresEnLinea = true;
+												if(abajoIzquierda>1){
+													if(tablero.squares[xPos2+2][yPos2-2]!=numJugador){ //llegando a este if, hay 3 en linea
+														
+													}else{
+														victoria = true;
+														
+													}
+												}
+											}
+										}
+									}else if(arribaDerecha>2){
+										if(tablero.squares[xPos2-3][yPos2+3]!=numJugador){ //llegando a este if, hay 3 en linea
+											tresEnLinea = true;
+											if(abajoIzquierda>0){
+												if(tablero.squares[xPos2+1][yPos2-1]!=numJugador){
+													
+												}else{
+													victoria = true;
+													
+												}
+											}
+										}else{
+											victoria = true;
+											
+										}
+									}else if(abajoIzquierda>0){
+										if(tablero.squares[xPos2+1][yPos2-1]!=numJugador){
+											
+										}else{
+											victoria = true;
+											
+										}
+									}
+								}else if(abajoIzquierda>0){
+									if(tablero.squares[xPos2+1][yPos2-1]!=numJugador){
+										
+									}else{
+										tresEnLinea = true;
+										if(abajoIzquierda>1){
+											if(tablero.squares[xPos2+2][yPos2-2]!=numJugador){ //llegando a este if, hay 3 en linea
+												
+											}else{
+												victoria = true;
+												
+											}
+										}
+									}
+								}
+							}else if(abajoIzquierda>0){
+								if(tablero.squares[xPos2+1][yPos2-1]!=numJugador){
+									
+								}else if(abajoIzquierda>1){
+									if(tablero.squares[xPos2+2][yPos2-2]!=numJugador){
+										
+									}else{
+										tresEnLinea = true;
+										if(abajoIzquierda>2){
+											if(tablero.squares[xPos2+3][yPos2-3]!=numJugador){ //llegando a este if, hay 3 en linea
+												
+											}else{
+												victoria = true;
+												
+											}
+										}
+									}
+								}
+							}
+
+							/*Revisar Vertical*/
+
+							if(xPos2-1 >= 0){
+								arriba++;
+								if(xPos2-2 >= 0){
+									arriba++;
+									if(xPos2-3 >= 0){
+										arriba++;
+									}
+								}
+							}
+							if(xPos2+1 < tablero.boardSize){
+								abajo++;
+								if(xPos2+2 < tablero.boardSize){
+									abajo++;
+									if(xPos2+3 < tablero.boardSize){
+										abajo++;
+									}
+								}
+							}
+
+							if(arriba>0){
+								if(tablero.squares[xPos2-1][yPos2]!=numJugador){
+									if(abajo>0){
+										if(tablero.squares[xPos2+1][yPos2]!=numJugador){
+											
+										}else if(abajo>1){
+											if(tablero.squares[xPos2+2][yPos2]!=numJugador){
+												
+											}else{
+												tresEnLinea = true;
+												if(abajo>2){
+													if(tablero.squares[xPos2+3][yPos2]!=numJugador){ //llegando a este if, hay 3 en linea
+														
+													}else{
+														victoria = true;
+														
+													}
+												}
+											}
+										}
+									}
+								}else if(arriba>1){
+									if(tablero.squares[xPos2-2][yPos2]!=numJugador){
+										if(abajo>0){
+											if(tablero.squares[xPos2+1][yPos2]!=numJugador){
+												
+											}else{
+												tresEnLinea = true;
+												if(abajo>1){
+													if(tablero.squares[xPos2+2][yPos2]!=numJugador){ //llegando a este if, hay 3 en linea
+														
+													}else{
+														victoria = true;
+														
+													}
+												}
+											}
+										}
+									}else if(arriba>2){
+										if(tablero.squares[xPos2-3][yPos2]!=numJugador){ //llegando a este if, hay 3 en linea
+											tresEnLinea = true;
+											if(abajo>0){
+												if(tablero.squares[xPos2+1][yPos2]!=numJugador){
+													
+												}else{
+													victoria = true;
+													
+												}
+											}
+										}else{
+											victoria = true;
+											
+										}
+									}else if(abajo>0){
+										if(tablero.squares[xPos2+1][yPos2]!=numJugador){
+											
+										}else{
+											victoria = true;
+											
+										}
+									}
+								}else if(abajo>0){
+									if(tablero.squares[xPos2+1][yPos2]!=numJugador){
+										
+									}else{
+										tresEnLinea = true;
+										if(abajo>1){
+											if(tablero.squares[xPos2+2][yPos2]!=numJugador){ //llegando a este if, hay 3 en linea
+												
+											}else{
+												victoria = true;
+												
+											}
+										}
+									}
+								}
+							}else if(abajo>0){
+								if(tablero.squares[xPos2+1][yPos2]!=numJugador){
+									
+								}else if(abajo>1){
+									if(tablero.squares[xPos2+2][yPos2]!=numJugador){
+										
+									}else{
+										tresEnLinea = true;
+										if(abajo>2){
+											if(tablero.squares[xPos2+3][yPos2]!=numJugador){ //llegando a este if, hay 3 en linea
+												
+											}else{
+												victoria = true;
+												
+											}
+										}
+									}
+								}
+							}
+
+							/*Revisar Horizontal*/
+
+							if(yPos2-1 >= 0){
+								izquierda++;
+								if(yPos2-2 >= 0){
+									izquierda++;
+									if(yPos2-3 >= 0){
+										izquierda++;
+									}
+								}
+							}
+							if(yPos2+1 < tablero.boardSize){
+								derecha++;
+								if(yPos2+2 < tablero.boardSize){
+									derecha++;
+									if(yPos2+3 < tablero.boardSize){
+										derecha++;
+									}
+								}
+							}
+
+							if(izquierda>0){
+								if(tablero.squares[xPos2][yPos2-1]!=numJugador){
+									if(derecha>0){
+										if(tablero.squares[xPos2][yPos2+1]!=numJugador){
+											
+										}else if(derecha>1){
+											if(tablero.squares[xPos2][yPos2+2]!=numJugador){
+												
+											}else{
+												tresEnLinea = true;
+												if(derecha>2){
+													if(tablero.squares[xPos2][yPos2+3]!=numJugador){ //llegando a este if, hay 3 en linea
+														
+													}else{
+														victoria = true;
+														
+													}
+												}
+											}
+										}
+									}
+								}else if(izquierda>1){
+									if(tablero.squares[xPos2][yPos2-2]!=numJugador){
+										if(derecha>0){
+											if(tablero.squares[xPos2][yPos2+1]!=numJugador){
+												
+											}else{
+												tresEnLinea = true;
+												if(derecha>1){
+													if(tablero.squares[xPos2][yPos2+2]!=numJugador){ //llegando a este if, hay 3 en linea
+														
+													}else{
+														victoria = true;
+														
+													}
+												}
+											}
+										}
+									}else if(izquierda>2){
+										if(tablero.squares[xPos2][yPos2-3]!=numJugador){ //llegando a este if, hay 3 en linea
+											tresEnLinea = true;
+											if(derecha>0){
+												if(tablero.squares[xPos2][yPos2+1]!=numJugador){
+													
+												}else{
+													victoria = true;
+													
+												}
+											}
+										}else{
+											victoria = true;
+											
+										}
+									}else if(derecha>0){
+										if(tablero.squares[xPos2][yPos2+1]!=numJugador){
+											
+										}else{
+											victoria = true;
+											
+										}
+									}
+								}else if(derecha>0){
+									if(tablero.squares[xPos2][yPos2+1]!=numJugador){
+										
+									}else{
+										tresEnLinea = true;
+										if(derecha>1){
+											if(tablero.squares[xPos2][yPos2+2]!=numJugador){ //llegando a este if, hay 3 en linea
+												
+											}else{
+												victoria = true;
+												
+											}
+										}
+									}
+								}
+							}else if(derecha>0){
+								if(tablero.squares[xPos2][yPos2+1]!=numJugador){
+									
+								}else if(derecha>1){
+									if(tablero.squares[xPos2][yPos2+2]!=numJugador){
+										
+									}else{
+										tresEnLinea = true;
+										if(derecha>2){
+											if(tablero.squares[xPos2][yPos2+3]!=numJugador){ //llegando a este if, hay 3 en linea
+												
+											}else{
+												victoria = true;
+												
+											}
+										}
+									}
+								}
+							}
+
+							if(victoria == true) resultadoJugada = 1; //"Hay 4 en fila";
+							else{
+								if(tresEnLinea == true) resultadoJugada = 2; //"Hay 3 en fila";
+								else resultadoJugada = 0 //"Se sigue el juego";
+							}
+						}else{
+							resultadoJugada = -1 ;
+							console.log("Jugada Invalida - Casillero ocupado");//"Jugada Invalida - Casillero ocupado";
+						}
+					}
+
+					console.log('Resultado jugada despues de ' +resultadoJugada);
+					//FIN_VALIDACIÓN
+					///////////////////////////////////////////////////////////////////////////
+				if (resultadoJugada >= 0){ // si su movimiento es válido, insertar funcion feta de jugada	
+					
 					OC.api = new Object();
 
 					OC.api.resultado = true;
 					OC.api.noEnviar = false; // True es para que se quede esparando.
 					OC.api.enviarAmbos = true; // Se debe enviara a ambos
-					console.log('marca 3.1');
-					console.log('marca 3.2' +(xPos + 1) );
-					console.log('marca 3.3');
 					
 					OC.api.datos = new Object();
 					OC.api.datos.xPos = xPos;
 					OC.api.datos.yPos = yPos;
+					OC.api.datos.win = resultadoJugada;
+					console.log("El resultado de la jugada es " + OC.api.datos.win);
 					if(playerName == matchesList[matchName].player1Name)
 						OC.api.player =   matchesList[matchName].player2Name;
 					else 
 						OC.api.player =   matchesList[matchName].player1Name;
 
-					console.log('marca3');
+					
 					if (matchesList[matchName].player1Name == playerName) { 	// Si es player 1 se actualiza tablero en posición	
-						matchesList[matchName].board.squares[xPos][yPos] = 1;	// Usando unos, sino, usando 2.
+						matchesList[matchName].board.squares[xPos2][yPos2] = 1;	// Usando unos, sino, usando 2.
 						matchesList[matchName].putPassOrRetirePlayer1 = false;
 						matchesList[matchName].putPassOrRetirePlayer2 = true;
 
 					} else {
-						matchesList[matchName].board.squares[xPos][yPos] = 2;
+						matchesList[matchName].board.squares[xPos2][yPos2] = 2;
 						matchesList[matchName].putPassOrRetirePlayer2 = false;	 
 						matchesList[matchName].putPassOrRetirePlayer1 = true;
 					}	
 
-					console.log('marca4');
+					
+
+					
+
+					
+					
 					/*if (false) { //si jugandor gano, insertar función feta de si gana o no
-						OC.api.datos.win = 1; // Jugador ganó
+						OC.api.datos.win = 1; // numJugador ganó
 					}
 
-					if (false) { // si jugador perdió, insertar funcion feta de si gana o no
+					if (false) { // si numJugador perdió, insertar funcion feta de si gana o no
 						OC.api.datos.win = 2; // Jugador perdió
 					} else { //Simplemente siguen jugando */
-						OC.api.datos.win = 0; // Sigue jugando
+				
 					//}
 				} else { //Si el movimiento es inválido
-					console.log('marca no feliz 1');
+					
 					OC.api = new Object();
 					OC.api.resultado = false;
 					OC.api.noEnviar = false;
@@ -763,6 +1295,7 @@ function api(){
 					OC.api.razones = playerName + " HA REALIZADO UNA JUGADA INVALIDA";
 				}
 			}
+<<<<<<< HEAD
 			console.log('saliendo de api');
 //adolfo  reloj
 			if(match.player1Name==playerName){
@@ -772,6 +1305,9 @@ function api(){
 			}
 
 //adolfo  reloj
+=======
+			
+>>>>>>> 0524d511d69af3201c73b9906001fb5188d0ad79
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
 	}
@@ -819,6 +1355,7 @@ function api(){
 	}
 }
 
+<<<<<<< HEAD
 	function matchEndAlert(matchName){
 		if(!matchesList[matchName].MatchEnd){
 			console.log("avisar que termino la partida");
@@ -827,3 +1364,7 @@ function api(){
 	}
 
 module.exports.api = api;
+=======
+module.exports.api = api;
+
+>>>>>>> 0524d511d69af3201c73b9906001fb5188d0ad79
