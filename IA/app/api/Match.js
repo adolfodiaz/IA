@@ -10,7 +10,7 @@ function Match(){
 	this.spectators = new Array();
 	this.board = new Board();
 	
-	this.startTime;
+	this.startTime = new Date();
 	this.whoStarted;
 
 	this.aceptaGamePlayer1 = false;
@@ -23,6 +23,13 @@ function Match(){
 
 	this.turnEnd = false;  
 	
+
+	this.timeRemaining = this.rules.time.maxRoundTime;
+	this.lastMovementTimePlayer1;
+	this.lastMovementTimePlayer2;
+	this.containerGametimeplayer1;
+	this.containerGametimeplayer2;
+
 	this.newMatch = function(name, player1Name){
 		this.name = name;
 		this.player1Name = player1Name;
