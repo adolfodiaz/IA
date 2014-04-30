@@ -633,7 +633,7 @@ function api(){
 		var matchName		= onlinePlayersList[playerName].match;
 		var xPos 			= OC.data.arguments.xPos;
 		var yPos			= OC.data.arguments.yPos;
-<<<<<<< HEAD
+
 		var match 			= matchesList[matchName];
 
 		console.log ("coord put api" + xPos + " " + yPos);
@@ -695,7 +695,6 @@ function api(){
 
 //adolfo  reloj
 
-=======
 		var tablero 		= matchesList[matchName].board;
 		var xPos2 			= OC.data.arguments.yPos;
 		var yPos2			= OC.data.arguments.xPos;			
@@ -710,7 +709,6 @@ function api(){
 		}
 
 		console.log ("llega posicion x: " + xPos + " y: " + yPos);
->>>>>>> 0524d511d69af3201c73b9906001fb5188d0ad79
 
 		if (onlinePlayersList[playerName].match == null){
 			console.log ("ERROR, jugador no en juego");
@@ -1295,7 +1293,7 @@ function api(){
 					OC.api.razones = playerName + " HA REALIZADO UNA JUGADA INVALIDA";
 				}
 			}
-<<<<<<< HEAD
+
 			console.log('saliendo de api');
 //adolfo  reloj
 			if(match.player1Name==playerName){
@@ -1305,9 +1303,6 @@ function api(){
 			}
 
 //adolfo  reloj
-=======
-			
->>>>>>> 0524d511d69af3201c73b9906001fb5188d0ad79
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
 	}
@@ -1355,7 +1350,7 @@ function api(){
 	}
 }
 
-<<<<<<< HEAD
+
 	function matchEndAlert(matchName){
 		if(!matchesList[matchName].MatchEnd){
 			console.log("avisar que termino la partida");
@@ -1364,7 +1359,3 @@ function api(){
 	}
 
 module.exports.api = api;
-=======
-module.exports.api = api;
-
->>>>>>> 0524d511d69af3201c73b9906001fb5188d0ad79
