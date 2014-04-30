@@ -314,25 +314,25 @@ function outputProcessor(){
 
 			if (clientObject.api.datos.win == 1){ // Si el jugador que tiene la conexión directa es quien gana
 
-				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY" }}'));
+				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY" ,"advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "marcar": false ,"timeUsed" : 0}}}'));
 				var clientObject2 = new Object();
-				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT" }}'));
+				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT" ,"advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true,"marcar": true ,"timeUsed" : 0}}}'));
 
 			}
 
 			if (clientObject.api.datos.win == 2){ // Si el jugador que tiene la conexión directa es quien pierde
 
-				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT" }}'));
+				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT" ,"advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "marcar": false, "timeUsed" : 0}}}'));
 				var clientObject2 = new Object();
-				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY" }}'));
+				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY" , "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "marcar": true, "timeUsed" : 0}}}'));
 
 			}
 
 			if (clientObject.api.datos.win == 3){ // Empate 
 
-				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW" }}'));
+				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW" }}, "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true,"marcar": false, "timeUsed" : 0}'));
 				var clientObject2 = new Object();
-				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW" }}'));
+				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW" , "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true,"marcar": true, "timeUsed" : 0}}}'));
 
 			}
 

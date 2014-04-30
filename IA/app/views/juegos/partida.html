@@ -43,10 +43,22 @@
     function finJuego(data){
         fin = false;
         switch(data.cause){
-            case 'VICTORY': alert('JUEGO TERMINADO. FELICIDADES, GANASTE'); break;
-            case 'DEFEAT': alert('JUEGO TERMINADO. SIGUE PRACTICANDO, PERDISTE');break;
-            case 'DRAW': alert('JUEGO TERMINADO. HA SIDO UN EMPATE');break;
-            default: alert('juego finalizado, razon desconocida ');break;
+            case 'VICTORY': {
+                colocarFicha(data.advMove.xPos,data.advMove.yPos,!color);
+                alert('JUEGO TERMINADO. FELICIDADES, GANASTE'); 
+                break;}
+            case 'DEFEAT':{
+                colocarFicha(data.advMove.xPos,data.advMove.yPos,!color);
+                alert('JUEGO TERMINADO. SIGUE PRACTICANDO, PERDISTE');
+                break;}
+            case 'DRAW':{ 
+                if(!turno){
+                    colocarFicha(data.advMove.xPos,data.advMove.yPos,color);
+                }
+                alert('JUEGO TERMINADO. HA SIDO UN EMPATE');
+                break;}
+            default: alert('juego finalizado, razon desconocida ');
+            break;
         }
         location.href = '/juegos';
     }
@@ -57,7 +69,7 @@
     	    	if(turno){
     	    		//turno = false;
     				content = document.getElementById(("tablero_id_"+ fil + col)); 
-                    console.log(content);
+                    
     				colocarFicha( fil, col, color);
     				turno = false;
                     aceptaTurno = false;
