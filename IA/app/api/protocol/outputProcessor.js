@@ -280,21 +280,17 @@ function outputProcessor(){
 		clientObject.response = clientObject.api.response;
 		console.log('entre al putPostprocessor');
 		//var rules = 
-
-		if(!clientObject.api.resultado){ //ENTRA SI ES FALSE Si hay un error  y si la jugada fue inválida
-			
+		if(!clientObject.api.resultado){ //ENTRA SI ES FALSE Si hay un error  y si la jugada fue inválida			
 			if (clientObject.api.noEnviar) {// ENTRA SI ES TRUE Si la jugado fue inválida
 				var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));
 				clientObject.response = message;
 			}
-
 			else { // ENTRA SI ES FALSE
 
 				var message = JSON.parse(('{"command": "ERR_WRONG_POS", "arguments":{"loseRound": "false"}}'));
 
 				clientObject.response = message;
-			}
-			
+			}			
 		}
 		else{
 			//Hay que enviar un TURN y hay que ver si alguien gano, perdió o sigue el juego.

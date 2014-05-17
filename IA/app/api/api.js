@@ -425,7 +425,8 @@ function api(){
 		var date = new Date();
 		matchesList[matchName].lastMovementTimePlayer1 = date;
 		matchesList[matchName].lastMovementTimePlayer2 = date;
-		setTimeout(matchEndAlert,matchesList[matchName].rules.time.maxRoundTime*1000, matchName);
+		var numberOfFinishRound = matchesList[matchName].numberOfFinishRound;
+		setTimeout(roundEndAlert,matchesList[matchName].rules.time.maxRoundTime*1000, matchName, numberOfFinishRound);
 		//setTimeout(endOfTimeTurn,matchesList[matchName].rules.time.turnDuration*1000, matchName, playerName, date);
 		//falta primer turno
 		funcionAplazada.resolve(OC);
@@ -635,62 +636,19 @@ function api(){
 		var matchName		= onlinePlayersList[playerName].match;
 		var xPos 			= OC.data.arguments.xPos;
 		var yPos			= OC.data.arguments.yPos;
-
 		var match 			= matchesList[matchName];
+		//agregar round al cual corresponde la jugada CHEVO
+		//var numberOfFinishRound = OC.data.arguments.numberOfFinishRound;
 
 		console.log ("coord put api" + xPos + " " + yPos);
 		console.log (playerName + " " + matchName);
-//adolfo reloj
-		if(match.player1Name==playerName){
-			//es el jugador 1
-			var lastMovementTimePlayer = match.lastMovementTimePlayer1;
-			var transmitter = 1;	
-		}else{
-			//es el jugador 2
-			var lastMovementTimePlayer = match.lastMovementTimePlayer2;
-			var transmitter = 2;
-		}
-		var currentTime = new Date();
-		//se valida si el jugador jugo antes del tiempo reglamentario
-		if((currentTime-match.startTime)>match.rules.time.turnDuration*1000){
-			console.log("se acabo el tiempo de partida: falta avisar");
+//adolfo round
 
-		}else if((currentTime-lastMovementTimePlayer)>match.rules.time.turnDuration*1000){
-			//el jugador perdio, se le tiene que avisar
-			OC.api = new Object();
-			//OC.api.command = JSON.parse(());
-			var roundElapsedTime = (match.startTime- currentTime)/1000;
-			if(transmitter==1){
-				//en caso de querer clonar objeto hacer					
-				//var OCCopia = function(){};
-				//OCCopia.prototype = OC;
-				//OCC = new OCCopia();
-				//####//
-				//OCC.connection = onlinePlayersList[match.player2Name].connection;
-				//OCC.clientType = onlinePlayersList[match.player2Name].clientType;
-				//OCC.api = new Object();
-				//OC.api.command = JSON.parse(('"command": "ROUND_END","arguments": {"cause": "TIMEOUTS", "winnerId": "'+match.player2Name+'", "roundElapsedTime": "'+roundElapsedTime+'", "performanceFactor": "", "advPerformanceFactor": "", "performanceRatio": "", "usedTime": "'+match.containerGametimeplayer2+'", "advUsedTime": "'+match.containerGametimeplayer1+'", "timeRatio": "0,83", "score": "", "newRound": true}}'));
-				//messageSender.sendMessage(OCC);
-				//OC.api.command = JSON.parse(('"command": "ROUND_END","arguments": {"cause": "TIMEOUTS", "winnerId": "'+match.player2Name+'", "roundElapsedTime": "'+roundElapsedTime+'", "performanceFactor": "", "advPerformanceFactor": "", "performanceRatio": "", "usedTime": "'+match.containerGametimeplayer1+'", "advUsedTime": "'+match.containerGametimeplayer2+'", "timeRatio": "0,83", "score": "", "newRound": true}}'));
-			}else{
-				//en caso de querer clonar objeto hacer					
-				//var OCCopia = function(){};
-				//OCCopia.prototype = OC;
-				//OCC = new OCCopia();
-				//####//
-				//OCC.connection = onlinePlayersList[match.player1Name].connection;
-				//OCC.clientType = onlinePlayersList[match.player1Name].clientType;
-				//OCC.api = new Object();
-				//OC.api.command = JSON.parse(('"command": "ROUND_END","arguments": {"cause": "TIMEOUTS", "winnerId": "'+match.player1Name+'", "roundElapsedTime": "'+roundElapsedTime+'", "performanceFactor": "", "advPerformanceFactor": "", "performanceRatio": "", "usedTime": "'+match.containerGametimeplayer1+'", "advUsedTime": "'+match.containerGametimeplayer2+'", "timeRatio": "0,83", "score": "", "newRound": true}}'));
-				//messageSender.sendMessage(OCC);
-				//OC.api.command = JSON.parse(('"command": "ROUND_END","arguments": {"cause": "TIMEOUTS", "winnerId": "'+match.player1Name+'", "roundElapsedTime": "'+roundElapsedTime+'", "performanceFactor": "", "advPerformanceFactor": "", "performanceRatio": "", "usedTime": "'+match.containerGametimeplayer2+'", "advUsedTime": "'+match.containerGametimeplayer1+'", "timeRatio": "0,83", "score": "", "newRound": true}}'));
-			
-			}
-		}else{
-			//falta validar movimiento en base a las funciones de feta
-		}
-
-//adolfo  reloj
+		/*if(matchesList[matchName].numberOfFinishRound!=numberOfFinishRound){//avisar que perdio, round invalido CHEVO
+			//avisar mensaje fuera de tiempo
+			//no avisar nada
+		}*/
+//adolfo round
 
 		var tablero 		= matchesList[matchName].board;
 		var xPos2 			= OC.data.arguments.yPos;
@@ -725,13 +683,8 @@ function api(){
 				OC.api.enviarAmbos = false;
 				OC.api.razones = playerName + " YA HA REALIZADO SU JUGADA"; 	
 			} else  // Si no ha jugado
-
-
 				////////////////////////////////////////////////////////////
-
 				////INICIO_VALIDACION
-
-
 					var resultadoJugada = -2;
 					console.log('Resultado jugada antes de ' +resultadoJugada);
 					console.log('Posicion X ' +xPos2);
@@ -1297,7 +1250,8 @@ function api(){
 			}else{
 				match.lastMovementTimePlayer2 = date;
 			}
-			setTimeout(endOfTimeTurn,matchesList[matchName].rules.time.turnDuration*1000, matchName, playerName, date);
+			var numberOfFinishRound = matchesList[matchName].numberOfFinishRound;
+			setTimeout(endOfTimeTurn,matchesList[matchName].rules.time.turnDuration*1000, matchName, playerName, date, numberOfFinishRound);
 			
 //adolfo  reloj
 			funcionAplazada.resolve(OC);
@@ -1349,30 +1303,47 @@ function api(){
 
 
 
-function matchEndAlert(matchName){
-	if(!matchesList[matchName].MatchEnd){
-		matchesList[matchName].MatchEnd=true;
+function roundEndAlert(matchName, numberOfFinishRound){
+	if(matchesList[matchName].numberOfFinishRound==numberOfFinishRound){
 		console.log("avisar que termino la partida");
+		matchesList[matchName].numberOfFinishRound++;
+		if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.roundsPerMatch){
+			//avisar a los jugadores quien gano y quien perdio (el jugador playerName gano y el jugador playerName2 perdio) CHEVO
+			//messageSender.sendMessage(OCC);
+			//messageSender.sendMessage(OCC);
+		}else{
+			//avisar a los jugadores quien gano y quien perdio (el jugador playerName gano y el jugador playerName2 perdio) CHEVO
+			//messageSender.sendMessage(OCC);
+			//messageSender.sendMessage(OCC);
+		}
 	}
 	//avisar a los jugadores que se acabo el tiempo
 }
 
-function endOfTimeTurn(matchName, playerName, timeChecking){
-	if(!matchesList[matchName].MatchEnd){
+function endOfTimeTurn(matchName, playerName, timeChecking, numberOfFinishRound){
+	if(matchesList[matchName].numberOfFinishRound==numberOfFinishRound){		
 		var match = matchesList[matchName];
 		var lastMovementTimePlayer;
-		var playerName2;
+		var playerName;
 		if(match.player1Name==playerName){
 			lastMovementTimePlayer = match.lastMovementTimePlayer1;
-			playerName2 = match.player2Name;
+			playerName = match.player2Name;
 		}else{
 			lastMovementTimePlayer = match.lastMovementTimePlayer2;
-			playerName2 = match.player1Name;
+			playerName = match.player1Name;
 		}
 		if(timeChecking==lastMovementTimePlayer){
-			console.log("paso el tiempo para el jugador: "+playerName2);
-			matchesList[matchName].MatchEnd=true;
-			//avisar a los jugadores quien gano y quien perdio (el jugador playerName gano y el jugador playerName2 perdio)
+			console.log("paso el tiempo para el jugador: "+playerName);
+			matchesList[matchName].numberOfFinishRound++;
+			if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.roundsPerMatch){
+				//avisar a los jugadores quien gano y quien perdio (el jugador playerName gano y el jugador playerName2 perdio) CHEVO
+				//messageSender.sendMessage(OCC);
+				//messageSender.sendMessage(OCC);
+			}else{
+				//avisar a los jugadores quien gano y quien perdio (el jugador playerName gano y el jugador playerName2 perdio) CHEVO
+				//messageSender.sendMessage(OCC);
+				//messageSender.sendMessage(OCC);
+			}				
 		}
 	}		
 }

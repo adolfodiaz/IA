@@ -27,7 +27,7 @@ function Rules(){
 	this.matchEfficiencyLimit = new Object();
 	this.matchEfficiencyLimit.enabled = true;//si el Match termina antes de lo especificado por ser un jugador demasiado bueno con respecto a otro
 	this.matchEfficiencyLimit.minRounds = 10;//cuántas rondas mínimas deben jugarse antes de terminar el Match
-	this.matchEfficiencyLimit.efficiencyLimit  =0.75;//cuál es la relación victorias/total para el mejor jugador que hace que el Match termine
+	this.matchEfficiencyLimit.efficiencyLimit  =0.75;//cuál es la relación victorias/total para el mejor jugador que hace que el Match termine	
 }
 
 module.exports.Rules = Rules;

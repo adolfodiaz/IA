@@ -29,6 +29,8 @@ function Match(){
 	this.containerGametimeplayer1;
 	this.containerGametimeplayer2;
 
+	this.numberOfFinishRound = 0;
+
 	this.newMatch = function(name, player1Name){
 		this.name = name;
 		this.player1Name = player1Name;
