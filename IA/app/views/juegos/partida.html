@@ -43,10 +43,26 @@
     function finJuego(data){
         fin = false;
         switch(data.cause){
-            case 'VICTORY': alert('JUEGO TERMINADO. FELICIDADES, GANASTE'); break;
-            case 'DEFEAT': alert('JUEGO TERMINADO. SIGUE PRACTICANDO, PERDISTE');break;
-            case 'DRAW': alert('JUEGO TERMINADO. HA SIDO UN EMPATE');break;
-            default: alert('juego finalizado, razon desconocida ');break;
+            case 'VICTORY': 
+                if(data.valid){
+                    colocarFicha(data.xPos, data.yPos, !color );
+                }
+                alert('JUEGO TERMINADO. FELICIDADES, GANASTE'); 
+                break;
+            case 'DEFEAT': 
+                if(data.valid){
+                    colocarFicha(data.xPos, data.yPos, !color );
+                }
+                    alert('JUEGO TERMINADO. SIGUE PRACTICANDO, PERDISTE');
+                    break;
+            case 'DRAW': 
+                if(data.valid) {
+                    colocarFicha(data.xPos, data.yPos, !color );
+                }
+                    alert('JUEGO TERMINADO. HA SIDO UN EMPATE');
+                    break;
+            default: alert('juego finalizado, razon desconocida ');
+                break;
         }
         location.href = '/juegos';
     }

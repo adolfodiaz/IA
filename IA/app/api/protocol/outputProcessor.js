@@ -298,10 +298,8 @@ function outputProcessor(){
 		}
 		else{
 			//Hay que enviar un TURN y hay que ver si alguien gano, perdió o sigue el juego.
-			console.log(' enviar un TURN y hay que ver si alguien gano');
-
+			
 			if (clientObject.api.datos.win == 0){ // La Jugada es válida pero nadie ha ganado
-				console.log('caso feliz');
 				var clientObject2 = new Object();
 				//clientObject2.response =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "yourTurn" : true , "advMove": {"move": "PUT", "xPos":'+clientObject.datos.xPos+', "yPos":'+clientObject.datos.yPos+', "valid": true, "timeUsed" : 0}}}'));
 				
@@ -314,25 +312,25 @@ function outputProcessor(){
 
 			if (clientObject.api.datos.win == 1){ // Si el jugador que tiene la conexión directa es quien gana
 
-				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY" }}'));
+				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": false }}'));
 				var clientObject2 = new Object();
-				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT" }}'));
+				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true }}'));
 
 			}
 
 			if (clientObject.api.datos.win == 2){ // Si el jugador que tiene la conexión directa es quien pierde
 
-				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT" }}'));
+				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT","xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": false }}'));
 				var clientObject2 = new Object();
-				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY" }}'));
-
+				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true }}'));
+				
 			}
 
 			if (clientObject.api.datos.win == 3){ // Empate 
 
-				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW" }}'));
+				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": false }}'));
 				var clientObject2 = new Object();
-				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW" }}'));
+				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true}}'));
 
 			}
 

@@ -22,9 +22,8 @@ function Match(){
 	this.putPassOrRetirePLayer2 = true;
 
 	this.turnEnd = false;  
-	
+	this.MatchEnd;
 
-	this.timeRemaining = this.rules.time.maxRoundTime;
 	this.lastMovementTimePlayer1;
 	this.lastMovementTimePlayer2;
 	this.containerGametimeplayer1;

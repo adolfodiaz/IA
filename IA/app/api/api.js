@@ -650,15 +650,12 @@ function api(){
 			var lastMovementTimePlayer = match.lastMovementTimePlayer2;
 			var transmitter = 2;
 		}
-		console.log("paso adolfo1");
-
 		var currentTime = new Date();
 		//se valida si el jugador jugo antes del tiempo reglamentario
 		if((currentTime-match.startTime)>match.rules.time.turnDuration*1000){
 			console.log("se acabo el tiempo de partida: falta avisar");
 
 		}else if((currentTime-lastMovementTimePlayer)>match.rules.time.turnDuration*1000){
-			console.log("paso adolfo 1.1");
 			//el jugador perdio, se le tiene que avisar
 			OC.api = new Object();
 			//OC.api.command = JSON.parse(());
@@ -675,7 +672,6 @@ function api(){
 				//OC.api.command = JSON.parse(('"command": "ROUND_END","arguments": {"cause": "TIMEOUTS", "winnerId": "'+match.player2Name+'", "roundElapsedTime": "'+roundElapsedTime+'", "performanceFactor": "", "advPerformanceFactor": "", "performanceRatio": "", "usedTime": "'+match.containerGametimeplayer2+'", "advUsedTime": "'+match.containerGametimeplayer1+'", "timeRatio": "0,83", "score": "", "newRound": true}}'));
 				//messageSender.sendMessage(OCC);
 				//OC.api.command = JSON.parse(('"command": "ROUND_END","arguments": {"cause": "TIMEOUTS", "winnerId": "'+match.player2Name+'", "roundElapsedTime": "'+roundElapsedTime+'", "performanceFactor": "", "advPerformanceFactor": "", "performanceRatio": "", "usedTime": "'+match.containerGametimeplayer1+'", "advUsedTime": "'+match.containerGametimeplayer2+'", "timeRatio": "0,83", "score": "", "newRound": true}}'));
-				console.log("perdio jugador 1");
 			}else{
 				//en caso de querer clonar objeto hacer					
 				//var OCCopia = function(){};
@@ -688,7 +684,7 @@ function api(){
 				//OC.api.command = JSON.parse(('"command": "ROUND_END","arguments": {"cause": "TIMEOUTS", "winnerId": "'+match.player1Name+'", "roundElapsedTime": "'+roundElapsedTime+'", "performanceFactor": "", "advPerformanceFactor": "", "performanceRatio": "", "usedTime": "'+match.containerGametimeplayer1+'", "advUsedTime": "'+match.containerGametimeplayer2+'", "timeRatio": "0,83", "score": "", "newRound": true}}'));
 				//messageSender.sendMessage(OCC);
 				//OC.api.command = JSON.parse(('"command": "ROUND_END","arguments": {"cause": "TIMEOUTS", "winnerId": "'+match.player1Name+'", "roundElapsedTime": "'+roundElapsedTime+'", "performanceFactor": "", "advPerformanceFactor": "", "performanceRatio": "", "usedTime": "'+match.containerGametimeplayer2+'", "advUsedTime": "'+match.containerGametimeplayer1+'", "timeRatio": "0,83", "score": "", "newRound": true}}'));
-				console.log("perdio jugador 2");
+			
 			}
 		}else{
 			//falta validar movimiento en base a las funciones de feta
@@ -708,8 +704,6 @@ function api(){
 
 			var numJugador = 2;
 		}
-
-		console.log ("llega posicion x: " + xPos + " y: " + yPos);
 
 		if (onlinePlayersList[playerName].match == null){
 			console.log ("ERROR, jugador no en juego");
