@@ -314,6 +314,7 @@ function outputProcessor(){
 				var message =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"190000", "yourTurn" : false , "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "timeUsed" : 0}}}'));
 			}
 			else{
+				matchesList[matchName].numberOfFinishRound++;
 				if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.game.roundsPerMatch){
 					var nextGame = true;
 					matchesList[matchName].resetMatch();
