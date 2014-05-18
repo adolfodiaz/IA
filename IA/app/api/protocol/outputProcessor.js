@@ -330,8 +330,7 @@ function outputProcessor(){
 				if (clientObject.api.datos.win == 1){ // Si el jugador que tiene la conexión directa es quien gana
 					var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": false , "reason": "3L", "nextGame" : '+nextGame+'}}' ));
 					var clientObject2 = new Object();
-					clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, , "reason": "3L", "nextGame" : '+nextGame+'}}'));
-
+					clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "reason": "3L", "nextGame" : '+nextGame+'}}'));
 				}
 
 				if (clientObject.api.datos.win == 2){ // Si el jugador que tiene la conexión directa es quien pierde
