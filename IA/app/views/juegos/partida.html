@@ -42,29 +42,25 @@
     }
     function finJuego(data){
         fin = false;
+        if(data.valid){
+            colocarFicha(data.xPos, data.yPos, !color );
+        }
         switch(data.cause){
             case 'VICTORY': 
-                if(data.valid){
-                    colocarFicha(data.xPos, data.yPos, !color );
-                }
                 alert('JUEGO TERMINADO. FELICIDADES, GANASTE'); 
                 break;
             case 'DEFEAT': 
-                if(data.valid){
-                    colocarFicha(data.xPos, data.yPos, !color );
-                }
-                    alert('JUEGO TERMINADO. SIGUE PRACTICANDO, PERDISTE');
-                    break;
+                alert('JUEGO TERMINADO. SIGUE PRACTICANDO, PERDISTE');
+                break;
             case 'DRAW': 
-                if(data.valid) {
-                    colocarFicha(data.xPos, data.yPos, !color );
-                }
-                    alert('JUEGO TERMINADO. HA SIDO UN EMPATE');
-                    break;
-            default: alert('juego finalizado, razon desconocida ');
+                alert('JUEGO TERMINADO. HA SIDO UN EMPATE');
+                break;
+            default: 
+                alert('juego finalizado, cause desconocida ');
                 break;
         }
-        location.href = '/juegos';
+        if(data.nextGame) location.href = '/juegos/{{nombre}}';
+        else location.href = '/juegos';
     }
 
     function jugarFicha(fil,col){
