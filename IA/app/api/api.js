@@ -640,8 +640,8 @@ function api(){
 		//agregar round al cual corresponde la jugada CHEVO
 		//var numberOfFinishRound = OC.data.arguments.numberOfFinishRound;
 
-		console.log ("coord put api" + xPos + " " + yPos);
-		console.log (playerName + " " + matchName);
+		//console.log ("coord put api" + xPos + " " + yPos);
+		//console.log (playerName + " " + matchName);
 //adolfo round
 
 		/*if(matchesList[matchName].numberOfFinishRound!=numberOfFinishRound){//avisar que perdio, round invalido CHEVO

@@ -28,17 +28,23 @@ function outputProcessor(){
 
 	this.registerPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer();
-		console.log("registerPostprocessor");
 		/*if((clientObject.preProcResults.okName == false)||(clientObject.preProcResults.okPass == false)||(clientObject.preProcResults.okType == false)){
 			msgSender.sendErrArgsCommand(clientObject);
 			funcionAplazada.resolve("null");
 		}*/
 		if(clientObject.api.response == "REG_SUCESS"){			
-			var message = JSON.parse(('{"command": "REG_SUCESS","arguments": {"clientName": "'+clientObject.data.arguments.clientName+'", "id": "'+clientObject.api.playerid+'", "policies": {"MAX_ABS_IDLE_TIME": "'+clientObject.api.policies.MAX_ABS_IDLE_TIME+'"}}}'));
+			var message = JSON.parse(('{"command": "REG_SUCESS","arguments": {"clientName": "'+clientObject.data.arguments.clientName+'", "id": "'+clientObject.api.playerid+'"}}'));
+
 			clientObject.response = message;
 			funcionAplazada.resolve(clientObject);
-			console.log("registerPostprocessor");
 		}
+//revisar esto 	
+		var clientObject2 = new Object();
+		clientObject2.response = JSON.parse(('{"command": "RULES", "arguments": { "boardSize": "4","time":{"turnDuration": "60","maxRoundTime": "1200"},"roundsPerMatch": "5"}}'));
+		clientObject2.connection = clientObject.connection;
+		clientObject2.clientType = clientObject.clientType;
+		messageSender.sendMessage(clientObject2);
+		
 		return funcionAplazada.promise;
 		//escribir acá la reacción de la respuesta de la API
 	}
