@@ -1307,14 +1307,25 @@ function roundEndAlert(matchName, numberOfFinishRound){
 	if(matchesList[matchName].numberOfFinishRound==numberOfFinishRound){
 		console.log("avisar que termino la partida");
 		matchesList[matchName].numberOfFinishRound++;
+		var clientObjectWinner = new Object();			
+		clientObjectWinner.connection = onlinePlayersList[playerNameWinner].connection;
+		clientObjectWinner.clientType = onlinePlayersList[playerNameWinner].clientType;
+
+		var clientObjectLoser = new Object();
+		clientObjectLoser.connection = onlinePlayersList[playerNameLoser].connection;
+		clientObjectLoser.clientType = onlinePlayersList[playerNameLoser].clientType;
 		if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.roundsPerMatch){
-			//avisar a los jugadores quien gano y quien perdio (el jugador playerName gano y el jugador playerName2 perdio) CHEVO
-			//messageSender.sendMessage(OCC);
-			//messageSender.sendMessage(OCC);
+			//chevo arregla los mensajes
+			clientObjectWinner.response	= '{"command": "ganaste","arguments": {"mensaje":"ganaste y tienes que volver a jugar"}}';
+			clientObjectLoser.response	= '{"command": "perdiste","arguments": {"mensaje":"perdiste y tienes que volver a jugar"}}';
+			messageSender.sendMessage(clientObjectWinner);
+			messageSender.sendMessage(clientObjectLoser);
 		}else{
-			//avisar a los jugadores quien gano y quien perdio (el jugador playerName gano y el jugador playerName2 perdio) CHEVO
-			//messageSender.sendMessage(OCC);
-			//messageSender.sendMessage(OCC);
+			//chevo arregla los mensajes
+			clientObjectWinner.response	= '{"command": "ganaste","arguments": {"mensaje":"ganaste y no tienes que volver a jugar y te tengo que mandar las estadisticas"}}';
+			clientObjectLoser.response	= '{"command": "perdiste","arguments": {"mensaje":"perdiste y no tienes que volver a jugar y te tengo que mandar las estadisticas"}}';
+			messageSender.sendMessage(clientObjectWinner);
+			messageSender.sendMessage(clientObjectLoser);
 		}
 	}
 	//avisar a los jugadores que se acabo el tiempo
@@ -1324,25 +1335,40 @@ function endOfTimeTurn(matchName, playerName, timeChecking, numberOfFinishRound)
 	if(matchesList[matchName].numberOfFinishRound==numberOfFinishRound){		
 		var match = matchesList[matchName];
 		var lastMovementTimePlayer;
-		var playerName;
+		var playerNameLoser;
+		var playerNameWinner;
 		if(match.player1Name==playerName){
 			lastMovementTimePlayer = match.lastMovementTimePlayer1;
-			playerName = match.player2Name;
+			playerNameLoser = match.player2Name;
+			playerNameWinner = match.player1Name;
 		}else{
 			lastMovementTimePlayer = match.lastMovementTimePlayer2;
-			playerName = match.player1Name;
+			playerNameLoser = match.player1Name;
+			playerNameWinner = match.player2Name;
 		}
 		if(timeChecking==lastMovementTimePlayer){
-			console.log("paso el tiempo para el jugador: "+playerName);
+			console.log("paso el tiempo para el jugador: "+playerNameLoser);
 			matchesList[matchName].numberOfFinishRound++;
+			var clientObjectWinner = new Object();			
+			clientObjectWinner.connection = onlinePlayersList[playerNameWinner].connection;
+			clientObjectWinner.clientType = onlinePlayersList[playerNameWinner].clientType;
+
+			var clientObjectLoser = new Object();
+			clientObjectLoser.connection = onlinePlayersList[playerNameLoser].connection;
+			clientObjectLoser.clientType = onlinePlayersList[playerNameLoser].clientType;
+
 			if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.roundsPerMatch){
-				//avisar a los jugadores quien gano y quien perdio (el jugador playerName gano y el jugador playerName2 perdio) CHEVO
-				//messageSender.sendMessage(OCC);
-				//messageSender.sendMessage(OCC);
+				//chevo arregla los mensajes
+				clientObjectWinner.response	= '{"command": "ganaste","arguments": {"mensaje":"ganaste y tienes que volver a jugar"}}';
+				clientObjectLoser.response	= '{"command": "perdiste","arguments": {"mensaje":"perdiste y tienes que volver a jugar"}}';
+				messageSender.sendMessage(clientObjectWinner);
+				messageSender.sendMessage(clientObjectLoser);				
 			}else{
-				//avisar a los jugadores quien gano y quien perdio (el jugador playerName gano y el jugador playerName2 perdio) CHEVO
-				//messageSender.sendMessage(OCC);
-				//messageSender.sendMessage(OCC);
+				//chevo arregla los mensajes
+				clientObjectWinner.response	= '{"command": "ganaste","arguments": {"mensaje":"ganaste y no tienes que volver a jugar y te tengo que mandar las estadisticas"}}';
+				clientObjectLoser.response	= '{"command": "perdiste","arguments": {"mensaje":"perdiste y no tienes que volver a jugar y te tengo que mandar las estadisticas"}}';
+				messageSender.sendMessage(clientObjectWinner);
+				messageSender.sendMessage(clientObjectLoser);
 			}				
 		}
 	}		
