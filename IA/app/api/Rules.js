@@ -1,18 +1,26 @@
 function Rules(){
+
 	this.board = new Object();
+	//importante
 	this.board.height = 8;
 	this.board.width = 8;
 	this.board.maxBoardReqs= 2; //cuántas veces el cliente puede pedir actualizaciones del tablero, 0 son infinitas veces
 	this.time = new Object();
 	this.time.timedTurn = true;//especifica si habrá turnos con duración limitada
-	this.time.turnDuration =  60; //cuánto dura cada turno, 0 es sin límite de tiempo
+	//importante
+	this.time.turnDuration =  10; //cuánto dura cada turno, 0 es sin límite de tiempo
 	this.time.immediateTurn = true; //forzar a las IA a no ocupar todo el tiempo del turno innecesariamente si tienen lista su jugada (jugar rápido)
 	this.time.maxIdleTime = 600; //cuánto tiempo puede estar un jugador sin enviar un comando durante un juego si timedTurn es falso
-	this.time.maxRoundTime = 1200; //tiempo total máximo de una ronda (partida)
+	//importante
+	this.time.maxRoundTime = 250;//importante      //tiempo total máximo de una ronda (partida)
 	this.time.maxMatchTime = 20000;//tiempo total máximo del Match (suma de todas las partidas)
+	
+
 	this.time.remainingRoundTime = 200; //(duda)
 	this.game = new Object();
-	this.game.roundsPerMatch = 200; //cuántas partidas se jugarán por Match
+
+	//importante
+	this.game.roundsPerMatch = 2; //cuántas partidas se jugarán por Match
 	this.game.noConnect3 = false; //si es TRUE, no puedes conectar 3 piezas seguidas (es un movimiento ilegal)
 	this.game.tournament = false;//especifica si el Game Manager está en Modo Torneo (SIN USO)
 	this.game.penalizeIllegalMoves = [5,-10];//especifica si pierdes puntaje por jugadas ilegales y cuánto (SIN USO?)
@@ -27,7 +35,7 @@ function Rules(){
 	this.matchEfficiencyLimit = new Object();
 	this.matchEfficiencyLimit.enabled = true;//si el Match termina antes de lo especificado por ser un jugador demasiado bueno con respecto a otro
 	this.matchEfficiencyLimit.minRounds = 10;//cuántas rondas mínimas deben jugarse antes de terminar el Match
-	this.matchEfficiencyLimit.efficiencyLimit  =0.75;//cuál es la relación victorias/total para el mejor jugador que hace que el Match termine
+	this.matchEfficiencyLimit.efficiencyLimit  =0.75;//cuál es la relación victorias/total para el mejor jugador que hace que el Match termine	
 }
 
 module.exports.Rules = Rules;

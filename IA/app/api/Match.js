@@ -10,7 +10,7 @@ function Match(){
 	this.spectators = new Array();
 	this.board = new Board();
 	
-	this.startTime;
+	this.startTime = new Date();
 	this.whoStarted;
 
 	this.aceptaGamePlayer1 = false;
@@ -22,10 +22,27 @@ function Match(){
 	this.putPassOrRetirePLayer2 = true;
 
 	this.turnEnd = false;  
-	
+	this.MatchEnd;
+
+	this.lastMovementTimePlayer1;
+	this.lastMovementTimePlayer2;
+	this.containerGametimeplayer1;
+	this.containerGametimeplayer2;
+
+	this.numberOfFinishRound = 0;
+
 	this.newMatch = function(name, player1Name){
 		this.name = name;
 		this.player1Name = player1Name;
+	}
+	this.resetMatch = function(){
+		this.roundACKPlayer1 = false;
+		this.roundACKPlayer2 = false;
+		this.putPassOrRetirePLayer1 = true;
+		this.putPassOrRetirePLayer2 = true;
+		this.turnEnd = false; 
+		this.MatchEnd = null;
+		this.board.crear(this.rules.board.height);
 	}
 }
 

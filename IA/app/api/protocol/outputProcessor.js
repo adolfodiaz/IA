@@ -28,17 +28,23 @@ function outputProcessor(){
 
 	this.registerPostprocessor = function(clientObject){
 		var funcionAplazada = Q.defer();
-		console.log("registerPostprocessor");
 		/*if((clientObject.preProcResults.okName == false)||(clientObject.preProcResults.okPass == false)||(clientObject.preProcResults.okType == false)){
 			msgSender.sendErrArgsCommand(clientObject);
 			funcionAplazada.resolve("null");
 		}*/
 		if(clientObject.api.response == "REG_SUCESS"){			
-			var message = JSON.parse(('{"command": "REG_SUCESS","arguments": {"clientName": "'+clientObject.data.arguments.clientName+'", "id": "'+clientObject.api.playerid+'", "policies": {"MAX_ABS_IDLE_TIME": "'+clientObject.api.policies.MAX_ABS_IDLE_TIME+'"}}}'));
+			var message = JSON.parse(('{"command": "REG_SUCESS","arguments": {"clientName": "'+clientObject.data.arguments.clientName+'", "id": "'+clientObject.api.playerid+'"}}'));
+
 			clientObject.response = message;
 			funcionAplazada.resolve(clientObject);
-			console.log("registerPostprocessor");
 		}
+//revisar esto 	
+		var clientObject2 = new Object();
+		clientObject2.response = JSON.parse(('{"command": "RULES", "arguments": { "boardSize": "4","time":{"turnDuration": "60","maxRoundTime": "1200"},"roundsPerMatch": "5"}}'));
+		clientObject2.connection = clientObject.connection;
+		clientObject2.clientType = clientObject.clientType;
+		messageSender.sendMessage(clientObject2);
+		
 		return funcionAplazada.promise;
 		//escribir acá la reacción de la respuesta de la API
 	}
@@ -278,30 +284,26 @@ function outputProcessor(){
 		var funcionAplazada = Q.defer();
 		funcionAplazada.resolve(clientObject);
 		clientObject.response = clientObject.api.response;
-		console.log('entre al putPostprocessor');
-		//var rules = 
 
-		if(!clientObject.api.resultado){ //ENTRA SI ES FALSE Si hay un error  y si la jugada fue inválida
-			
+		var playerName 		= getPlayerNameForID[clientObject.data.arguments.id];
+		var matchName 		= onlinePlayersList[playerName].match;
+		//var rules = 
+		if(!clientObject.api.resultado){ //ENTRA SI ES FALSE Si hay un error  y si la jugada fue inválida			
 			if (clientObject.api.noEnviar) {// ENTRA SI ES TRUE Si la jugado fue inválida
 				var message = JSON.parse(('{"command": "ERROR", "arguments":{'+clientObject.api.razones+'}}'));
 				clientObject.response = message;
 			}
-
 			else { // ENTRA SI ES FALSE
 
 				var message = JSON.parse(('{"command": "ERR_WRONG_POS", "arguments":{"loseRound": "false"}}'));
 
 				clientObject.response = message;
-			}
-			
+			}			
 		}
 		else{
 			//Hay que enviar un TURN y hay que ver si alguien gano, perdió o sigue el juego.
-			console.log(' enviar un TURN y hay que ver si alguien gano');
-
+			
 			if (clientObject.api.datos.win == 0){ // La Jugada es válida pero nadie ha ganado
-				console.log('caso feliz');
 				var clientObject2 = new Object();
 				//clientObject2.response =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "yourTurn" : true , "advMove": {"move": "PUT", "xPos":'+clientObject.datos.xPos+', "yPos":'+clientObject.datos.yPos+', "valid": true, "timeUsed" : 0}}}'));
 				
@@ -311,41 +313,43 @@ function outputProcessor(){
 				
 				var message =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"190000", "yourTurn" : false , "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "timeUsed" : 0}}}'));
 			}
+			else{
+				if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.game.roundsPerMatch){
+					var nextGame = true;
+					matchesList[matchName].resetMatch();
+				}
+				else{
+					var nextGame = false;
+					var player1= matchesList[matchName].player1Name;
+					var player2= matchesList[matchName].player2Name;
+					onlinePlayersList[player1].match = null;
+					onlinePlayersList[player2].match = null;
+					delete(matchesList[matchName]);
+				}
 
-			if (clientObject.api.datos.win == 1){ // Si el jugador que tiene la conexión directa es quien gana
+				if (clientObject.api.datos.win == 1){ // Si el jugador que tiene la conexión directa es quien gana
+					var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": false , "reason": "3L", "nextGame" : '+nextGame+'}}' ));
+					var clientObject2 = new Object();
+					clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "reason": "3L", "nextGame" : '+nextGame+'}}'));
+				}
 
-				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY" ,"advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "marcar": false ,"timeUsed" : 0}}}'));
-				var clientObject2 = new Object();
-				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT" ,"advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true,"marcar": true ,"timeUsed" : 0}}}'));
+				if (clientObject.api.datos.win == 2){ // Si el jugador que tiene la conexión directa es quien pierde
+					var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT","xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": false, "reason": "3L", "nextGame" : '+nextGame+'}}'));
+					var clientObject2 = new Object();
+					clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true , "reason": "3L", "nextGame" : '+nextGame+'}}'));
+				}
 
+
+				if (clientObject.api.datos.win == 3){ // Empate 
+					var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": false, "reason": "3L", "nextGame" : '+nextGame+'}}'));
+					var clientObject2 = new Object();
+					clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "reason": "3L", "nextGame" : '+nextGame+'}}'));
+				}
 			}
-
-			if (clientObject.api.datos.win == 2){ // Si el jugador que tiene la conexión directa es quien pierde
-
-				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT" ,"advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "marcar": false, "timeUsed" : 0}}}'));
-				var clientObject2 = new Object();
-				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY" , "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "marcar": true, "timeUsed" : 0}}}'));
-
-			}
-
-			if (clientObject.api.datos.win == 3){ // Empate 
-
-				var message = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW" }}, "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true,"marcar": false, "timeUsed" : 0}'));
-				var clientObject2 = new Object();
-				clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW" , "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true,"marcar": true, "timeUsed" : 0}}}'));
-
-			}
-
-			//if (clientObject.api.)
-
-			
 			clientObject2.connection = onlinePlayersList[clientObject.api.player].connection;
 			clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
 			messageSender.sendMessage(clientObject2);
 			clientObject.response = message;
-
-
-			
 		}
 
 

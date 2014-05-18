@@ -422,9 +422,18 @@ function api(){
 				}
 		}
 		console.log('enviando round_start_ack a OutputProcessor' );
+		var date = new Date();
+		matchesList[matchName].lastMovementTimePlayer1 = date;
+		matchesList[matchName].lastMovementTimePlayer2 = date;
+		var numberOfFinishRound = matchesList[matchName].numberOfFinishRound;
+		setTimeout(roundEndAlert,matchesList[matchName].rules.time.maxRoundTime*1000, matchName, numberOfFinishRound);
+		//setTimeout(endOfTimeTurn,matchesList[matchName].rules.time.turnDuration*1000, matchName, playerName, date);
+		//falta primer turno
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
 	}
+
+
 
 	this.turn_end = function(OC){
 		var funcionAplazada = Q.defer();
@@ -627,6 +636,20 @@ function api(){
 		var matchName		= onlinePlayersList[playerName].match;
 		var xPos 			= OC.data.arguments.xPos;
 		var yPos			= OC.data.arguments.yPos;
+		var match 			= matchesList[matchName];
+		//agregar round al cual corresponde la jugada CHEVO
+		//var numberOfFinishRound = OC.data.arguments.numberOfFinishRound;
+
+		//console.log ("coord put api" + xPos + " " + yPos);
+		//console.log (playerName + " " + matchName);
+//adolfo round
+
+		/*if(matchesList[matchName].numberOfFinishRound!=numberOfFinishRound){//avisar que perdio, round invalido CHEVO
+			//avisar mensaje fuera de tiempo
+			//no avisar nada
+		}*/
+//adolfo round
+
 		var tablero 		= matchesList[matchName].board;
 		var xPos2 			= OC.data.arguments.yPos;
 		var yPos2			= OC.data.arguments.xPos;			
@@ -639,8 +662,6 @@ function api(){
 
 			var numJugador = 2;
 		}
-
-		console.log ("llega posicion x: " + xPos + " y: " + yPos);
 
 		if (onlinePlayersList[playerName].match == null){
 			console.log ("ERROR, jugador no en juego");
@@ -662,13 +683,8 @@ function api(){
 				OC.api.enviarAmbos = false;
 				OC.api.razones = playerName + " YA HA REALIZADO SU JUGADA"; 	
 			} else  // Si no ha jugado
-
-
 				////////////////////////////////////////////////////////////
-
 				////INICIO_VALIDACION
-
-
 					var resultadoJugada = -2;
 					console.log('Resultado jugada antes de ' +resultadoJugada);
 					console.log('Posicion X ' +xPos2);
@@ -1225,7 +1241,19 @@ function api(){
 					OC.api.razones = playerName + " HA REALIZADO UNA JUGADA INVALIDA";
 				}
 			}
+
+			console.log('saliendo de api');
+//adolfo  reloj
+			var date = new Date();
+			if(match.player1Name==playerName){				
+				match.lastMovementTimePlayer1 = date;				
+			}else{
+				match.lastMovementTimePlayer2 = date;
+			}
+			var numberOfFinishRound = matchesList[matchName].numberOfFinishRound;
+			setTimeout(endOfTimeTurn,matchesList[matchName].rules.time.turnDuration*1000, matchName, playerName, date, numberOfFinishRound);
 			
+//adolfo  reloj
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
 	}
@@ -1273,5 +1301,93 @@ function api(){
 	}
 }
 
-module.exports.api = api;
 
+
+function roundEndAlert(matchName, numberOfFinishRound){
+	if(matchesList[matchName].numberOfFinishRound==numberOfFinishRound){
+		console.log("avisar que termino la partida");
+		matchesList[matchName].numberOfFinishRound++;
+		var clientObjectWinner = new Object();			
+		clientObjectWinner.connection = onlinePlayersList[playerNameWinner].connection;
+		clientObjectWinner.clientType = onlinePlayersList[playerNameWinner].clientType;
+
+		var clientObjectLoser = new Object();
+		clientObjectLoser.connection = onlinePlayersList[playerNameLoser].connection;
+		clientObjectLoser.clientType = onlinePlayersList[playerNameLoser].clientType;
+		if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.roundsPerMatch){
+				//chevo arregla los mensajes
+				matchesList[matchName].resetMatch();
+				clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }}'));
+				clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }}'));
+				messageSender.sendMessage(clientObjectWinner);
+				messageSender.sendMessage(clientObjectLoser);				
+			}else{
+				//chevo arregla los mensajes
+				var player1= matchesList[matchName].player1Name;
+				var player2= matchesList[matchName].player2Name;
+				onlinePlayersList[player1] = null;
+				onlinePlayersList[player2] = null;
+				matchesList[matchName] = null;
+
+				clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }}'));
+				clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }}'));
+				messageSender.sendMessage(clientObjectWinner);
+				messageSender.sendMessage(clientObjectLoser);
+			}		
+	}
+	//avisar a los jugadores que se acabo el tiempo
+}
+
+function endOfTimeTurn(matchName, playerName, timeChecking, numberOfFinishRound){
+	if(matchesList[matchName]!=null){
+		if(matchesList[matchName].numberOfFinishRound==numberOfFinishRound){		
+			var match = matchesList[matchName];
+			var lastMovementTimePlayer;
+			var playerNameLoser;
+			var playerNameWinner;
+			if(match.player1Name==playerName){
+				lastMovementTimePlayer = match.lastMovementTimePlayer1;
+				playerNameLoser = match.player2Name;
+				playerNameWinner = match.player1Name;
+			}else{
+				lastMovementTimePlayer = match.lastMovementTimePlayer2;
+				playerNameLoser = match.player1Name;
+				playerNameWinner = match.player2Name;
+			}
+			if(timeChecking==lastMovementTimePlayer){
+				console.log("paso el tiempo para el jugador: "+playerNameLoser);
+				matchesList[matchName].numberOfFinishRound++;
+				var clientObjectWinner = new Object();			
+				clientObjectWinner.connection = onlinePlayersList[playerNameWinner].connection;
+				clientObjectWinner.clientType = onlinePlayersList[playerNameWinner].clientType;
+
+				var clientObjectLoser = new Object();
+				clientObjectLoser.connection = onlinePlayersList[playerNameLoser].connection;
+				clientObjectLoser.clientType = onlinePlayersList[playerNameLoser].clientType;
+
+				if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.game.roundsPerMatch){
+					//chevo arregla los mensajes
+					matchesList[matchName].resetMatch();
+					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_TURN", "nextGame" : true }}'));
+					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_TURN", "nextGame" : true }}'));
+					messageSender.sendMessage(clientObjectWinner);
+					messageSender.sendMessage(clientObjectLoser);				
+				}else{
+					//chevo arregla los mensajes
+					var player1= matchesList[matchName].player1Name;
+					var player2= matchesList[matchName].player2Name;
+					onlinePlayersList[player1].match = null;
+					onlinePlayersList[player2].match = null;
+					delete(matchesList[matchName]);
+
+					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_TURN", "nextGame" : false }}'));
+					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY" ,"xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_TURN", "nextGame" : false }}'));
+					messageSender.sendMessage(clientObjectWinner);
+					messageSender.sendMessage(clientObjectLoser);
+				}				
+			}
+		}
+	}		
+}
+
+module.exports.api = api;
