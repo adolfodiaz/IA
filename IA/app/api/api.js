@@ -1210,12 +1210,19 @@ function api(){
 						matchesList[matchName].board.squares[xPos2][yPos2] = 1;	// Usando unos, sino, usando 2.
 						matchesList[matchName].putPassOrRetirePlayer1 = false;
 						matchesList[matchName].putPassOrRetirePlayer2 = true;
+						matchesList[matchName].board.totalToken +=1;
 
 					} else {
 						matchesList[matchName].board.squares[xPos2][yPos2] = 2;
 						matchesList[matchName].putPassOrRetirePlayer2 = false;	 
 						matchesList[matchName].putPassOrRetirePlayer1 = true;
-					}	
+						matchesList[matchName].board.totalToken +=1;
+					}
+
+					if 	(Math.sqrt(matchesList[matchName].board.totalToken) == matchesList[matchName].board.boardSize ()){ // Si están todos los casilleros ocupados
+
+						OC.api.datos.win = 3;
+					}
 
 					
 
