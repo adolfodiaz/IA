@@ -19,11 +19,9 @@ matchesList = new Object();
 getPlayerNameForID = new Object();
 
 
-
 function api(){	
 
 	/*
-
 		NOTA: Convención respuestas API
 
 		Cuando llega un clientObject (OC), la API debe responder agregando el objeto OC.api, el cual tiene los siguientes atributos:

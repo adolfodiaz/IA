@@ -14,6 +14,7 @@ var templates = {
 
 exports.match = function(req, res, next, id){
 	//datos temporales de partida;
+	console.log(id);
 	if(matchesList[id] != null){
 		req.match = matchesList[id];
 		req.inicio = false;

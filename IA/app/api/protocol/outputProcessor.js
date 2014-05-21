@@ -206,12 +206,13 @@ function outputProcessor(){
 				datos.advColor= "Blue";
 				datos.initialBoard = null;
 				datos.firstMove = clientObject.api.datos.firstMove;
-				var message = JSON.parse(('{"command": "ROUND_START","arguments": {"advColor": "Blue", "firstMove": "'+ !datos.firstMove+'"}}'));
-
+			//	var message = JSON.parse(('{"command": "ROUND_START","arguments": {"advColor": "Blue", "firstMove": "'+ !datos.firstMove+'"}}'));
+				var message = JSON.parse(('{"command": "ROUND_START","arguments": {"matchName":"'+clientObject.api.datos.matchName+'", "color": "red", "advColor": "Blue", "firstMove": "'+ !datos.firstMove+'", "initialBoard": "null"}}'));
 				//enviar mensaje al otro jugador
 				if(clientObject.api.enviarAmbos){
 					var clientObject2 = new Object();
-					clientObject2.response = JSON.parse(('{"command": "ROUND_START","arguments": {"advColor": "Blue", "firstMove": "'+ datos.firstMove+'"}}'));				
+					//clientObject2.response = JSON.parse(('{"command": "ROUND_START","arguments": {"advColor": "Blue", "firstMove": "'+ datos.firstMove+'"}}'));				
+					clientObject2.response = JSON.parse(('{"command": "ROUND_START","arguments": {"matchName":"'+clientObject.api.datos.matchName+'", "color": "red", "advColor": "Blue", "firstMove": "'+ datos.firstMove+'", "initialBoard": "null"}}'));
 					console.log(clientObject2.response);
 					clientObject2.connection = onlinePlayersList[clientObject.api.player].connection;
 					clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
@@ -268,11 +269,13 @@ function outputProcessor(){
 				var rules 			= matchesList[matchName].rules;
 				if(clientObject.api.enviarAmbos){ // Sólo le tengo que enviar el mensaje al jugador conectado directamente.
 					var clientObject2 = new Object();
-					clientObject2.response = JSON.parse(('{"command": "TURN","arguments": {"yourTurn" : true, "advMove": {"move": "FIRST", "xPos": -1, "yPos": -1, }}}'));
+					clientObject2.response = JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "advMove": {"move": "FIRST", "xPos": -1, "yPos": -1, "valid": true, "timeUsed" : "0"}}}'));
+				//	clientObject2.response = JSON.parse(('{"command": "TURN","arguments": {"yourTurn" : true, "advMove": {"move": "FIRST", "xPos": -1, "yPos": -1 , "valid": true}}}'));
 					clientObject2.connection = onlinePlayersList[clientObject.api.player].connection;
 					clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
 					messageSender.sendMessage(clientObject2);
-					var message = JSON.parse(('{"command": "TURN","arguments": {"yourTurn" : false, "advMove": {"move": "WAIT", "xPos": -1, "yPos": -1, }}}'));
+					var message = JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "advMove": {"move": "WAIT", "xPos": -1, "yPos": -1, "valid": true, "timeUsed" : "0"}}}'));
+					//var message = JSON.parse(('{"command": "TURN","arguments": {"yourTurn" : false, "advMove": {"move": "WAIT", "xPos": -1, "yPos": -1, "valid": true }}}'));
 					clientObject.response = message;
 					console.log('marca2');
 				}
@@ -314,13 +317,11 @@ function outputProcessor(){
 			
 			if (clientObject.api.datos.win == 0){ // La Jugada es válida pero nadie ha ganado
 				var clientObject2 = new Object();
-				//clientObject2.response =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "yourTurn" : true , "advMove": {"move": "PUT", "xPos":'+clientObject.datos.xPos+', "yPos":'+clientObject.datos.yPos+', "valid": true, "timeUsed" : 0}}}'));
+						clientObject2.response =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"190000", "yourTurn" : true , "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "timeUsed" : 0}}}'));
+				//clientObject2.response =JSON.parse(('{"command": "TURN","arguments": {"yourTurn" : true , "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+'}}}'));
 				
-				//var message =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"'+rules.time.remainingRoundTime+'", "yourTurn" : false , "advMove": {"move": "PUT", "xPos":'+clientObject.datos.xPos+', "yPos":'+clientObject.datos.yPos+', "valid": true, "timeUsed" : 0}}}'));
-
-				clientObject2.response =JSON.parse(('{"command": "TURN","arguments": {"yourTurn" : true , "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+'}}}'));
-				
-				var message =JSON.parse(('{"command": "TURN","arguments": {"yourTurn" : false , "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+'}}}'));
+				var message =JSON.parse(('{"command": "TURN","arguments": {"remainingRoundTime":"190000", "yourTurn" : false , "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "timeUsed" : 0}}}'));
+				//var message =JSON.parse(('{"command": "TURN","arguments": {"yourTurn" : false , "advMove": {"move": "PUT", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+'}}}'));
 			}
 			else{
 				matchesList[matchName].numberOfFinishRound++;
@@ -357,11 +358,6 @@ function outputProcessor(){
 					var clientObject2 = new Object();
 					clientObject2.response = JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW", "xPos":'+clientObject.api.datos.xPos+', "yPos":'+clientObject.api.datos.yPos+', "valid": true, "reason": "FULL_BOARD", "nextGame" : '+nextGame+'}}'));
 				}
-
-				
-				
-
-
 			}
 			clientObject2.connection = onlinePlayersList[clientObject.api.player].connection;
 			clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;

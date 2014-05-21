@@ -27,8 +27,7 @@
             </a>
             <div id="collapse{{element.name}}" class="panel-collapse collapse">
               <div class="panel-body">
-              
-                 {{element.player1Name}} 
+                {{element.player1Name}} 
                     {% if element.player2Name!=null %}
                         vs {{element.player2Name}} 
                     {% else %}
@@ -37,7 +36,7 @@
               </div>
             </div>
           </div>
-        {% endfor %}
+          {% endfor %}
         </div>    
       </div>
     </div>
@@ -111,7 +110,7 @@
     $('#myModal').modal('hide');
     //Modifique el nombre de la partida; le concatene una fecha de creacion
     var fecha=new Date();
-		socket.emit("data", '{"command": "MATCH_LOOKUP","arguments": {"id": "'+id+'","matchName": "'+$('#nombreNuevaPartida').val()+" "+fecha+'", "advName":" ", "timeout":" "}}');
+		socket.emit("data", '{"command": "MATCH_LOOKUP","arguments": {"id": "'+id+'","matchName": "'+$('#nombreNuevaPartida').val()+'", "advName":" ", "timeout":" "}}');
 	}
 	function entrarPartida(nombre){
 		socket.emit("data", '{"command": "MATCH_LOOKUP","arguments": {"id": "'+id+'","matchName": "'+nombre+'", "advName":" ", "timeout":" "}}')
