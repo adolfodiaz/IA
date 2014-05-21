@@ -8,4 +8,6 @@ function Round(){
 	this.board = new Board();
 	this.startTime;
 	this.whoStarted;
+	this.created= new Date();
+	this.ended;
 }
