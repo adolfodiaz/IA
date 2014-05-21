@@ -1261,6 +1261,29 @@ function api(){
 
 
 					console.log("El resultado de la jugada es " + OC.api.datos.win);
+					
+					if (matchesList[matchName].player1Name == playerName) { 	// Si es player 1 se actualiza tablero en posición	
+						matchesList[matchName].board.squares[xPos2][yPos2] = 1;	// Usando unos, sino, usando 2.
+						matchesList[matchName].putPassOrRetirePlayer1 = false;
+						matchesList[matchName].putPassOrRetirePlayer2 = true;
+						matchesList[matchName].board.totalToken +=1;
+
+					} else {
+						matchesList[matchName].board.squares[xPos2][yPos2] = 2;
+						matchesList[matchName].putPassOrRetirePlayer2 = false;	 
+						matchesList[matchName].putPassOrRetirePlayer1 = true;
+						matchesList[matchName].board.totalToken +=1;
+					}
+					
+
+					console.log("veamos si queda la embarrada aquí");
+					if 	(matchesList[matchName].board.totalToken == (matchesList[matchName].board.boardSize * matchesList[matchName].board.boardSize)){ // Si están todos los casilleros ocupados
+
+						OC.api.datos.win = 3;
+					}
+
+					console.log ("Despues de revisar si el tablero está lleno el resultado de la partida es " + OC.api.datos.win);
+
 					//Prueba para guardar rounds (al finalizar el round), aqui se deberia crear un date 
 					//para especificar cuando finaliza el round
 					if(playerName == matchesList[matchName].player1Name){
@@ -1305,27 +1328,8 @@ function api(){
 						
 					}
 					
-					if (matchesList[matchName].player1Name == playerName) { 	// Si es player 1 se actualiza tablero en posición	
-						matchesList[matchName].board.squares[xPos2][yPos2] = 1;	// Usando unos, sino, usando 2.
-						matchesList[matchName].putPassOrRetirePlayer1 = false;
-						matchesList[matchName].putPassOrRetirePlayer2 = true;
-						matchesList[matchName].board.totalToken +=1;
 
-					} else {
-						matchesList[matchName].board.squares[xPos2][yPos2] = 2;
-						matchesList[matchName].putPassOrRetirePlayer2 = false;	 
-						matchesList[matchName].putPassOrRetirePlayer1 = true;
-						matchesList[matchName].board.totalToken +=1;
-					}
-
-					if 	(Math.sqrt(matchesList[matchName].board.totalToken) == matchesList[matchName].board.boardSize ()){ // Si están todos los casilleros ocupados
-
-						OC.api.datos.win = 3;
-					}
-
-					
-
-					
+					console.log("llegue a esta barrera");
 
 					
 					
