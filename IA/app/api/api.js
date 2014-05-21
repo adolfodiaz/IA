@@ -47,18 +47,49 @@ function api(){
 		player.clientName = name;				
 		onlinePlayersList[name] = player;
 		getPlayerNameForID[player.id] = name;
-
+		//console.log("esto es signup");
 		//prueba BD
-		db.saludar(function(){
-			console.log("hola mundo");
-		});
-		//obtener id usuario
-		db.obtener_id(function(){
-			console.log("llegue a obtener id");
-		},'marifer')
+		
+		var fecha= new Date();
+		//fecha= Date.now();
+		//db.guardar_match(function(partida_guardada){
+		//	console.log(partida_guardada);
+			
+		//},"BestMatchJuanito",fecha,"juanito","francisco",10,500,50);
+		//prueba guardar round en partida llamada felipe
+		//prueba
+		var fecha2= new Date();
+		var movimientos=new Array();
+		movimientos=      [{
+			              	player: "franco", //username que juega
+			              	time_turn: 10,//tiempo que se demora el jugador en jugar
+			              	move: {x: 3,y: 3}
+			          	  },
+			              {
+			              	player: "felipe", //username que juega
+			              	time_turn: 8,//tiempo que se demora el jugador en jugar
+			              	move: {x: 4,y: 4}
+			              }
+
+			              ]
+		/*db.guardar_round(function(){
+
+		},"felipeYfranco",movimientos,fecha2,fecha2,"franco","franco","3L");
+		*/
+		//db.obtener_partidas(function(lista){
+		//	console.log(lista);
+		//});
+		//db.obtener_rounds(function(lista){
+			//console.log(lista);
+		//},"felipeYfranco");
+		//obtener datos round
+		//db.obtener_datos_round(function(lista){
+		//	console.log(lista);
+		//},"felipeYfranco",1);
+		
 		//guardar partida (se necesitan id jugador 1 e id jugador 2)
 
-		db.ob
+		
 		//db.guardar_partida()
 		//fin prueba BD
 	}
@@ -256,7 +287,11 @@ function api(){
 		var playerID 			= OC.data.arguments.id;
 		var playerName			= getPlayerNameForID[OC.data.arguments.id];
 		var matchName			= OC.data.arguments.matchName;
-
+		//creaicion del nuevo nombre de la partida
+		//var creacion 	 		= new Date();
+		//var matchName			= OC.data.arguments.matchName+" "+creacion.toISOString();
+		//fin creacio n nuevo nombre
+		//console.log("MI NOMBRE ES:"+playerName);
 		if(onlinePlayersList[playerName].match != null){
 			OC.api = new Object();
 			OC.api.resultado = false; //Operación fallida
@@ -268,6 +303,8 @@ function api(){
 		} else if(matchesList[matchName] == null){
 			//crea la partida, registra al player 1 en la partida y se queda esperando
 			onlinePlayersList[playerName].newPlayer(playerID, playerName, OC.clientType, OC.connection);
+			//creacion de la partida 
+			
 			onlinePlayersList[playerName].match = matchName;
 			matchesList[matchName] = new Match();
 			matchesList[matchName].board.crear( matchesList[matchName].rules.board.height);
@@ -331,7 +368,7 @@ function api(){
 		var playerID 		= OC.data.arguments.id;
 		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
 		var matchName 		= onlinePlayersList[playerName].match;
-
+		//console.log("ESTOY EN MATCH READY, nombre partida"+matchName);
 		if(onlinePlayersList[playerName].match == null){
 			OC.api = new Object();
 			OC.api.resultado = false; //Operación fallida
@@ -348,6 +385,7 @@ function api(){
 			console.log('player 1:' +matchesList[matchName].aceptaGamePlayer1 + ' ; player2: ' + matchesList[matchName].aceptaGamePlayer2 );
 			if ((matchesList[matchName].aceptaGamePlayer1 == true) && 
 				(matchesList[matchName].aceptaGamePlayer2 == true)) {
+				
 				OC.api = new Object();
 				OC.api.resultado = true;
 				OC.api.noEnviar = false;
@@ -363,6 +401,17 @@ function api(){
 				if (Math.floor((Math.random()*2)) == 1) OC.api.datos.firstMove = true; //<!>
 				else OC.api.datos.firstMove = false;
 				matchesList[matchName].whoStarted = OC.api.datos.firstMove;
+
+				//INICIO GUARDAR CREACION DE PARTIDA
+				//var nombrepartida=matchName+creacionpartida;
+				//var roundtotales; FALTA ESTA VARIABLE
+				
+				db.guardar_match(function(partida_guardada){
+						console.log(partida_guardada);
+				},matchName,matchesList[matchName].startTime,matchesList[matchName].player1Name,matchesList[matchName].player2Name,matchesList[matchName].rules.time.turnDuration,matchesList[matchName].rules.time.maxRoundTime,matchesList[matchName].rules.game.roundsPerMatch,matchesList[matchName].rules.time.maxMatchTime);
+				
+				//FIN GUARDAR LA CREACION DE PARTIDA EN BD
+
 			} 
 			else{
 				OC.api = new Object();
@@ -1172,10 +1221,20 @@ function api(){
 									}
 								}
 							}
-
-							if(victoria == true) resultadoJugada = 1; //"Hay 4 en fila";
+							//AQUI RECIEN SE GANA
+							if(victoria == true) {
+								resultadoJugada = 1;//"Hay 4 en fila";
+								console.log("GANA 4L");
+								//console.log("gana jugador")
+								//console.log("valor de win: "+resultadoJugada);
+								//console.log("jugador 1: "+matchesList[matchName].player1Name);
+								//console.log("jugador 2: "+matchesList[matchName].player2Name);
+							} 
 							else{
-								if(tresEnLinea == true) resultadoJugada = 2; //"Hay 3 en fila";
+								if(tresEnLinea == true){ 
+									resultadoJugada = 2;//"Hay 3 en fila";
+									console.log("GANA 3L");
+								} 
 								else resultadoJugada = 0 //"Se sigue el juego";
 							}
 						}else{
@@ -1198,13 +1257,55 @@ function api(){
 					OC.api.datos = new Object();
 					OC.api.datos.xPos = xPos;
 					OC.api.datos.yPos = yPos;
-					OC.api.datos.win = resultadoJugada;
-					console.log("El resultado de la jugada es " + OC.api.datos.win);
-					if(playerName == matchesList[matchName].player1Name)
-						OC.api.player =   matchesList[matchName].player2Name;
-					else 
-						OC.api.player =   matchesList[matchName].player1Name;
+					OC.api.datos.win = resultadoJugada;//
 
+					
+
+
+					console.log("El resultado de la jugada es " + OC.api.datos.win);
+					//Prueba para guardar rounds (al finalizar el round), aqui se deberia crear un date 
+					//para especificar cuando finaliza el round
+					if(playerName == matchesList[matchName].player1Name){
+						OC.api.player =   matchesList[matchName].player2Name;
+						if(OC.api.datos.win>0){
+							//if win=1 gana el de conexion directa,se gana por 4L
+							//if win=2 pierde el de conexion directa, se gana por 3L
+							if(OC.api.datos.win==1){
+								console.log("gana jugador: "+playerName)
+								console.log("valor de win: "+OC.api.datos.win);
+								console.log("jugador 1: "+matchesList[matchName].player1Name);
+								console.log("jugador 2: "+matchesList[matchName].player2Name);
+							}
+							if(OC.api.datos.win==2){
+								console.log("gana jugador: "+OC.api.player)
+								console.log("valor de win: "+OC.api.datos.win);
+								console.log("jugador 1: "+matchesList[matchName].player1Name);
+								console.log("jugador 2: "+matchesList[matchName].player2Name);
+							}
+							
+						}
+						
+					}
+					else{ 
+						OC.api.player =   matchesList[matchName].player1Name;
+						if(OC.api.datos.win>0){
+							//if win=1 gana el de conexion directa,se gana por 4L
+							//if win=2 pierde el de conexion directa, se gana por 3L
+							if(OC.api.datos.win==1){
+								console.log("gana jugador: "+playerName)
+								console.log("GANA 4L  valor de win: "+OC.api.datos.win);
+								console.log("jugador 1: "+matchesList[matchName].player1Name);
+								console.log("jugador 2: "+matchesList[matchName].player2Name);
+							}
+							if(OC.api.datos.win==2){
+								console.log("gana jugador: "+OC.api.player)
+								console.log("GANA 3L  valor de win: "+OC.api.datos.win);
+								console.log("jugador 1: "+matchesList[matchName].player1Name);
+								console.log("jugador 2: "+matchesList[matchName].player2Name);
+							}
+						}
+						
+					}
 					
 					if (matchesList[matchName].player1Name == playerName) { 	// Si es player 1 se actualiza tablero en posición	
 						matchesList[matchName].board.squares[xPos2][yPos2] = 1;	// Usando unos, sino, usando 2.
@@ -1323,6 +1424,7 @@ function roundEndAlert(matchName, numberOfFinishRound){
 		clientObjectLoser.clientType = onlinePlayersList[playerNameLoser].clientType;
 		if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.roundsPerMatch){
 				//chevo arregla los mensajes
+				//PROBAR SI AKI GUARDO
 				matchesList[matchName].resetMatch();
 				clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }}'));
 				clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }}'));

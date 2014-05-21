@@ -327,6 +327,7 @@ function outputProcessor(){
 				if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.game.roundsPerMatch){
 					var nextGame = true;
 					matchesList[matchName].resetMatch();
+					//aun no se han jugado todos los rounds
 				}
 				else{
 					var nextGame = false;
@@ -335,6 +336,7 @@ function outputProcessor(){
 					onlinePlayersList[player1].match = null;
 					onlinePlayersList[player2].match = null;
 					delete(matchesList[matchName]);
+					//aqui se ve que ya no se deben hacer mas rounds
 				}
 
 				if (clientObject.api.datos.win == 1){ // Si el jugador que tiene la conexión directa es quien gana por 4 en Linea
