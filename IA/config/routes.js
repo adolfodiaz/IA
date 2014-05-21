@@ -67,5 +67,12 @@ module.exports = function (app, passport, auth) {
     var juegos = require('../app/controllers/juegos')
     app.get('/juegos', auth.requiresLogin, auth.requiresSuperAdmin, juegos.index)
     app.get('/juegos/:match_id', auth.requiresLogin, auth.requiresSuperAdmin, juegos.partida)
+
+    app.get('/verPartida', auth.requiresLogin, auth.requiresSuperAdmin, juegos.verPartida)
+    app.get('/verPartida/:jugador_id', auth.requiresLogin, auth.requiresSuperAdmin, juegos.verJuegoPartida)
+    app.get('/verPartida/:jugador_id/:juego_id', auth.requiresLogin, auth.requiresSuperAdmin, juegos.verPartidaJugador)
+
     app.param('match_id', juegos.match)
+    app.param('jugador_id', juegos.parJugador)
+    app.param('juego_id', juegos.parPartida)
 }

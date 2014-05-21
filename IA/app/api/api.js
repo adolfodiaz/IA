@@ -1304,36 +1304,38 @@ function api(){
 
 
 function roundEndAlert(matchName, numberOfFinishRound){
-	if(matchesList[matchName].numberOfFinishRound==numberOfFinishRound){
-		console.log("avisar que termino la partida");
-		matchesList[matchName].numberOfFinishRound++;
-		var clientObjectWinner = new Object();			
-		clientObjectWinner.connection = onlinePlayersList[playerNameWinner].connection;
-		clientObjectWinner.clientType = onlinePlayersList[playerNameWinner].clientType;
+	if(matchesList[matchName]!=null){
+		if(matchesList[matchName].numberOfFinishRound==numberOfFinishRound){
+			console.log("avisar que termino la partida");
+			matchesList[matchName].numberOfFinishRound++;
+			var clientObjectWinner = new Object();			
+			clientObjectWinner.connection = onlinePlayersList[playerNameWinner].connection;
+			clientObjectWinner.clientType = onlinePlayersList[playerNameWinner].clientType;
 
-		var clientObjectLoser = new Object();
-		clientObjectLoser.connection = onlinePlayersList[playerNameLoser].connection;
-		clientObjectLoser.clientType = onlinePlayersList[playerNameLoser].clientType;
-		if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.roundsPerMatch){
-				//chevo arregla los mensajes
-				matchesList[matchName].resetMatch();
-				clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }}'));
-				clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }}'));
-				messageSender.sendMessage(clientObjectWinner);
-				messageSender.sendMessage(clientObjectLoser);				
-			}else{
-				//chevo arregla los mensajes
-				var player1= matchesList[matchName].player1Name;
-				var player2= matchesList[matchName].player2Name;
-				onlinePlayersList[player1] = null;
-				onlinePlayersList[player2] = null;
-				matchesList[matchName] = null;
+			var clientObjectLoser = new Object();
+			clientObjectLoser.connection = onlinePlayersList[playerNameLoser].connection;
+			clientObjectLoser.clientType = onlinePlayersList[playerNameLoser].clientType;
+			if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.roundsPerMatch){
+					//chevo arregla los mensajes
+					matchesList[matchName].resetMatch();
+					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }}'));
+					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }}'));
+					messageSender.sendMessage(clientObjectWinner);
+					messageSender.sendMessage(clientObjectLoser);				
+				}else{
+					//chevo arregla los mensajes
+					var player1= matchesList[matchName].player1Name;
+					var player2= matchesList[matchName].player2Name;
+					onlinePlayersList[player1] = null;
+					onlinePlayersList[player2] = null;
+					matchesList[matchName] = null;
 
-				clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }}'));
-				clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }}'));
-				messageSender.sendMessage(clientObjectWinner);
-				messageSender.sendMessage(clientObjectLoser);
-			}		
+					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }}'));
+					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }}'));
+					messageSender.sendMessage(clientObjectWinner);
+					messageSender.sendMessage(clientObjectLoser);
+				}		
+		}
 	}
 	//avisar a los jugadores que se acabo el tiempo
 }

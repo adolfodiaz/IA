@@ -6,6 +6,9 @@ var url_base = '/juegos'
 var templates = {
     'index': 'juegos/index.html',
     'partida': 'juegos/partida.html',
+    'verPartida': 'juegos/listaJugadores.html',
+    'verJuegoPartida': 'juegos/listaJuegosPorJugador.html',
+    'verPartidaJugador': 'juegos/verPartidaJugador.html'
 }
 
 
@@ -17,6 +20,12 @@ exports.match = function(req, res, next, id){
 	}
 	else res.error = true;
 	
+	next();
+}
+exports.parJugador = function(req, res, next, id){
+	next();
+}
+exports.parPartida = function(req, res, next, id){
 	next();
 }
 
@@ -65,4 +74,20 @@ exports.partida = function (req, res) {
 			    });
 		});
 	}
+}
+
+exports.verPartida = function (req, res) {
+	res.render(templates.verPartida, {
+		title: 'hola'
+	})
+}
+exports.verPartidaJugador = function (req, res) {
+	res.render(templates.verPartidaJugador, {
+		title: 'hola2'
+	})
+}
+exports.verJuegoPartida = function (req, res) {
+	res.render(templates.verJuegoPartida, {
+		title: 'hola2'
+	})
 }

@@ -24,6 +24,15 @@
             <script src="/js/vendor/respond.min-1.4.2.js"></script>
         <![endif]-->
 <style>
+        body{
+            background-image: url('/img/fondo1.jpg');
+
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
           #chess_board { border: 2px solid #D6CFCF; }
           #chess_board td {
             background:#fff;
@@ -73,10 +82,8 @@
         <div class="preheader"></div>
         <div class="wrapper app-header">
             <div class="container" id='header'>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <!-- <a href="/"><img src="/img/logo.png" alt="Logo"></a> -->
-                        <h1>Connect 4</h1>
+                <div class="row text-center">
+                        <img src="/img/logo2.png" alt="Logo" style="height: 150px;"/>
     <!--             
     <button onclick="cronometro.iniciar()">Inicio</button>
     <button onclick="cronometro.detener()">Detener</button>
@@ -87,8 +94,14 @@
     </div>
     -->
                     </div>
-                    <div class="col-sm-3 col-sm-offset-5">
-                        <div class="profile-info profile-info-right">
+                    <div class="row text-center">
+                        {% if is_authenticated %}
+                        {{user.fullname}} <a class="profile-info-sub text-muted" href="/logout">Cerrar sesión</a>
+                        {% endif %}
+                    </div>
+
+                    <!--<div class="col-sm-3 col-sm-offset-5">
+                    <div class="profile-info profile-info-right">
                             {% if is_authenticated %}
                                 <p class="profile-info-main">
                                     {% if user.isSuperAdmin %}
@@ -106,8 +119,8 @@
                                     <small><a class="profile-info-sub text-muted" href="/logout">Cerrar sesión</a></small>
                                 </p>
                             {% endif %}
-                        </div>
-                    </div>
+                        </div>  
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -129,8 +142,8 @@
             </div>
         </div>
 
-        <div class="wrapper app-footer">
-           
+        <div class="wrapper app-footer" >
+           Creado por el curso de IA
         </div>
 
         <!--[if lt IE 7]>

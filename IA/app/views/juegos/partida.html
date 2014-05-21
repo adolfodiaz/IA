@@ -46,7 +46,6 @@
             colocarFicha(data.xPos, data.yPos, !color );
         }
         switch(data.cause){
-
             case 'VICTORY': 
                 alert('JUEGO TERMINADO. FELICIDADES, GANASTE'); 
                 break;
@@ -59,7 +58,6 @@
             default: 
                 alert('juego finalizado, cause desconocida ');
                 break;
-
         }
         if(data.nextGame) location.href = '/juegos/{{nombre}}';
         else location.href = '/juegos';
