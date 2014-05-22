@@ -28,7 +28,10 @@ function Tablero(){
                         var div = document.createElement("div");
                         div.className = "circulo_negro";
                         celda.appendChild(div);
-                      }                      
+                      }
+                      else{
+                        celda.setAttribute('onclick',"jugarFicha("+i+","+j+");");
+                      }
                       k++;
                       hilera.appendChild(celda);
                     }
@@ -80,7 +83,6 @@ function Tablero2(){
                         celda.appendChild(div);
                       }
                       else{
-                        celda.setAttribute('onclick',"jugarFicha("+i+","+j+");");
                       }
                       k++;
                       hilera.appendChild(celda);
