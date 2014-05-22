@@ -104,7 +104,7 @@
                     <div class="profile-info profile-info-right">
                             {% if is_authenticated %}
                                 <p class="profile-info-main">
-                                    {% if user.isSuperAdmin %}
+                                    {% if user.isSuperAdmin %}                                    
                                         Administrador
                                     {% else %}
                                         {% if user.isStaff %}
@@ -174,15 +174,25 @@
         <script src="/js/vendor/jquery.pep.js"></script>
         <script src="/js/vendor/jquery.placeholder-2.0.7.js"></script>
         <script src="/js/main.js"></script>
+        <script>
+        	var temp = '<script src="http://';
+        	temp	+= location.hostname;
+        	temp	+= ':7076/socket.io/socket.io.js">';
+        	temp	+= '</sc';
+        	temp 	+= 'ript>';
 
-        <script src="http://localhost:7076/socket.io/socket.io.js"></script>
+        	document.write(temp);
+        </script>
+
+        
 
         <!-- cronometro -->
         <script src="/js/util/crono.js"></script>
         <script src="/js/util/tablero.js"></script>
 
         <script type="text/javascript">
-            var socket = io.connect('http://localhost:7076');
+        	console.log(location.hostname);
+            var socket = io.connect('http://'+location.hostname+':7076');
             socket.on("data", function(data){
                 var respuesta = new Object(JSON.parse(data));
                 console.log(respuesta);
@@ -203,8 +213,9 @@
             })
             var cronometro = new Cronometro(50);
             function redireccionarPartida(nombre){
-                location.href = '/juegos/'+nombre;
+            	location.href = '/juegos/'+nombre;
             }
+
         </script>
         {% block SCRIPT %}{% endblock %}
     </body>
