@@ -101,8 +101,7 @@ exports.verJuegoPartida = function (req, res) {
 	},split[2]);	
 }
 
-exports.verRoundJuego = function(req,res){
-	console.log(3);
+exports.verRoundJuego = function(req,res){	
 	var split = req.url.split('/');		
 	db.obtener_rounds(function(lista){
 		res.render(templates.verRoundJuego, {
@@ -113,12 +112,14 @@ exports.verRoundJuego = function(req,res){
 }
 
 exports.verPartidaJugador = function (req, res) {
-	console.log(4);
-	res.render(templates.verPartidaJugador, {
-		title: 'hola4'
-	})
-	
-
+	var split = req.url.split('/');
+	db.obtener_datos_round(function(lista){
+		console.log(lista);
+		res.render(templates.verPartidaJugador, {
+			title: 'hola4',
+			elements: lista
+		})
+	},split[3],(split[4]-1));	
 }
 
 

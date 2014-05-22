@@ -5,14 +5,73 @@
 <div class="wrapper text-center">
     <div class="container">
     	<h1>Ver partida</h1>
+
+    	<div id="tablero" class="text-center"></div>
+	    	<div class="panel-body">
+	    		{% for element in elements.moves %}
+	    			<ul class="list-unstyled">		
+          				<div onclick="actualizarTablero({{loop.index}})">{{loop.index}}</div>
+			    	</ul>
+			    {%endfor%}
+	    	</div>
+	    	<input type="button" value="anterior" onclick="jugadaAnterior()">
+	    	<input type="button" value="siguiente" onclick="siguienteJugada()">
     </div>
 </div>
 
 {% endblock %}
 
 
+
+
 {% block SCRIPT %}
 <script type="text/javascript">
+	var listaMovimientos = new Array();
+	var objetoTemp;
+	var jugadaActual = 0;	
+	{%for element in elements.moves%}
+		objetoTemp = new Object();
+		objetoTemp["user"] = '{{element.player}}';
+		objetoTemp["move"] = new Object({{element.move}});
+		if({{loop.index}}%2==0){
+			objetoTemp["numPlayer"] = 2;
+		}else{
+			objetoTemp["numPlayer"] = 1;
+		}
+		listaMovimientos.push(objetoTemp);
+	{%endfor%}
 
+	var ultimaJugada = listaMovimientos.length;
+	var tablero = new Array();
+	for(var i=0;i<10*10;i++){
+		tablero.push(0);
+	}
+	console.log(tablero);
+	var tablero2 = new Tablero2();
+    tablero2.crear_tablero_html( 'tablero' ,  10 , tablero);
+
+    function actualizarTablero(numero){
+    	jugadaActual = numero;
+    	var tamTablero = Math.sqrt(tablero.length);
+    	for(var i=0;i<tablero.length;i++){
+			tablero[i] = 0;
+		}
+    	for(var i=0; i<numero;i++){    	
+    		tablero[listaMovimientos[i].move.x*tamTablero+listaMovimientos[i].move.y] = listaMovimientos[i].numPlayer;
+    	}
+    	tablero2.crear_tablero_html( 'tablero' ,  tamTablero , tablero);
+    }
+
+    function jugadaAnterior(){
+    	if(jugadaActual>0){
+    		actualizarTablero(jugadaActual-1);
+    	}    	
+    }
+
+    function siguienteJugada(){
+    	if(ultimaJugada>jugadaActual){
+    		actualizarTablero(jugadaActual+1)
+    	}    	
+    }
 </script>
 {% endblock %}
