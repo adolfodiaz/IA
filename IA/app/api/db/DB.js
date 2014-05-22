@@ -69,6 +69,21 @@ function DB(){
 /********************************************************************************************************************************/
 
 /********************************************************************************************************************************/
+//funcion guardar final del match
+	this.guardar_fin_match=function(guardar_fin_match,nombre_match,fin_match,ganador_match){
+		Match.update({name: nombre_match},{},{upsert:true},function(err){
+	        if(err){
+	                console.log(err);
+	        }else{
+	               // console.log("Successfully added");
+	        }
+		});
+
+
+	}
+/********************************************************************************************************************************/
+
+/********************************************************************************************************************************/
 //funcion guardar round
 //el parametro name_match tienen que darselo desde la aplicacion, para poder actualizar la partida o match correcto
 	this.guardar_round=function(guardar_round,nombre_match,jugadas,creado, finalizado,quien_empieza,ganador,razon){
@@ -116,6 +131,22 @@ function DB(){
 
 
 	}
+/********************************************************************************************************************************/
+
+/********************************************************************************************************************************/
+//obtener partidas por usuario
+	this.obtener_partidas_username=function(obtener_partidas_username,nombre_usuario){
+		
+		Match.find( { $or:[ {'players':nombre_usuario}, {'players[1]':nombre_usuario} ]},'name players winnermatch', function(err,matches){
+		//Match.find({"$match" : {players : nombre_usuario}},'name players winnermatch', function(err,matches){
+   			if (err) return console.error(err);
+  				//console.log("ver partidas guardadasde jugador1");
+  				//console.log(partidas);
+  				obtener_partidas_username(matches);//Devuelve el arreglo de todas las partidas en que esta nombre_usuario
+		});
+
+	}
+
 /********************************************************************************************************************************/
 
 /********************************************************************************************************************************/

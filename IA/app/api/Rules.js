@@ -12,6 +12,7 @@ function Rules(){
 	this.time.immediateTurn = true; //forzar a las IA a no ocupar todo el tiempo del turno innecesariamente si tienen lista su jugada (jugar rápido)
 	this.time.maxIdleTime = 600; //cuánto tiempo puede estar un jugador sin enviar un comando durante un juego si timedTurn es falso
 	//importante
+	//this.time.maxRoundTime = 1000; //importante      //tiempo total máximo de una ronda (partida)
 	this.time.maxRoundTime = 1000; //importante      //tiempo total máximo de una ronda (partida)
 	this.time.maxMatchTime = 20000;//tiempo total máximo del Match (suma de todas las partidas)
 	
@@ -19,7 +20,8 @@ function Rules(){
 	this.game = new Object();
 
 	//importante
-	this.game.roundsPerMatch = 3; //cuántas partidas se jugarán por Match
+	//this.game.roundsPerMatch = 3; //cuántas partidas se jugarán por Match
+	this.game.roundsPerMatch = 2; //cuántas partidas se jugarán por Match
 	this.game.noConnect3 = false; //si es TRUE, no puedes conectar 3 piezas seguidas (es un movimiento ilegal)
 	this.game.tournament = false;//especifica si el Game Manager está en Modo Torneo (SIN USO)
 	this.game.penalizeIllegalMoves = [5,-10];//especifica si pierdes puntaje por jugadas ilegales y cuánto (SIN USO?)

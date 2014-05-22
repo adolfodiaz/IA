@@ -9,6 +9,14 @@ function Match(){
 	this.rules = new Rules();		// Reglas
 	this.spectators = new Array();
 	this.board = new Board();
+
+
+
+	this.moves=new Array();
+
+	this.inicioRound;
+	this.finRound;
+
 	
 	this.startTime = new Date();
 	this.whoStarted;
