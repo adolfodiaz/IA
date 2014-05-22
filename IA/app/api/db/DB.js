@@ -43,7 +43,15 @@ function DB(){
 
 /********************************************************************************************************************************/
 
+//funcion listar todos los usuarios por fullname o username
+	this.obtener_usuarios_all=function(obtener_usuarios_all){
+		usuario.find({}, 'fullname', function (err, usuarios) {
+			if (err) return console.error(err);
+			//console.log(matches);//muestra la lista de partidas
+			obtener_usuarios_all(usuarios);
+		})
 
+	}
 /********************************************************************************************************************************/
 
 /********************************************************************************************************************************/	
@@ -71,7 +79,7 @@ function DB(){
 /********************************************************************************************************************************/
 //funcion guardar final del match
 	this.guardar_fin_match=function(guardar_fin_match,nombre_match,fin_match,ganador_match){
-		Match.update({name: nombre_match},{},{upsert:true},function(err){
+		Match.update({name: nombre_match},{ended: fin_match,winnermatch:ganador_match},{upsert:true},function(err){
 	        if(err){
 	                console.log(err);
 	        }else{

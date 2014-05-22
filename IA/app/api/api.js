@@ -74,9 +74,15 @@ function api(){
 
 		},"felipeYfranco",movimientos,fecha2,fecha2,"franco","franco","3L");
 		*/
-		db.obtener_partidas_username(function(lista){
-			console.log(lista);
-		},player.clientName);
+		//db.obtener_partidas_username(function(lista){
+		//	console.log(lista);
+		//},player.clientName);
+		//db.guardar_fin_match(function(lista){
+
+		//},"gana4l",fecha2,"PRUEBA DE WINNER");
+		//db.obtener_usuarios_all(function(lista){
+		//	console.log(lista);
+		//});
 		//db.obtener_rounds(function(lista){
 			//console.log(lista);
 		//},"felipeYfranco");
