@@ -5,17 +5,24 @@
 <div class="wrapper text-center">
     <div class="container">
     	<h1>Ver partida</h1>
-
-    	<div id="tablero" class="text-center"></div>
+    	<h3>Ganador Jugador {{elements.winner}}</h3>
+    	<h4 id="jugadores"></h4>
+    	<div id="tablero" class="text-center" style="display:inline-block"></div>
+		<div style="display:inline-block;vertical-align:top">    	
 	    	<div class="panel-body">
-	    		{% for element in elements.moves %}
-	    			<ul class="list-unstyled">		
-          				<div onclick="actualizarTablero({{loop.index}})">{{loop.index}}</div>
-			    	</ul>
-			    {%endfor%}
-	    	</div>
-	    	<input type="button" value="anterior" onclick="jugadaAnterior()">
-	    	<input type="button" value="siguiente" onclick="siguienteJugada()">
+		    		
+					<ul class="pagination">
+					<li><a onclick="jugadaAnterior()">«</a>
+						{% for element in elements.moves %}
+			    			<li>	
+			    				<a onclick="actualizarTablero({{loop.index}})">{{loop.index}}</a>
+					    	</li>
+						{%endfor%}
+					<li><a onclick="siguienteJugada()">»</a></li>
+					</ul>
+			    
+	    	</div>	    	
+    	</div>
     </div>
 </div>
 
@@ -29,26 +36,31 @@
 	var listaMovimientos = new Array();
 	var objetoTemp;
 	var jugadaActual = 0;	
+	var player1;
+	var player2;
 	{%for element in elements.moves%}
 		objetoTemp = new Object();
 		objetoTemp["user"] = '{{element.player}}';
 		objetoTemp["move"] = new Object({{element.move}});
 		if({{loop.index}}%2==0){
 			objetoTemp["numPlayer"] = 2;
+			player2 = objetoTemp["user"];
 		}else{
 			objetoTemp["numPlayer"] = 1;
+			player1 = objetoTemp["user"];
 		}
 		listaMovimientos.push(objetoTemp);
 	{%endfor%}
 
+	$("#jugadores").html("jugador azul = "+player1+",  "+"jugador negro = "+player2);
+
 	var ultimaJugada = listaMovimientos.length;
 	var tablero = new Array();
-	for(var i=0;i<10*10;i++){
+	for(var i=0;i<{{elements.width}}*{{elements.width}};i++){
 		tablero.push(0);
-	}
-	console.log(tablero);
+	}	
 	var tablero2 = new Tablero2();
-    tablero2.crear_tablero_html( 'tablero' ,  10 , tablero);
+    tablero2.crear_tablero_html( 'tablero' ,  {{elements.width}} , tablero);
 
     function actualizarTablero(numero){
     	jugadaActual = numero;
