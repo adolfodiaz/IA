@@ -1539,9 +1539,9 @@ function api(){
 			}else{
 				match.lastMovementTimePlayer2 = date;
 			}
+			console.log("aaaaaaaaaaaaaaaaaaaa "+playerName);
 			var numberOfFinishRound = matchesList[matchName].numberOfFinishRound;
-			setTimeout(endOfTimeTurn,matchesList[matchName].rules.time.turnDuration*1000, matchName, playerName, date, numberOfFinishRound);
-			
+			setTimeout(endOfTimeTurn,matchesList[matchName].rules.time.turnDuration*1000, matchName, playerName, date, numberOfFinishRound);			
 //adolfo  reloj
 			funcionAplazada.resolve(OC);
 			return funcionAplazada.promise;
@@ -1620,8 +1620,8 @@ function roundEndAlert(matchName, numberOfFinishRound){
 			if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.roundsPerMatch){
 					//chevo arregla los mensajes
 					matchesList[matchName].resetMatch();
-					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }}'));
-					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }}'));
+					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }'));
+					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }'));
 					messageSender.sendMessage(clientObjectWinner);
 					messageSender.sendMessage(clientObjectLoser);				
 				}else{
@@ -1638,8 +1638,8 @@ function roundEndAlert(matchName, numberOfFinishRound){
 					onlinePlayersList[player2] = null;
 					matchesList[matchName] = null;
 
-					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }}'));
-					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }}'));
+					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }'));
+					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }'));
 					messageSender.sendMessage(clientObjectWinner);
 					messageSender.sendMessage(clientObjectLoser);
 				}		
@@ -1650,6 +1650,7 @@ function roundEndAlert(matchName, numberOfFinishRound){
 }
 
 function endOfTimeTurn(matchName, playerName, timeChecking, numberOfFinishRound){
+	console.log("playerName = "+playerName);
 	if(matchesList[matchName]!=null){
 		if(matchesList[matchName].numberOfFinishRound==numberOfFinishRound){		
 			var match = matchesList[matchName];
@@ -1667,7 +1668,8 @@ function endOfTimeTurn(matchName, playerName, timeChecking, numberOfFinishRound)
 			}
 
 			if(timeChecking==lastMovementTimePlayer){
-				console.log("paso el tiempo para el jugador: "+playerNameLoser);
+				console.log("WINNER: "+playerNameWinner);
+				console.log("Losser: "+playerNameLoser);
 				matchesList[matchName].numberOfFinishRound++;
 				var clientObjectWinner = new Object();			
 				clientObjectWinner.connection = onlinePlayersList[playerNameWinner].connection;
@@ -1684,23 +1686,22 @@ function endOfTimeTurn(matchName, playerName, timeChecking, numberOfFinishRound)
 				db.guardar_round(function(){
 
 				},matchName,matchesList[matchName].moves,matchesList[matchName].inicioRound,
-				matchesList[matchName].finRound,matchesList[matchName].whoStarted,playerNameWinner,"END_TURN_TIME",matchesList[matchName].rules.board.height,matchesList[matchName].rules.board.width);
+				matchesList[matchName].finRound,matchesList[matchName].whoStarted,playerNameLoser,"END_TURN_TIME",matchesList[matchName].rules.board.height,matchesList[matchName].rules.board.width);
 				//FIN GUARDAR EN BASE DE DATOS
 				//SE RESETEA EL ARREGLO DE MOVIDAS UNA VEZ SE GUARDA
 				matchesList[matchName].moves=[];
 
-
+				
 
 				if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.game.roundsPerMatch){
 					//chevo arregla los mensajes
 					matchesList[matchName].resetMatch();
-					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_TURN", "nextGame" : true }}'));
-					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_TURN", "nextGame" : true }}'));
+					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "cause" : "DEFEAT","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_TURN", "nextGame" : true }'));
+					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "cause" : "VICTORY","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_TURN", "nextGame" : true }'));
 					messageSender.sendMessage(clientObjectWinner);
 					messageSender.sendMessage(clientObjectLoser);				
 				}else{
-
-
+					
 					//aqui ya no se juegan mas round asi ke se guarda fin del match
 					matchesList[matchName].endTime= new Date();
 					db.guardar_fin_match(function(){
@@ -1714,8 +1715,8 @@ function endOfTimeTurn(matchName, playerName, timeChecking, numberOfFinishRound)
 					onlinePlayersList[player2].match = null;
 					delete(matchesList[matchName]);
 
-					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DEFEAT","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_TURN", "nextGame" : false }}'));
-					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "VICTORY" ,"xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_TURN", "nextGame" : false }}'));
+					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "cause" : "DEFEAT","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_TURN", "nextGame" : false }'));
+					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "cause" : "VICTORY" ,"xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_TURN", "nextGame" : false }'));
 					messageSender.sendMessage(clientObjectWinner);
 					messageSender.sendMessage(clientObjectLoser);
 					//Aquí se jugaron todos los round de la partida

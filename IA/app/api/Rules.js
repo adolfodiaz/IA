@@ -8,7 +8,7 @@ function Rules(){
 	this.time = new Object();
 	this.time.timedTurn = true;//especifica si habrá turnos con duración limitada
 	//importante
-	this.time.turnDuration =  30; //cuánto dura cada turno, 0 es sin límite de tiempo
+	this.time.turnDuration =  5; //cuánto dura cada turno, 0 es sin límite de tiempo
 	this.time.immediateTurn = true; //forzar a las IA a no ocupar todo el tiempo del turno innecesariamente si tienen lista su jugada (jugar rápido)
 	this.time.maxIdleTime = 600; //cuánto tiempo puede estar un jugador sin enviar un comando durante un juego si timedTurn es falso
 	//importante
