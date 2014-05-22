@@ -16,9 +16,11 @@ function Match(){
 
 	this.inicioRound;
 	this.finRound;
-
+	//prueba jugador que parte
+	this.startingPlayer;
 	
 	this.startTime = new Date();
+	this.endTime;
 	this.whoStarted;
 
 	this.aceptaGamePlayer1 = false;

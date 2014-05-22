@@ -75,8 +75,8 @@ function api(){
 		},"felipeYfranco",movimientos,fecha2,fecha2,"franco","franco","3L");
 		*/
 		//db.obtener_partidas_username(function(lista){
-		//	console.log(lista);
-		//},player.clientName);
+			//console.log(lista);
+		//},"franco");
 		//db.guardar_fin_match(function(lista){
 
 		//},"gana4l",fecha2,"PRUEBA DE WINNER");
@@ -458,6 +458,13 @@ function api(){
 				}
 				matchesList[matchName].whoStarted = OC.api.datos.firstMove;
 
+
+				//prueba quien es quien parte
+				if(matchesList[matchName].whoStarted==true){
+					matchesList[matchName].startingPlayer=playerName;
+				}
+				
+				
 				//INICIO GUARDAR CREACION DE PARTIDA
 				//var nombrepartida=matchName+creacionpartida;
 				//var roundtotales; FALTA ESTA VARIABLE
@@ -1393,7 +1400,7 @@ function api(){
 								db.guardar_round(function(){
 
 								},matchName,matchesList[matchName].moves,matchesList[matchName].inicioRound,
-								matchesList[matchName].finRound,matchesList[matchName].whoStarted,playerName,"4L");
+								matchesList[matchName].finRound,matchesList[matchName].whoStarted,playerName,"4L",matchesList[matchName].rules.board.height,matchesList[matchName].rules.board.width);
 
 								//SE RESETEA EL ARREGLO DE MOVIDAS UNA VEZ SE GUARDA
 								matchesList[matchName].moves=[];
@@ -1411,7 +1418,7 @@ function api(){
 								db.guardar_round(function(){
 
 								},matchName,matchesList[matchName].moves,matchesList[matchName].inicioRound,
-								matchesList[matchName].finRound,matchesList[matchName].whoStarted,OC.api.player,"3L");
+								matchesList[matchName].finRound,matchesList[matchName].whoStarted,OC.api.player,"3L",matchesList[matchName].rules.board.height,matchesList[matchName].rules.board.width);
 								//SE RESETEA EL ARREGLO DE MOVIDAS UNA VEZ SE GUARDA
 								matchesList[matchName].moves=[];
 							}
@@ -1429,7 +1436,7 @@ function api(){
 								db.guardar_round(function(){
 
 								},matchName,matchesList[matchName].moves,matchesList[matchName].inicioRound,
-								matchesList[matchName].finRound,matchesList[matchName].whoStarted,"No hay Ganadores","DRAW");
+								matchesList[matchName].finRound,matchesList[matchName].whoStarted,"No hay Ganadores","DRAW",matchesList[matchName].rules.board.height,matchesList[matchName].rules.board.width);
 
 								//SE RESETEA EL ARREGLO DE MOVIDAS UNA VEZ SE GUARDA
 								matchesList[matchName].moves=[];
@@ -1456,7 +1463,7 @@ function api(){
 								db.guardar_round(function(){
 
 								},matchName,matchesList[matchName].moves,matchesList[matchName].inicioRound,
-								matchesList[matchName].finRound,matchesList[matchName].whoStarted,playerName,"4L");
+								matchesList[matchName].finRound,matchesList[matchName].whoStarted,playerName,"4L",matchesList[matchName].rules.board.height,matchesList[matchName].rules.board.width);
 								//SE RESETEA EL ARREGLO DE MOVIDAS UNA VEZ SE GUARDA
 								matchesList[matchName].moves=[];
 							}
@@ -1473,7 +1480,7 @@ function api(){
 								db.guardar_round(function(){
 
 								},matchName,matchesList[matchName].moves,matchesList[matchName].inicioRound,
-								matchesList[matchName].finRound,matchesList[matchName].whoStarted,playerName,"3L");
+								matchesList[matchName].finRound,matchesList[matchName].whoStarted,OC.api.player,"3L",matchesList[matchName].rules.board.height,matchesList[matchName].rules.board.width);
 								//SE RESETEA EL ARREGLO DE MOVIDAS UNA VEZ SE GUARDA
 								matchesList[matchName].moves=[];
 							}
@@ -1491,7 +1498,7 @@ function api(){
 								db.guardar_round(function(){
 
 								},matchName,matchesList[matchName].moves,matchesList[matchName].inicioRound,
-								matchesList[matchName].finRound,matchesList[matchName].whoStarted,"No hay Ganadores","DRAW");
+								matchesList[matchName].finRound,matchesList[matchName].whoStarted,"No hay Ganadores","DRAW",matchesList[matchName].rules.board.height,matchesList[matchName].rules.board.width);
 
 								//SE RESETEA EL ARREGLO DE MOVIDAS UNA VEZ SE GUARDA
 								matchesList[matchName].moves=[];
@@ -1600,14 +1607,14 @@ function roundEndAlert(matchName, numberOfFinishRound){
 
 			//Aqui debo guardar si se acaba el tiempo del round
 			//SE MANDA A GUARDAR ROUND A BASE DE DATOS
-			matchesList[matchName].finRound=new Date();
-			db.guardar_round(function(){
+			//matchesList[matchName].finRound=new Date();
+			//db.guardar_round(function(){
 
-			},matchName,matchesList[matchName].moves,matchesList[matchName].inicioRound,
-			matchesList[matchName].finRound,matchesList[matchName].whoStarted,"No hay Ganadores","DRAW-END_ROUND_TIME");
+			//},matchName,matchesList[matchName].moves,matchesList[matchName].inicioRound,
+			//matchesList[matchName].finRound,matchesList[matchName].whoStarted,"No hay Ganadores","DRAW-END_ROUND_TIME",matchesList[matchName].rules.board.height,matchesList[matchName].rules.board.width);
 			//FIN GUARDAR EN BASE DE DATOS
 			//SE RESETEA EL ARREGLO DE MOVIDAS UNA VEZ SE GUARDA
-			matchesList[matchName].moves=[];
+			//matchesList[matchName].moves=[];
 
 
 			if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.roundsPerMatch){
@@ -1618,6 +1625,12 @@ function roundEndAlert(matchName, numberOfFinishRound){
 					messageSender.sendMessage(clientObjectWinner);
 					messageSender.sendMessage(clientObjectLoser);				
 				}else{
+
+					//aqui ya no se juegan mas round asi ke se guarda fin del match
+					//matchesList[matchName].endTime= new Date();
+					//db.guardar_fin_match(function(){
+
+					//},matchName,matchesList[matchName].endTime,"NO CALCULADO"); //FALTA AGREGAR EL NOMBRE DEL JUGADOR QUE GANA MAS RONDAS
 					//chevo arregla los mensajes
 					var player1= matchesList[matchName].player1Name;
 					var player2= matchesList[matchName].player2Name;
@@ -1671,7 +1684,7 @@ function endOfTimeTurn(matchName, playerName, timeChecking, numberOfFinishRound)
 				db.guardar_round(function(){
 
 				},matchName,matchesList[matchName].moves,matchesList[matchName].inicioRound,
-				matchesList[matchName].finRound,matchesList[matchName].whoStarted,playerNameWinner,"END_TURN_TIME");
+				matchesList[matchName].finRound,matchesList[matchName].whoStarted,playerNameWinner,"END_TURN_TIME",matchesList[matchName].rules.board.height,matchesList[matchName].rules.board.width);
 				//FIN GUARDAR EN BASE DE DATOS
 				//SE RESETEA EL ARREGLO DE MOVIDAS UNA VEZ SE GUARDA
 				matchesList[matchName].moves=[];
@@ -1689,7 +1702,12 @@ function endOfTimeTurn(matchName, playerName, timeChecking, numberOfFinishRound)
 
 
 					//aqui ya no se juegan mas round asi ke se guarda fin del match
+					matchesList[matchName].endTime= new Date();
+					db.guardar_fin_match(function(){
+
+					},matchName,matchesList[matchName].endTime,"NO CALCULADO"); //FALTA AGREGAR EL NOMBRE DEL JUGADOR QUE GANA MAS RONDAS
 					//chevo arregla los mensajes
+
 					var player1= matchesList[matchName].player1Name;
 					var player2= matchesList[matchName].player2Name;
 					onlinePlayersList[player1].match = null;
