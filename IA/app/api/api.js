@@ -291,11 +291,57 @@ function api(){
 		var playerID 			= OC.data.arguments.id;
 		var playerName			= getPlayerNameForID[OC.data.arguments.id];
 		var matchName			= OC.data.arguments.matchName;
+		var playerType			= onlinePlayersList[playerName].clientType;
+
 		//creaicion del nuevo nombre de la partida
 		//var creacion 	 		= new Date();
 		//var matchName			= OC.data.arguments.matchName+" "+creacion.toISOString();
 		//fin creacio n nuevo nombre
 		//console.log("MI NOMBRE ES:"+playerName);
+
+
+		if (playerType == "NET"){
+			//Revisar todas las partidas, entrar a la primera disponible
+			//Si no hay ninguna, crear una y esperar
+			for (var matchTemp in matchesList) {
+    			if (matchTemp.player2Name == null){ // Si encontró una partida disponible
+					console.log("Hay un match disponible, asi que voy a entrar");
+					console.log(playerName);
+					console.log(matchTemp.name);
+					onlinePlayersList[playerName].match = matchesList[matchTemp].name;
+					matchesList[matchTemp].player2Name = playerName;
+					var player1Name = matchesList[matchTemp].player1Name; 
+					OC.api = new Object();
+					OC.api.resultado = true;
+					OC.api.noEnviar = false;
+					OC.api.enviarAmbos= true;
+					OC.api.player = matchesList[matchTemp].player1Name;
+					console.log("muero aqui");
+					funcionAplazada.resolve(OC);
+					return funcionAplazada.promise;
+
+    			}
+			}
+
+			
+
+			matchName = playerName + Date();
+			console.log(matchName);
+			console.log("NO hay ninguno disponible, asi que voy a crear uno");
+			onlinePlayersList[playerName].match = matchName;
+			matchesList[matchName] = new Match();
+			matchesList[matchName].board.crear( matchesList[matchName].rules.board.height);
+			matchesList[matchName].newMatch(matchName, playerName);
+			OC.api = new Object();
+			OC.api.resultado = true;
+			OC.api.noEnviar = true; //Nada para el usuario.
+			OC.api.enviarAmbos = false;
+			funcionAplazada.resolve(OC);
+			return funcionAplazada.promise;
+
+
+		}
+		else{
 		if(onlinePlayersList[playerName].match != null){
 			OC.api = new Object();
 			OC.api.resultado = false; //Operación fallida
@@ -336,6 +382,7 @@ function api(){
 		}else{
 			//faltan espectadores//
 			
+		}
 		}		
 	}
 
