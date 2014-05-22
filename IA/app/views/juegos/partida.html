@@ -75,7 +75,7 @@
                     aceptaTurno = false;
                 //    socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'", "xPos": '+fil+',
        // "yPos": '+col+'}}');
-        socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'","xPos": '+fil+',"yPos":'+col+' }}');
+        socket.emit("data", '{"command": "PUT","arguments": {"id": "'+id+'","xPos": '+col+',"yPos":'+fil+' }}');
 
     	    	}else{
     	    		var mensaje = document.getElementById("msnje"); 
@@ -107,7 +107,7 @@
                 break;
     		case 'PUT':
                 if(data.yourTurn){
-                    colocarFicha(data.xPos, data.yPos, !color);
+                    colocarFicha(data.yPos,data.xPos, !color);
                     var mensaje = document.getElementById("msnje"); 
                     mensaje.innerHTML = "TU TURNO";
                     turno = true;

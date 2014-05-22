@@ -64,7 +64,7 @@ function outputProcessor(){
 			//var response = new Object();
 			//response.command = "RULES";
 			//response.arguments = clientObject.api.datos;
-			clientObject.response = JSON.parse(('{"command": "RULES","boardSize": "4","turnDuration": "60","maxRoundTime": "1200","roundsPerMatch": "5"}'));
+			clientObject.response = JSON.parse(('{"command": "RULES","boardSize": "4","turnDuration": "3000","maxRoundTime": "12000000","roundsPerMatch": "5"}'));
 		} else { //no debería pasar esto, enviar mensaje de error interno
 			var response = new Object();
 			response.command = "ERR_INTERNAL_GM_ERROR";

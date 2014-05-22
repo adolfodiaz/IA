@@ -768,9 +768,18 @@ function api(){
 //adolfo round
 
 		var tablero 		= matchesList[matchName].board;
+
+		var xPos2 			= OC.data.arguments.xPos;
+		var yPos2			= OC.data.arguments.yPos;
+
+		/*if(onlinePlayersList[playerName].clientType == "BROWSER"){
 		var xPos2 			= OC.data.arguments.yPos;
 		var yPos2			= OC.data.arguments.xPos;			
-
+		}
+		else {
+			var xPos2 		= OC.data.arguments.xPos;
+			var yPos2		= OC.data.arguments.yPos;
+		}  */
 		if (matchesList[matchName].player1Name == playerName) {
 
 			var numJugador = 1;
@@ -805,7 +814,9 @@ function api(){
 					var resultadoJugada = -2;
 					console.log('Resultado jugada antes de ' +resultadoJugada);
 					console.log('Posicion X ' +xPos2);
-					console.log('POsicion Y ' +yPos2);
+					console.log('Posicion Y ' +yPos2);
+
+					
 					if(xPos2 >= tablero.boardSize || yPos2 >= tablero.boardSize || xPos2 < 0 || yPos2 < 0 ){
 						resultadoJugada = -1; //"Jugada Invalida - Fuera del tablero";
 						console.log("Jugada Invalida - Fuera del tablero");
@@ -825,6 +836,7 @@ function api(){
 							/*Revisar Diagonal Descendente*/
 
 							if(xPos2-1 >= 0 && yPos2-1 >= 0){
+								console.log("Entre en el 1");
 								arribaIzquierda++;
 								if(xPos2-2 >= 0 && yPos2-2 >= 0){
 									arribaIzquierda++;
@@ -844,6 +856,7 @@ function api(){
 							}
 
 							if(arribaIzquierda>0){
+								console.log("Entre en el 2");
 								if(tablero.squares[xPos2-1][yPos2-1]!=numJugador){
 									if(abajoDerecha>0){
 										if(tablero.squares[xPos2+1][yPos2+1]!=numJugador){
@@ -865,6 +878,7 @@ function api(){
 										}
 									}
 								}else if(arribaIzquierda>1){
+									console.log("Entre en el 3");
 									if(tablero.squares[xPos2-2][yPos2-2]!=numJugador){
 										if(abajoDerecha>0){
 											if(tablero.squares[xPos2+1][yPos2+1]!=numJugador){
@@ -882,6 +896,7 @@ function api(){
 											}
 										}
 									}else if(arribaIzquierda>2){
+										console.log("Entre en el 4");
 										if(tablero.squares[xPos2-3][yPos2-3]!=numJugador){ //llegando a este if, hay 3 en linea
 											tresEnLinea = true;
 											if(abajoDerecha>0){
@@ -897,6 +912,7 @@ function api(){
 											
 										}
 									}else if(abajoDerecha>0){
+										console.log("Entre en el 5");
 										if(tablero.squares[xPos2+1][yPos2+1]!=numJugador){
 											
 										}else{
@@ -905,6 +921,7 @@ function api(){
 										}
 									}
 								}else if(abajoDerecha>0){
+									console.log("Entre en el 6");
 									if(tablero.squares[xPos2+1][yPos2+1]!=numJugador){
 										
 									}else{
@@ -920,6 +937,7 @@ function api(){
 									}
 								}
 							}else if(abajoDerecha>0){
+								console.log("Entre en el 7");
 								if(tablero.squares[xPos2+1][yPos2+1]!=numJugador){
 									
 								}else if(abajoDerecha>1){
@@ -961,6 +979,7 @@ function api(){
 							}
 
 							if(arribaDerecha>0){
+								console.log("Entre en el 9");
 								if(tablero.squares[xPos2-1][yPos2+1]!=numJugador){
 									if(abajoIzquierda>0){
 										if(tablero.squares[xPos2+1][yPos2-1]!=numJugador){
@@ -982,6 +1001,7 @@ function api(){
 										}
 									}
 								}else if(arribaDerecha>1){
+									console.log("Entre en el 10");
 									if(tablero.squares[xPos2-2][yPos2+2]!=numJugador){
 										if(abajoIzquierda>0){
 											if(tablero.squares[xPos2+1][yPos2-1]!=numJugador){
@@ -999,6 +1019,7 @@ function api(){
 											}
 										}
 									}else if(arribaDerecha>2){
+										console.log("Entre en el 11");
 										if(tablero.squares[xPos2-3][yPos2+3]!=numJugador){ //llegando a este if, hay 3 en linea
 											tresEnLinea = true;
 											if(abajoIzquierda>0){
@@ -1027,6 +1048,7 @@ function api(){
 									}else{
 										tresEnLinea = true;
 										if(abajoIzquierda>1){
+											console.log("Entre en el 12");
 											if(tablero.squares[xPos2+2][yPos2-2]!=numJugador){ //llegando a este if, hay 3 en linea
 												
 											}else{
@@ -1037,14 +1059,17 @@ function api(){
 									}
 								}
 							}else if(abajoIzquierda>0){
+								console.log("Entre en el 13");
 								if(tablero.squares[xPos2+1][yPos2-1]!=numJugador){
 									
 								}else if(abajoIzquierda>1){
+									console.log("Entre en el 13-1");
 									if(tablero.squares[xPos2+2][yPos2-2]!=numJugador){
 										
 									}else{
 										tresEnLinea = true;
 										if(abajoIzquierda>2){
+											console.log("Entre en el 13-1");
 											if(tablero.squares[xPos2+3][yPos2-3]!=numJugador){ //llegando a este if, hay 3 en linea
 												
 											}else{
@@ -1078,6 +1103,7 @@ function api(){
 							}
 
 							if(arriba>0){
+								console.log("Entre en el 14");
 								if(tablero.squares[xPos2-1][yPos2]!=numJugador){
 									if(abajo>0){
 										if(tablero.squares[xPos2+1][yPos2]!=numJugador){
@@ -1099,6 +1125,7 @@ function api(){
 										}
 									}
 								}else if(arriba>1){
+									console.log("Entre en el 15");
 									if(tablero.squares[xPos2-2][yPos2]!=numJugador){
 										if(abajo>0){
 											if(tablero.squares[xPos2+1][yPos2]!=numJugador){
@@ -1116,6 +1143,7 @@ function api(){
 											}
 										}
 									}else if(arriba>2){
+										console.log("Entre en el 16");
 										if(tablero.squares[xPos2-3][yPos2]!=numJugador){ //llegando a este if, hay 3 en linea
 											tresEnLinea = true;
 											if(abajo>0){
@@ -1314,6 +1342,7 @@ function api(){
 					console.log('Resultado jugada despues de ' +resultadoJugada);
 					//FIN_VALIDACIÓN
 					///////////////////////////////////////////////////////////////////////////
+				
 				if (resultadoJugada >= 0){ // si su movimiento es válido, insertar funcion feta de jugada	
 					
 					OC.api = new Object();
@@ -1620,8 +1649,8 @@ function roundEndAlert(matchName, numberOfFinishRound){
 			if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.roundsPerMatch){
 					//chevo arregla los mensajes
 					matchesList[matchName].resetMatch();
-					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }}'));
-					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }}'));
+					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }'));
+					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END","cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : true }'));
 					messageSender.sendMessage(clientObjectWinner);
 					messageSender.sendMessage(clientObjectLoser);				
 				}else{
@@ -1634,12 +1663,13 @@ function roundEndAlert(matchName, numberOfFinishRound){
 					//chevo arregla los mensajes
 					var player1= matchesList[matchName].player1Name;
 					var player2= matchesList[matchName].player2Name;
-					onlinePlayersList[player1] = null;
-					onlinePlayersList[player2] = null;
-					matchesList[matchName] = null;
+			
+					onlinePlayersList[player1].match = null;
+					onlinePlayersList[player2].match = null;
+					delete(matchesList[matchName]);
 
-					clientObjectWinner.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }}'));
-					clientObjectLoser.response	= JSON.parse(('{"command": "ROUND_END", "arguments": { "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }}'));
+					clientObjectWinner.response	=  JSON.parse(('{"command": "ROUND_END", "cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }'));
+					clientObjectLoser.response	=  JSON.parse(('{"command": "ROUND_END","cause" : "DRAW","xPos": -1, "yPos": -1, "valid": false, "reason":"TIME_ROUND", "nextGame" : false }'));
 					messageSender.sendMessage(clientObjectWinner);
 					messageSender.sendMessage(clientObjectLoser);
 				}		
