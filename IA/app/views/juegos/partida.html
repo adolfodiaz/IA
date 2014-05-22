@@ -43,7 +43,7 @@
     function finJuego(data){
         fin = false;
         if(data.valid){
-            colocarFicha(data.xPos, data.yPos, !color );
+            colocarFicha(data.yPos, data.xPos, !color );
         }
         switch(data.cause){
             case 'VICTORY': 
