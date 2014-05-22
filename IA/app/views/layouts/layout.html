@@ -26,7 +26,6 @@
 <style>
         body{
             background-image: url('/img/fondo1.jpg');
-
             background-size: cover;
             background-position: center center;
             background-attachment: fixed;
@@ -200,13 +199,13 @@
                 	case 'MATCH_LOOKUP_OK'  : $('#myModal2').modal('show'); break;
                 	case 'MATCH_NOTIFY'     : $('#myModal2').modal('hide');
                                               $('#myModal3').modal('show');break;
-                    case 'ROUND_START'      : redireccionarPartida(respuesta.arguments.matchName); break;
+                    case 'ROUND_START'      : redireccionarPartida(respuesta.matchName); break;
                     case 'TURN'             : partida(respuesta); break;
                     case 'ERR_WRONG_POS'    : alert('movimiendo invalido'); break;
                     case 'OK'               : break;
-                    case 'ROUND_END'        : finJuego(respuesta.arguments); break;
+                    case 'ROUND_END'        : finJuego(respuesta); break;
                     case 'RULES'            : alert('llegaron las reglas');break;
-                    case 'ERROR'            : alert('ERROR: '+respuesta.arguments); break;
+                    case 'ERROR'            : alert('ERROR: '+respuesta); break;
                 	default:
                 	   alert('mensaje no reconocido' + respuesta.command );break;
                 }

@@ -91,8 +91,7 @@
         }
 	}
 
-    function partida(data2){
-        data = data2.arguments.advMove;
+    function partida(data){
     	switch(data.move){
     		case 'FIRST':
     			color = true;
@@ -107,7 +106,7 @@
 				mensaje.innerHTML = "ESPERE SU TURNO";
                 break;
     		case 'PUT':
-                if(data2.arguments.yourTurn){
+                if(data.yourTurn){
                     colocarFicha(data.xPos, data.yPos, !color);
                     var mensaje = document.getElementById("msnje"); 
                     mensaje.innerHTML = "TU TURNO";
