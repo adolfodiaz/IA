@@ -9,6 +9,7 @@ var templates = {
     'partida': 'juegos/partida.html',
     'verPartida': 'juegos/listaJugadores.html',
     'verJuegoPartida': 'juegos/listaJuegosPorJugador.html',
+    'verRoundJuego' : 'juegos/listaDeRound.html',
     'verPartidaJugador': 'juegos/verPartidaJugador.html'
 }
 
@@ -79,18 +80,47 @@ exports.partida = function (req, res) {
 }
 
 exports.verPartida = function (req, res) {
-	//db.obtener_partidas(req.user.fullname);
-	res.render(templates.verPartida, {
-		title: 'hola'
-	})
+	db.obtener_usuarios_all(function(lista){
+		console.log(lista);
+		res.render(templates.verPartida, {
+			title: 'hola',
+			elements: lista
+		})
+	});
+	
+	
 }
-exports.verPartidaJugador = function (req, res) {
-	res.render(templates.verPartidaJugador, {
-		title: 'hola2'
-	})
-}
+
 exports.verJuegoPartida = function (req, res) {
-	res.render(templates.verJuegoPartida, {
-		title: 'hola2'
-	})
+	var split = req.url.split('/');	
+	db.obtener_partidas_username(function(lista){
+		res.render(templates.verJuegoPartida, {
+			title: 'hola2',
+			elements: lista
+		})
+	},split[2]);	
 }
+
+exports.verRoundJuego = function(req,res){
+	console.log(3);
+	var split = req.url.split('/');		
+	db.obtener_rounds(function(lista){
+		res.render(templates.verRoundJuego, {
+			title: 'hola3',
+			elements: lista[0].rounds
+		})
+	}, split[3])
+}
+
+exports.verPartidaJugador = function (req, res) {
+	console.log(4);
+	res.render(templates.verPartidaJugador, {
+		title: 'hola4'
+	})
+	
+
+}
+
+
+
+

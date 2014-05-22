@@ -2,22 +2,19 @@
 {% extends "layouts/layout.html" %}
 
 {% block CONTENT %}
-
 <div class="row">
     <div class="col-sm-4 col-sm-offset-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">Listado de partidas</h3>
+              <h3 class="panel-title">Lista de Round</h3>
             </div>
             <div class="panel-body">
-				{% for element in elements %}
-		            <ul class="list-unstyled">		
-		            	<script type="text/javascript">
-		            	var temp = '<li><a href="'+location.pathname+'/{{element.name}}">{{element.name}}</a></li>';
+	            {% for element in elements %}
+		            <script type="text/javascript">
+		            	var temp = '<li><a href="'+location.pathname+'/{{element._id}}">{{loop.index}}</a></li>';
 		            	document.write(temp);
-		            	</script>            					    	
-				    </ul>
-	 			{% endfor %}
+	            	</script>  
+	 			{% endfor %}			    
 			</div>
 		</div>
 	</div>

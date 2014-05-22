@@ -70,7 +70,8 @@ module.exports = function (app, passport, auth) {
 
     app.get('/verPartida', auth.requiresLogin, auth.requiresSuperAdmin, juegos.verPartida)
     app.get('/verPartida/:jugador_id', auth.requiresLogin, auth.requiresSuperAdmin, juegos.verJuegoPartida)
-    app.get('/verPartida/:jugador_id/:juego_id', auth.requiresLogin, auth.requiresSuperAdmin, juegos.verPartidaJugador)
+    app.get('/verPartida/:jugador_id/:juego_id', auth.requiresLogin, auth.requiresSuperAdmin, juegos.verRoundJuego)
+    app.get('/verPartida/:jugador_id/:juego_id/:round_id', auth.requiresLogin, auth.requiresSuperAdmin, juegos.verPartidaJugador)
 
     app.param('match_id', juegos.match)
     app.param('jugador_id', juegos.parJugador)
