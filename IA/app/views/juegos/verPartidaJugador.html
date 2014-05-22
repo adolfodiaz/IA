@@ -7,11 +7,10 @@
     	<h1>Ver partida</h1>
     	<h3>Ganador Jugador {{elements.winner}}</h3>
     	<h4 id="jugadores"></h4>
-    	<div id="tablero" class="text-center" style="display:inline-block"></div>
-		<div style="display:inline-block;vertical-align:top">    	
+    	<div id="tablero" class="row text-center"></div>
+		<div class= 'row text-center'>    	
 	    	<div class="panel-body">
-		    		
-					<ul class="pagination">
+					<ul class="pager">
 					<li><a onclick="jugadaAnterior()">«</a>
 						{% for element in elements.moves %}
 			    			<li>	
@@ -20,7 +19,6 @@
 						{%endfor%}
 					<li><a onclick="siguienteJugada()">»</a></li>
 					</ul>
-			    
 	    	</div>	    	
     	</div>
     </div>

@@ -82,7 +82,7 @@
         <div class="wrapper app-header">
             <div class="container" id='header'>
                 <div class="row text-center">
-                        <img src="/img/logo2.png" alt="Logo" style="height: 150px;"/>
+                      <a href="/">  <img src="/img/logo2.png" alt="Logo" style="height: 150px;"/> </a>
     <!--             
     <button onclick="cronometro.iniciar()">Inicio</button>
     <button onclick="cronometro.detener()">Detener</button>
@@ -141,8 +141,10 @@
             </div>
         </div>
 
-        <div class="wrapper app-footer" >
-           Creado por el curso de IA
+        <div class="wrapper app-footer" style="margin: 20px;" >
+            <div class="container text-right">
+                <h4 style="color: lightgray;">Creado por el curso de IA</h4>
+            </div>
         </div>
 
         <!--[if lt IE 7]>
@@ -210,7 +212,6 @@
                 	   alert('mensaje no reconocido' + respuesta.command );break;
                 }
             })
-            var cronometro = new Cronometro(50);
             function redireccionarPartida(nombre){
             	location.href = '/juegos/'+nombre;
             }
