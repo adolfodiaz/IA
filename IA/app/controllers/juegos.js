@@ -2,6 +2,7 @@
 var Match = require('../api/Match.js').Match;
 var Board = require('../api/Board.js').Board;
 
+
 var url_base = '/juegos'
 var templates = {
     'index': 'juegos/index.html',
@@ -78,6 +79,7 @@ exports.partida = function (req, res) {
 }
 
 exports.verPartida = function (req, res) {
+	//db.obtener_partidas(req.user.fullname);
 	res.render(templates.verPartida, {
 		title: 'hola'
 	})
