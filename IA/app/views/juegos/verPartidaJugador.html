@@ -67,7 +67,7 @@
 			tablero[i] = 0;
 		}
     	for(var i=0; i<numero;i++){    	
-    		tablero[listaMovimientos[i].move.x*tamTablero+listaMovimientos[i].move.y] = listaMovimientos[i].numPlayer;
+    		tablero[listaMovimientos[i].move.y*tamTablero+listaMovimientos[i].move.x] = listaMovimientos[i].numPlayer;
     	}
     	tablero2.crear_tablero_html( 'tablero' ,  tamTablero , tablero);
     }
