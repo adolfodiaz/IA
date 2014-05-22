@@ -11,7 +11,7 @@
             <div class="panel-body">
 	            {% for element in elements %}
 		            <script type="text/javascript">
-		            	var temp = '<li><a href="'+location.pathname+'/{{element._id}}">{{loop.index}}</a></li>';
+		            	var temp = '<li><a href="'+location.pathname+'/{{loop.index}}">{{loop.index}}</a></li>';
 		            	document.write(temp);
 	            	</script>  
 	 			{% endfor %}			    

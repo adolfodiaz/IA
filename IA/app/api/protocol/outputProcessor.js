@@ -331,6 +331,12 @@ function outputProcessor(){
 				}
 				else{
 					var nextGame = false;
+					//aqui se dice que no se juegan mas rounds
+					matchesList[matchName].endTime=new Date();
+					db.guardar_fin_match(function(){
+
+					},matchName,matchesList[matchName].endTime,"NO CALCULADO"); //FALTA AGREGAR EL NOMBRE DEL JUGADOR QUE GANA MAS RONDAS
+					//fin guardar match
 					var player1= matchesList[matchName].player1Name;
 					var player2= matchesList[matchName].player2Name;
 					onlinePlayersList[player1].match = null;
