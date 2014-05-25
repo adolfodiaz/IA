@@ -174,6 +174,7 @@ function api(){
 		var funcionAplazada = Q.defer();
 		var playerName = getPlayerNameForID[OC.data.arguments.id];
 		OC.api = new Object();
+		var rules = new Rules();
 		if(onlinePlayersList[playerName]!=null){
 			if(onlinePlayersList[playerName].sessionStarted == false){//como debería ser
 				onlinePlayersList[playerName].sessionStarted = true;
@@ -186,6 +187,7 @@ function api(){
 				OC.api.enviarAmbos = false;
 				OC.api.razones = null;
 				OC.api.player = null;
+				OC.api.boardSize = rules.board.height;
 				//como nos fue bien, debemos contestar enviando las reglas (comando RULES en el outputProcessor)
 			} else { //ya tenía la sesión iniciada, nunca debería llegar acá si el autómata está bien implementado
 				OC.api.resultado = false; //Contestar con ERR_GM_INTERNAL_ERROR, es una situación anómala
@@ -194,6 +196,7 @@ function api(){
 				OC.api.enviarAmbos = false;
 				OC.api.razones = "SESSION_ALREADY_STARTED";
 				OC.api.player = null;
+				OC.api.boardSize = rules.board.height;
 			}
 		} else { //no debería llegar acá, quiere decir que un cliente quiere hacer SESSION_START sin estar conectado O: ¿Se pasó de largo el REGISTER?
 			OC.api.resultado = false;
@@ -202,6 +205,7 @@ function api(){
 			OC.api.noEnviar = false;
 			OC.api.enviarAmbos = false;
 			OC.api.player = null;
+			OC.api.boardSize = rules.board.height;
 		}
 		funcionAplazada.resolve(OC);
 		return funcionAplazada.promise;
@@ -300,7 +304,7 @@ function api(){
 		//console.log("MI NOMBRE ES:"+playerName);
 
 
-		if (playerType == "NET"){
+		if (playerType == "SESSION_NEVER_STARTED"){
 			//Revisar todas las partidas, entrar a la primera disponible
 			//Si no hay ninguna, crear una y esperar
 			for (var matchTemp in matchesList) {
@@ -747,6 +751,8 @@ function api(){
 
 	this.put= function(OC){
 
+		console.log(OC);
+
 		var funcionAplazada = Q.defer();
 		var playerID 		= OC.data.arguments.id;
 		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
@@ -754,6 +760,7 @@ function api(){
 		var xPos 			= OC.data.arguments.xPos;
 		var yPos			= OC.data.arguments.yPos;
 		var match 			= matchesList[matchName];
+		
 		//agregar round al cual corresponde la jugada CHEVO
 		//var numberOfFinishRound = OC.data.arguments.numberOfFinishRound;
 
@@ -769,8 +776,8 @@ function api(){
 
 		var tablero 		= matchesList[matchName].board;
 
-		var xPos2 			= OC.data.arguments.xPos;
-		var yPos2			= OC.data.arguments.yPos;
+		var xPos2 			= parseInt(OC.data.arguments.xPos);
+		var yPos2			= parseInt(OC.data.arguments.yPos);
 
 		/*if(onlinePlayersList[playerName].clientType == "BROWSER"){
 		var xPos2 			= OC.data.arguments.yPos;
@@ -939,18 +946,15 @@ function api(){
 							}else if(abajoDerecha>0){
 								console.log("Entre en el 7");
 								if(tablero.squares[xPos2+1][yPos2+1]!=numJugador){
-									
 								}else if(abajoDerecha>1){
 									if(tablero.squares[xPos2+2][yPos2+2]!=numJugador){
-										
 									}else{
 										tresEnLinea = true;
 										if(abajoDerecha>2){
 											if(tablero.squares[xPos2+3][yPos2+3]!=numJugador){ //llegando a este if, hay 3 en linea
 												
 											}else{
-												victoria = true;
-												
+												victoria = true;												
 											}
 										}
 									}

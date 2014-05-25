@@ -92,7 +92,24 @@ var server = net.createServer(function (client) {
 
 });
 
+var os = require('os')
+
+var interfaces = os.networkInterfaces();
+var addresses = [];
+var ipServer;
+for (k in interfaces) {
+    for (k2 in interfaces[k]) {
+        var address = interfaces[k][k2];
+        if (address.family == 'IPv4' && !address.internal) {
+            ipServer = address.address;
+        }
+    }
+}
+
+
+
 // Listen for connections
+//server.listen(7075, ipServer, function () {
 server.listen(7075, "localhost", function () {
     console.log("server creado");
 });
