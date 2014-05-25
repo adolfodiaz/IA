@@ -751,8 +751,6 @@ function api(){
 
 	this.put= function(OC){
 
-		console.log(OC);
-
 		var funcionAplazada = Q.defer();
 		var playerID 		= OC.data.arguments.id;
 		var playerName 		= getPlayerNameForID[OC.data.arguments.id];
@@ -1687,7 +1685,6 @@ function roundEndAlert(matchName, numberOfFinishRound){
 }
 
 function endOfTimeTurn(matchName, playerName, timeChecking, numberOfFinishRound){
-	console.log("playerName = "+playerName);
 	if(matchesList[matchName]!=null){
 		if(matchesList[matchName].numberOfFinishRound==numberOfFinishRound){		
 			var match = matchesList[matchName];
