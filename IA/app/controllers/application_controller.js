@@ -109,8 +109,8 @@ for (k in interfaces) {
 
 
 // Listen for connections
-//server.listen(7075, ipServer, function () {
-server.listen(7075, "localhost", function () {
+//server.listen(7075, ipServer, function () { //descomentar para conectarce si no esta con localhost desde el agente
+server.listen(7075, "localhost", function () { //para conectarce por localhost desde el agente
     console.log("server creado");
 });
 server._maxListeners =0;
