@@ -212,7 +212,6 @@ function outputProcessor(){
 				if(clientObject.api.enviarAmbos){
 					var clientObject2 = new Object();
 					clientObject2.response = JSON.parse(('{"command": "ROUND_START","matchName":"'+clientObject.api.datos.matchName+'","advColor": "Blue", "firstMove": "'+ datos.firstMove+'"}'));				
-					console.log(clientObject2.response);
 					clientObject2.connection = onlinePlayersList[clientObject.api.player].connection;
 					clientObject2.clientType = onlinePlayersList[clientObject.api.player].clientType;
 					messageSender.sendMessage(clientObject2);
@@ -274,7 +273,6 @@ function outputProcessor(){
 					messageSender.sendMessage(clientObject2);
 					var message = JSON.parse(('{"command": "TURN","yourTurn" : false,"move": "WAIT", "xPos": -1, "yPos": -1}'));
 					clientObject.response = message;
-					console.log('marca2');
 				}
 			}
 			else {
@@ -324,9 +322,10 @@ function outputProcessor(){
 			}
 			else{
 				matchesList[matchName].numberOfFinishRound++;
+				matchesList[matchName].resetMatch();
+				
 				if(matchesList[matchName].numberOfFinishRound<matchesList[matchName].rules.game.roundsPerMatch){
 					var nextGame = true;
-					matchesList[matchName].resetMatch();
 					//aun no se han jugado todos los rounds
 				}
 				else{

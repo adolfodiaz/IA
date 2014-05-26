@@ -21,7 +21,7 @@ function Rules(){
 
 	//importante
 	//this.game.roundsPerMatch = 3; //cuántas partidas se jugarán por Match
-	this.game.roundsPerMatch = 2; //cuántas partidas se jugarán por Match
+	this.game.roundsPerMatch = 20; //cuántas partidas se jugarán por Match
 	this.game.noConnect3 = false; //si es TRUE, no puedes conectar 3 piezas seguidas (es un movimiento ilegal)
 	this.game.tournament = false;//especifica si el Game Manager está en Modo Torneo (SIN USO)
 	this.game.penalizeIllegalMoves = [5,-10];//especifica si pierdes puntaje por jugadas ilegales y cuánto (SIN USO?)

@@ -1570,7 +1570,6 @@ function api(){
 			}else{
 				match.lastMovementTimePlayer2 = date;
 			}
-			console.log("aaaaaaaaaaaaaaaaaaaa "+playerName);
 			var numberOfFinishRound = matchesList[matchName].numberOfFinishRound;
 			setTimeout(endOfTimeTurn,matchesList[matchName].rules.time.turnDuration*1000, matchName, playerName, date, numberOfFinishRound);			
 //adolfo  reloj

@@ -7,6 +7,7 @@ function Board(){
 	this.boardSize; //Ancho y Alto (Width y Height)
 	this.totalToken =0;
 	this.crear = function(tam){
+		this.totalToken =0;
 		this.boardSize = tam; //Ancho y Alto (Width y Height)
 		for (var i = 0; i < tam; i++) {
 			this.squares[i] = new Array(tam);
